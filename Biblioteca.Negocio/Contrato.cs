@@ -188,6 +188,41 @@ namespace Biblioteca.Negocio
             }
         }
 
+        public List<Contrato> ReadAllByNumeroContrato()
+        {
+            try
+            {
+                return ReadAll().Where(c => c.Numero.Equals(Numero)).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public List<Contrato> ReadAllByRut()
+        {
+            try
+            {
+                return ReadAll().Where(c => c.RutCliente.Equals(RutCliente)).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public List<Contrato> ReadAllByTipo()
+        {
+            try
+            {
+                return ReadAll().Where(c => c.IdTipoEvento == IdTipoEvento).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
     }
 }
