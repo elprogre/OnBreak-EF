@@ -1,0 +1,16 @@
+﻿<Window x:Class="Vista.WpfContrato"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vista"
+        mc:Ignorable="d"
+        Title="Contratos" Height="568.508" Width="754.916" ResizeMode="NoResize">
+    <Grid>
+        <Button x:Name="btnCreate" Content="Button" HorizontalAlignment="Left" Height="125" Margin="64,385,0,0" VerticalAlignment="Top" Width="125"/>
+        <Button x:Name="btnRead" Content="Button" HorizontalAlignment="Left" Height="125" Margin="220,385,0,0" VerticalAlignment="Top" Width="125"/>
+        <Button x:Name="btnUpdate" Content="Button" HorizontalAlignment="Left" Height="125" Margin="377,385,0,0" VerticalAlignment="Top" Width="125"/>
+        <Button x:Name="btnDelete" Content="Button" HorizontalAlignment="Left" Height="125" Margin="534,385,0,0" VerticalAlignment="Top" Width="125"/>
+
+    </Grid>
+</Window>

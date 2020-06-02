@@ -9,6 +9,7 @@
     <Grid>
         <Button x:Name="btnCliente" Content="Clientes" HorizontalAlignment="Left" Height="129" Margin="34,229,0,0" VerticalAlignment="Top" Width="145" Click="BtnCliente_Click"/>
         <Button x:Name="btnListaCliente" Content="Lista de clientes" HorizontalAlignment="Left" Height="129" Margin="198,229,0,0" VerticalAlignment="Top" Width="145" Click="btnListaCliente_Click"/>
+        <Button x:Name="btnContrato" Content="Contratos" HorizontalAlignment="Left" Height="129" Margin="361,229,0,0" VerticalAlignment="Top" Width="145" Click="btnContrato_Click"/>
 
     </Grid>
 </Window>

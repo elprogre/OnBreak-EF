@@ -36,5 +36,11 @@ namespace Vista
             WpfListaCliente ventana = new WpfListaCliente(this);
             ventana.Show();
         }
+
+        private void btnContrato_Click(object sender, RoutedEventArgs e)
+        {
+            WpfContrato ventana = new WpfContrato();
+            ventana.Show();
+        }
     }
 }

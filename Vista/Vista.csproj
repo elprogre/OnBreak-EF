@@ -70,6 +70,9 @@
     <Compile Include="WpfCliente.xaml.cs">
       <DependentUpon>WpfCliente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfContrato.xaml.cs">
+      <DependentUpon>WpfContrato.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfListaCliente.xaml.cs">
       <DependentUpon>WpfListaCliente.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="WpfCliente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WpfContrato.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
