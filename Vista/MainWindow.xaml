@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vista"
         mc:Ignorable="d"
-        Title="Inicio" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Menu inicio" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="btnCliente" Content="Clientes" HorizontalAlignment="Left" Height="129" Margin="34,229,0,0" VerticalAlignment="Top" Width="145" Click="BtnCliente_Click"/>
         <Button x:Name="btnListaCliente" Content="Lista de clientes" HorizontalAlignment="Left" Height="129" Margin="198,229,0,0" VerticalAlignment="Top" Width="145" Click="btnListaCliente_Click"/>
         <Button x:Name="btnContrato" Content="Contratos" HorizontalAlignment="Left" Height="129" Margin="361,229,0,0" VerticalAlignment="Top" Width="145" Click="btnContrato_Click"/>
+        <Button x:Name="btnListaContrato" Content="Lista de contratos" HorizontalAlignment="Left" Height="129" Margin="523,229,0,0" VerticalAlignment="Top" Width="145" Click="btnListaContrato_Click"/>
 
     </Grid>
 </Window>

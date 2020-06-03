@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vista"
         mc:Ignorable="d"
-        Title="WpfListaCliente" Height="450.945" Width="811.345">
+        Title="Menu: Lista de clientes" Height="450.945" Width="811.345" ResizeMode="NoResize">
     <Grid Margin="10,0,2,-21">
         <GroupBox x:Name="groupBox" Header="Filtros" HorizontalAlignment="Left" Height="87" Margin="19,11,0,0" VerticalAlignment="Top" Width="751">
             <Grid Margin="0,0,-2,-12">
@@ -13,8 +13,8 @@
                 <ComboBox x:Name="cboTipoEmpresa" HorizontalAlignment="Left" Margin="311,10,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
                 <ComboBox x:Name="cboActividadEmpresa" HorizontalAlignment="Left" Margin="591,10,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
                 <Button x:Name="btnFiltrarRut" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="61,34,0,0" VerticalAlignment="Top" Width="140"/>
-                <Button x:Name="btnFiltrarTEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="311,36,0,0" VerticalAlignment="Top" Width="140"/>
-                <Button x:Name="btnFiltrarAEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="591,36,0,0" VerticalAlignment="Top" Width="140"/>
+                <Button x:Name="btnFiltrarTipoEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="311,36,0,0" VerticalAlignment="Top" Width="140"/>
+                <Button x:Name="btnFiltrarActividadEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="591,36,0,0" VerticalAlignment="Top" Width="140"/>
                 <Label Content="Rut:" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Tipo de empresa:" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Actividad de empresa:" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top"/>

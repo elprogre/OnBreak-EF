@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vista"
         mc:Ignorable="d"
-        Title="Contratos" Height="673.508" Width="676.416" ResizeMode="NoResize">
+        Title="Menu: Contratos" Height="673.508" Width="676.416" ResizeMode="NoResize">
     <Grid>
         <GroupBox x:Name="gpbDatosContrato" Header="Datos contrato" HorizontalAlignment="Left" Height="260" Margin="23,133,0,0" VerticalAlignment="Top" Width="613">
             <Grid Margin="10,0,-2,-12">

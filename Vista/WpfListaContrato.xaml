@@ -1,0 +1,28 @@
+﻿<Window x:Class="Vista.WpfListaContrato"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vista"
+        mc:Ignorable="d"
+        Title="Menu: Lista de contratos" Height="492.542" Width="809.454">
+    <Grid>
+        <TextBox x:Name="txtRut" HorizontalAlignment="Left" Height="26" Margin="288,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+        <Button x:Name="btnFiltrarRut" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="288,40,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Rut:" HorizontalAlignment="Left" Margin="257,16,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtNroContrato" HorizontalAlignment="Left" Height="26" Margin="91,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+        <Button x:Name="btnFiltrarNroContrato" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="91,42,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Nro contrato:" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnBuscarCliente" Content="Buscar cliente" HorizontalAlignment="Left" Height="47" Margin="428,16,0,0" VerticalAlignment="Top" Width="83"/>
+        <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="643,16,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
+        <Button x:Name="btnFiltrarTipoEvento" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="643,42,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Tipo de evento:" HorizontalAlignment="Left" Margin="551,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
+        <ComboBox x:Name="cboModalidadEvento" HorizontalAlignment="Left" Margin="643,70,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
+        <Button x:Name="btnModalidadEvento" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="643,96,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Modalidad de evento:" HorizontalAlignment="Left" Margin="512,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
+        <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="643,136,0,0" VerticalAlignment="Top" Width="136"/>
+        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="643,185,0,0" VerticalAlignment="Top" Width="136"/>
+        <DataGrid x:Name="dtgContrato" HorizontalAlignment="Left" Height="283" Margin="10,130,0,0" VerticalAlignment="Top" Width="610"/>
+
+    </Grid>
+</Window>

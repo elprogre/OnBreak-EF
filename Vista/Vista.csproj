@@ -76,6 +76,9 @@
     <Compile Include="WpfListaCliente.xaml.cs">
       <DependentUpon>WpfListaCliente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfListaContrato.xaml.cs">
+      <DependentUpon>WpfListaContrato.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +100,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WpfListaCliente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WpfListaContrato.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

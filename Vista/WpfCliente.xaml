@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vista"
         mc:Ignorable="d"
-        Title="Clientes" Height="494.942" Width="453.947" ResizeMode="NoResize" WindowStartupLocation="Manual">
+        Title="Menu: Clientes" Height="494.942" Width="453.947" ResizeMode="NoResize" WindowStartupLocation="Manual">
     <Grid>
         <Button x:Name="btnClear" Content="Limpiar" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="58" Height="22"/>
         <Button x:Name="btnCreate" Content="Create" HorizontalAlignment="Left" Margin="19,367,0,0" VerticalAlignment="Top" Width="94" Height="71"/>
