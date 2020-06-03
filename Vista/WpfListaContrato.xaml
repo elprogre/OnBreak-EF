@@ -17,9 +17,9 @@
         <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="643,16,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
         <Button x:Name="btnFiltrarTipoEvento" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="643,42,0,0" VerticalAlignment="Top" Width="140"/>
         <Label Content="Tipo de evento:" HorizontalAlignment="Left" Margin="551,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
-        <ComboBox x:Name="cboModalidadEvento" HorizontalAlignment="Left" Margin="643,70,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
-        <Button x:Name="btnModalidadEvento" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="643,96,0,0" VerticalAlignment="Top" Width="140"/>
-        <Label Content="Modalidad de evento:" HorizontalAlignment="Left" Margin="512,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
+        <ComboBox x:Name="cboModalidadServicio" HorizontalAlignment="Left" Margin="643,70,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
+        <Button x:Name="btnModalidadServicio" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="643,96,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Modalidad de servicio:" HorizontalAlignment="Left" Margin="512,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
         <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="643,136,0,0" VerticalAlignment="Top" Width="136"/>
         <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="643,185,0,0" VerticalAlignment="Top" Width="136"/>
         <DataGrid x:Name="dtgContrato" HorizontalAlignment="Left" Height="283" Margin="10,130,0,0" VerticalAlignment="Top" Width="610"/>

@@ -15,22 +15,22 @@
         <GroupBox x:Name="gpbInformacionCliente" Header="Datos del cliente" HorizontalAlignment="Left" Height="298" Margin="10,39,0,0" VerticalAlignment="Top" Width="411">
             <Grid Margin="0,0,-2,-13">
                 <Label Content="Rut cliente:" HorizontalAlignment="Left" Margin="5,16,0,0" VerticalAlignment="Top"/>
-                <Label Content="Nombre del contacto:" HorizontalAlignment="Left" Margin="5,44,0,0" VerticalAlignment="Top"/>
+                <Label Content="Nombre del contacto:" HorizontalAlignment="Left" Margin="5,160,0,0" VerticalAlignment="Top"/>
                 <Label Content="Telefono:" HorizontalAlignment="Left" Margin="5,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.04,0.465"/>
-                <Label Content="Mail del contacto:" HorizontalAlignment="Left" Margin="5,99,0,0" VerticalAlignment="Top"/>
-                <Label Content="Direccion:" HorizontalAlignment="Left" Margin="5,127,0,0" VerticalAlignment="Top"/>
+                <Label Content="Mail del contacto:" HorizontalAlignment="Left" Margin="5,104,0,0" VerticalAlignment="Top"/>
+                <Label Content="Direccion:" HorizontalAlignment="Left" Margin="5,132,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="txtRut" HorizontalAlignment="Left" Height="23" Margin="154,20,-85,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <TextBox x:Name="txtNombre" HorizontalAlignment="Left" Height="23" Margin="154,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+                <TextBox x:Name="txtNombre" HorizontalAlignment="Left" Height="23" Margin="154,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
                 <TextBox x:Name="txtTelefono" HorizontalAlignment="Left" Height="23" Margin="154,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
                 <TextBox x:Name="txtMail" HorizontalAlignment="Left" Height="23" Margin="154,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
                 <TextBox x:Name="txtDireccion" HorizontalAlignment="Left" Height="23" Margin="154,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
                 <Button x:Name="btnListaCliente" Content="Clientes" HorizontalAlignment="Left" Margin="299,20,0,0" VerticalAlignment="Top" Width="58" Height="22"/>
-                <Label Content="Razon social:" HorizontalAlignment="Left" Margin="5,156,0,0" VerticalAlignment="Top"/>
-                <Label Content="Actividad de empresa:" HorizontalAlignment="Left" Margin="5,184,0,0" VerticalAlignment="Top"/>
-                <Label Content="Tipo de empresa:" HorizontalAlignment="Left" Margin="5,215,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="23" Margin="154,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <ComboBox x:Name="cboActividadEmpresa" HorizontalAlignment="Left" Margin="154,188,0,0" VerticalAlignment="Top" Width="140"/>
-                <ComboBox x:Name="cboTipoEmpresa" HorizontalAlignment="Left" Margin="154,219,0,0" VerticalAlignment="Top" Width="140"/>
+                <Label Content="Razon social:" HorizontalAlignment="Left" Margin="5,44,0,0" VerticalAlignment="Top"/>
+                <Label Content="Actividad de empresa:" HorizontalAlignment="Left" Margin="5,189,0,0" VerticalAlignment="Top"/>
+                <Label Content="Tipo de empresa:" HorizontalAlignment="Left" Margin="5,220,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="23" Margin="154,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+                <ComboBox x:Name="cboActividadEmpresa" HorizontalAlignment="Left" Margin="154,193,0,0" VerticalAlignment="Top" Width="140"/>
+                <ComboBox x:Name="cboTipoEmpresa" HorizontalAlignment="Left" Margin="154,224,0,0" VerticalAlignment="Top" Width="140"/>
             </Grid>
         </GroupBox>
 

@@ -17,6 +17,11 @@ namespace Biblioteca.Negocio
 
         }
 
+        public override string ToString()
+        {
+            return Descripcion;
+        }
+
         OnBreakEntities bdd = new OnBreakEntities();
 
         public bool Read()

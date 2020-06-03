@@ -16,13 +16,13 @@
                 <Label Content="Observaciones:" HorizontalAlignment="Left" Margin="3,164,0,0" VerticalAlignment="Top"/>
                 <Label Content="Modalidad de servicio:" HorizontalAlignment="Left" Margin="300,44,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.927,1.516"/>
                 <TextBox x:Name="txtRut" HorizontalAlignment="Left" Height="26" Margin="137,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <ComboBox x:Name="cboPlan" HorizontalAlignment="Left" Margin="137,44,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
+                <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="137,44,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
                 <DatePicker x:Name="dtpFechaInicioVigencia" HorizontalAlignment="Left" Margin="137,84,0,0" VerticalAlignment="Top" Width="150" Height="26"/>
                 <TextBox x:Name="txtObservaciones" HorizontalAlignment="Left" Height="66" Margin="137,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="335"/>
                 <Label x:Name="lblFechaFinVigencia" Content="" HorizontalAlignment="Left" Margin="444,84,0,0" VerticalAlignment="Top" Width="119"/>
                 <Button x:Name="btnComprobar" Content="Comprobar si existe" HorizontalAlignment="Left" Height="26" Margin="300,4,0,0" VerticalAlignment="Top" Width="119"/>
                 <Label x:Name="lblRazonSocial" Content="" HorizontalAlignment="Left" Margin="443,4,0,0" VerticalAlignment="Top" Width="134"/>
-                <ComboBox x:Name="cboPlan_Copy" HorizontalAlignment="Left" Margin="443,44,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
+                <ComboBox x:Name="cboModalidadServicio" HorizontalAlignment="Left" Margin="443,44,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
                 <Label Content="Asistentes:" HorizontalAlignment="Left" Margin="3,124,0,0" VerticalAlignment="Top"/>
                 <Label Content="Personal:" HorizontalAlignment="Left" Margin="220,124,0,0" VerticalAlignment="Top"/>
                 <Label Content="Personal adicional:" HorizontalAlignment="Left" Margin="407,124,0,0" VerticalAlignment="Top"/>

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Biblioteca.Negocio;
 
 namespace Vista
 {
@@ -28,7 +29,12 @@ namespace Vista
             if (objeto.GetType() == typeof(MainWindow))
             {
                 btnTraspasar.Visibility = Visibility.Hidden;
+                cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
+                cboTipoEvento.Items.Refresh();
+
             }
         }
+
+
     }
 }
