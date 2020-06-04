@@ -33,13 +33,13 @@ namespace Biblioteca.Negocio
             get { return _razonsocial; }
             set
             {
-                if (value.Trim().Length >= 2)
+                if (value.Trim().Length > 0)
                 {
                     _razonsocial = value;
                 }
                 else
                 {
-                    throw new Exception("La razon social es muy corta");
+                    throw new Exception("Falta llenar el campo Razon Social");
                 }
             }
         }
@@ -53,13 +53,13 @@ namespace Biblioteca.Negocio
             get { return _nombrecontacto; }
             set
             {
-                if (value.Trim().Length>=3)
+                if (value.Trim().Length>0)
                 {
                     _nombrecontacto = value;
                 }
                 else
                 {
-                    throw new Exception("El nombre del contacto es muy corto");
+                    throw new Exception("Falta llenar el campo Nombre Del Contacto");
                 }
             }
         }
@@ -71,13 +71,13 @@ namespace Biblioteca.Negocio
             get { return _mailcontacto; }
             set
             {
-                if (value.Trim().Length>=5)
+                if (value.Trim().Length>0)
                 {
                     _mailcontacto = value;
                 }
                 else
                 {
-                    throw new Exception("El mail del contacto es muy corto");
+                    throw new Exception("Falta llenar el campo Mail Del Contacto");
                 }
             }
         }
@@ -97,7 +97,7 @@ namespace Biblioteca.Negocio
                     }
                     else
                     {
-                        throw new Exception("La direccion del contacto es muy corta");
+                        throw new Exception("La dirección del contacto es muy corta");
                     }
                 }
                 else
@@ -114,13 +114,20 @@ namespace Biblioteca.Negocio
             get { return _telefono; }
             set
             {
-                if (value.Trim().Length>=7)
+                if (value.Trim().Length>0)
                 {
-                    _telefono = value;
+                    if (value.Trim().Length >= 7)
+                    {
+                        _telefono = value;
+                    }
+                    else
+                    {
+                        throw new Exception("Invalido: El numero de Telefono es muy corto");
+                    }
                 }
                 else
                 {
-                    throw new Exception("El numero de telefono del contacto es muy corto");
+                    throw new Exception("Falta llenar el campo Telefono");
                 }
             }
         }
@@ -166,6 +173,14 @@ namespace Biblioteca.Negocio
             {
                 DALC.Cliente cli = bdd.Cliente.First(c=>c.RutCliente.Equals(RutCliente));
                 CommonBC.Syncronize(cli,this);
+                /*this.RutCliente = cli.RutCliente;
+                this.RazonSocial = cli.RazonSocial;
+                this.NombreContacto = cli.NombreContacto;
+                this.Telefono = cli.Telefono;
+                this.MailContacto = cli.MailContacto;
+                this.Direccion = cli.Direccion;
+                this.IdActividadEmpresa = cli.IdActividadEmpresa;
+                this.IdTipoEmpresa = cli.IdTipoEmpresa; */
                 return true;
             }
             catch (Exception)

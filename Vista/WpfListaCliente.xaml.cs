@@ -30,8 +30,6 @@ namespace Vista
             cboTipoEmpresa.Items.Refresh();
             cboActividadEmpresa.ItemsSource = new ActividadEmpresa().ReadAll();
             cboActividadEmpresa.Items.Refresh();
-            dtgCliente.ItemsSource = lista.ReadAll();
-            dtgCliente.Items.Refresh();
             if (objeto.GetType()==typeof(MainWindow))
             {
                 btnTraspasar.Visibility = Visibility.Hidden;
