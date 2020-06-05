@@ -24,9 +24,7 @@ namespace Vista
         {
             InitializeComponent();
             cboActividadEmpresa.ItemsSource = new ActividadEmpresa().ReadAll();
-            cboActividadEmpresa.Items.Refresh();
             cboTipoEmpresa.ItemsSource = new TipoEmpresa().ReadAll();
-            cboTipoEmpresa.Items.Refresh();
         }
 
 
@@ -123,9 +121,98 @@ namespace Vista
                 {
                     throw new Exception("Cliente no encontrado");
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
 
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Cliente cli = new Cliente();
+                cli.RutCliente = txtRut.Text;
+                cli.RazonSocial = txtRazonSocial.Text;
+                cli.NombreContacto = txtNombre.Text;
+                cli.Telefono = txtTelefono.Text;
+                cli.MailContacto = txtMail.Text;
+                cli.Direccion = txtDireccion.Text;
+                if (cboActividadEmpresa.SelectedIndex >= 0)
+                {
+                    cli.IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa;
+                }
+                else
+                {
+                    throw new Exception("Falta llenar el campo Actividad Empresa");
+                }
+                if (cboTipoEmpresa.SelectedIndex >= 0)
+                {
+                    cli.IdTipoEmpresa = ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa;
+                }
+                else
+                {
+                    throw new Exception("Falta llenar el campo Tipo de Empresa");
+                }
 
+                bool resp = cli.Update();
+                if (resp)
+                {
+                    MessageBox.Show("Cliente actualizado");
+                    limpiar();
+                    txtRut.Focus();
+                }
+                else
+                {
+                    throw new Exception("Cliente no existe");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MessageBoxResult resultado = MessageBox.Show("¿Desea eliminar al cliente?", "Confirmar",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (resultado == MessageBoxResult.Yes)
+                {
+                    Cliente cli = new Cliente();
+                    cli.RutCliente = txtRut.Text;
+                    bool resp = cli.Delete();
+
+                    if (resp)
+                    {
+                        MessageBox.Show("Cliente Eliminado");
+                        limpiar();
+                        txtRut.Focus();
+                    }
+                    else
+                    {
+                        throw new Exception("Cliente no existe");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnListaCliente_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WpfListaCliente ventana = new WpfListaCliente(this);
+                ventana.Show();
             }
             catch (Exception ex)
             {

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Biblioteca.Negocio;
 
 namespace Vista
 {
@@ -22,6 +23,11 @@ namespace Vista
         public WpfContrato()
         {
             InitializeComponent();
+            cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
+            txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmmss");
+            DateTime hoy = DateTime.Now;
+            lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy");
         }
+
     }
 }
