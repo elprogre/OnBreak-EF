@@ -27,23 +27,8 @@ namespace Vista
             objeto = ventana_origen;
             cboTipoEmpresa.ItemsSource = new TipoEmpresa().ReadAll();
             cboActividadEmpresa.ItemsSource = new ActividadEmpresa().ReadAll();
-            var x = from cli in new Cliente().ReadAll()
-                    join ae in new ActividadEmpresa().ReadAll()
-                    on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
-                    join te in new TipoEmpresa().ReadAll()
-                    on cli.IdTipoEmpresa equals te.IdTipoEmpresa
-                    select new
-                    {
-                        Rut = cli.RutCliente,
-                        RazonSocial = cli.RazonSocial,
-                        Nombre = cli.NombreContacto,
-                        Mail = cli.MailContacto,
-                        Dirección = cli.Direccion,
-                        Telefono = cli.Telefono,
-                        ActividadEmpresa = ae.Descripcion,
-                        TipoEmpresa = te.Descripcion
-                    };
-            dtgCliente.ItemsSource = x.ToList();
+
+            dtgCliente.ItemsSource = new Cliente().ReadAll();
 
             if (objeto.GetType()==typeof(MainWindow))
             {
@@ -55,24 +40,7 @@ namespace Vista
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            var x = from cli in new Cliente().ReadAll()
-                    join ae in new ActividadEmpresa().ReadAll()
-                    on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
-                    join te in new TipoEmpresa().ReadAll()
-                    on cli.IdTipoEmpresa equals te.IdTipoEmpresa
-                    select new
-                    {
-                        Rut = cli.RutCliente,
-                        RazonSocial = cli.RazonSocial,
-                        Nombre = cli.NombreContacto,
-                        Mail = cli.MailContacto,
-                        Dirección = cli.Direccion,
-                        Telefono = cli.Telefono,
-                        ActividadEmpresa = ae.Descripcion,
-                        TipoEmpresa = te.Descripcion
-                    };
-            dtgCliente.ItemsSource = x.ToList();
-
+            dtgCliente.ItemsSource = new Cliente().ReadAll();
             txtRut.Clear();
             cboActividadEmpresa.SelectedIndex = -1;
             cboTipoEmpresa.SelectedIndex = -1;
@@ -83,24 +51,7 @@ namespace Vista
         {
             try
             {
-                var x = from cli in new Cliente() {RutCliente=txtRut.Text}.ReadAllByRut()
-                        join ae in new ActividadEmpresa().ReadAll()
-                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
-                        join te in new TipoEmpresa().ReadAll()
-                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
-                        select new
-                        {
-                            Rut = cli.RutCliente,
-                            RazonSocial = cli.RazonSocial,
-                            Nombre = cli.NombreContacto,
-                            Mail = cli.MailContacto,
-                            Dirección = cli.Direccion,
-                            Telefono = cli.Telefono,
-                            ActividadEmpresa = ae.Descripcion,
-                            TipoEmpresa = te.Descripcion
-                        };
-                dtgCliente.ItemsSource = x.ToList();
-
+                dtgCliente.ItemsSource = new Cliente() { RutCliente = txtRut.Text }.ReadAllByRut();
             }
             catch (Exception ex)
             {
@@ -113,23 +64,8 @@ namespace Vista
         {
             try
             {
-                var x = from cli in new Cliente() { IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa }.ReadAllByActividad()
-                        join ae in new ActividadEmpresa().ReadAll()
-                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
-                        join te in new TipoEmpresa().ReadAll()
-                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
-                        select new
-                        {
-                            Rut = cli.RutCliente,
-                            RazonSocial = cli.RazonSocial,
-                            Nombre = cli.NombreContacto,
-                            Mail = cli.MailContacto,
-                            Dirección = cli.Direccion,
-                            Telefono = cli.Telefono,
-                            ActividadEmpresa = ae.Descripcion,
-                            TipoEmpresa = te.Descripcion
-                        };
-                dtgCliente.ItemsSource = x.ToList();
+                dtgCliente.ItemsSource = new Cliente() { IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa }
+                    .ReadAllByActividad();
             }
             catch (Exception ex)
             {
@@ -142,23 +78,8 @@ namespace Vista
         {
             try
             {
-                var x = from cli in new Cliente() { IdTipoEmpresa= ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa }.ReadAllByTipoEmpresa()
-                        join ae in new ActividadEmpresa().ReadAll()
-                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
-                        join te in new TipoEmpresa().ReadAll()
-                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
-                        select new
-                        {
-                            Rut = cli.RutCliente,
-                            RazonSocial = cli.RazonSocial,
-                            Nombre = cli.NombreContacto,
-                            Mail = cli.MailContacto,
-                            Dirección = cli.Direccion,
-                            Telefono = cli.Telefono,
-                            ActividadEmpresa = ae.Descripcion,
-                            TipoEmpresa = te.Descripcion
-                        };
-                dtgCliente.ItemsSource = x.ToList();
+                dtgCliente.ItemsSource = new Cliente() { IdTipoEmpresa = ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa }
+                    .ReadAllByTipoEmpresa();
             }
             catch (Exception ex)
             {
@@ -166,6 +87,23 @@ namespace Vista
             }
         }
 
-        
+
+        private void btnTraspasar_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Cliente.ListaCliente lc = (Cliente.ListaCliente)dtgCliente.SelectedItem;
+                Cliente cli = new Cliente() { RutCliente=lc.Rut };
+                cli.Read();
+                if (objeto.GetType()==typeof(WpfCliente))
+                {
+                    ((WpfCliente)objeto).llenar(cli);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

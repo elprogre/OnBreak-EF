@@ -22,7 +22,7 @@
         </GroupBox>
         <DataGrid x:Name="dtgCliente" HorizontalAlignment="Left" Height="328" Margin="19,111,0,0" VerticalAlignment="Top" Width="643"/>
         <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="667,111,0,0" VerticalAlignment="Top" Width="136" Click="btnClear_Click"/>
-        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="667,160,0,0" VerticalAlignment="Top" Width="136"/>
+        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="667,160,0,0" VerticalAlignment="Top" Width="136" Click="btnTraspasar_Click"/>
 
     </Grid>
 </Window>

@@ -220,7 +220,7 @@ namespace Biblioteca.Negocio
             }
         }
 
-        public List<Cliente> ReadAll()
+        /*public List<Cliente> ReadAll()
         {
             try
             {
@@ -238,13 +238,30 @@ namespace Biblioteca.Negocio
             {
                 return null;
             }
-        }
+        } */
 
-        public List<Cliente> ReadAllByRut()
+
+        public List<ListaCliente> ReadAll()
         {
             try
             {
-                return ReadAll().Where(c=> c.RutCliente.Equals(RutCliente)).ToList();
+                var x = from cli in bdd.Cliente
+                        join ae in bdd.ActividadEmpresa
+                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
+                        join te in bdd.TipoEmpresa
+                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
+                        select new ListaCliente()
+                        {
+                            Rut = cli.RutCliente,
+                            RazonSocial = cli.RazonSocial,
+                            Nombre = cli.NombreContacto,
+                            Mail = cli.MailContacto,
+                            Dirección = cli.Direccion,
+                            Telefono = cli.Telefono,
+                            ActividadEmpresa = ae.Descripcion,
+                            TipoEmpresa = te.Descripcion
+                        };
+                return x.ToList();
             }
             catch (Exception)
             {
@@ -252,11 +269,29 @@ namespace Biblioteca.Negocio
             }
         }
 
-        public List<Cliente> ReadAllByTipoEmpresa()
+
+        public List<ListaCliente> ReadAllByRut()
         {
             try
             {
-                return ReadAll().Where(c => c.IdTipoEmpresa == IdTipoEmpresa).ToList();
+                var x = from cli in bdd.Cliente
+                        join ae in bdd.ActividadEmpresa
+                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
+                        join te in bdd.TipoEmpresa
+                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
+                        where cli.RutCliente == this.RutCliente
+                        select new ListaCliente()
+                        {
+                            Rut = cli.RutCliente,
+                            RazonSocial = cli.RazonSocial,
+                            Nombre = cli.NombreContacto,
+                            Mail = cli.MailContacto,
+                            Dirección = cli.Direccion,
+                            Telefono = cli.Telefono,
+                            ActividadEmpresa = ae.Descripcion,
+                            TipoEmpresa = te.Descripcion
+                        };
+                return x.ToList();
             }
             catch (Exception)
             {
@@ -264,16 +299,81 @@ namespace Biblioteca.Negocio
             }
         }
 
-        public List<Cliente> ReadAllByActividad()
+
+        public List<ListaCliente> ReadAllByActividad()
         {
             try
             {
-                return ReadAll().Where(c => c.IdActividadEmpresa == IdActividadEmpresa).ToList();
+                var x = from cli in bdd.Cliente
+                        join ae in bdd.ActividadEmpresa
+                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
+                        join te in bdd.TipoEmpresa
+                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
+                        where cli.IdActividadEmpresa == this.IdActividadEmpresa
+                        select new ListaCliente()
+                        {
+                            Rut = cli.RutCliente,
+                            RazonSocial = cli.RazonSocial,
+                            Nombre = cli.NombreContacto,
+                            Mail = cli.MailContacto,
+                            Dirección = cli.Direccion,
+                            Telefono = cli.Telefono,
+                            ActividadEmpresa = ae.Descripcion,
+                            TipoEmpresa = te.Descripcion
+                        };
+                return x.ToList();
             }
             catch (Exception)
             {
                 return null;
             }
+        }
+
+
+        public List<ListaCliente> ReadAllByTipoEmpresa()
+        {
+            try
+            {
+                var x = from cli in bdd.Cliente
+                        join ae in bdd.ActividadEmpresa
+                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
+                        join te in bdd.TipoEmpresa
+                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
+                        where cli.IdTipoEmpresa == this.IdTipoEmpresa
+                        select new ListaCliente()
+                        {
+                            Rut = cli.RutCliente,
+                            RazonSocial = cli.RazonSocial,
+                            Nombre = cli.NombreContacto,
+                            Mail = cli.MailContacto,
+                            Dirección = cli.Direccion,
+                            Telefono = cli.Telefono,
+                            ActividadEmpresa = ae.Descripcion,
+                            TipoEmpresa = te.Descripcion
+                        };
+                return x.ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+
+        public class ListaCliente
+        {
+            public ListaCliente()
+            {
+            }
+
+            public string Rut { get; set; }
+            public string RazonSocial { get; set; }
+            public string Nombre { get; set; }
+            public string Mail { get; set; }
+            public string Dirección { get; set; }
+            public string Telefono { get; set; }
+            public string ActividadEmpresa { get; set; }
+            public string TipoEmpresa { get; set; }
         }
     }
 }
