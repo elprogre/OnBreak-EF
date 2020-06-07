@@ -24,10 +24,15 @@ namespace Vista
         {
             InitializeComponent();
             cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
-            txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmmss");
+            txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");
             DateTime hoy = DateTime.Now;
             lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy");
+            
         }
 
+        private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento==((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
+        }
     }
 }
