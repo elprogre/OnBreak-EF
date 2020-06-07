@@ -106,6 +106,12 @@ namespace Biblioteca.Negocio
 
         }
 
+        public void CalcularValorEvento(double valorBase,double valorAsistente,double valorPersonal)
+        {
+            ValorTotalContrato = valorBase + valorAsistente + valorPersonal;
+        }
+
+
         OnBreakEntities bdd = new OnBreakEntities();
 
         public bool Create()

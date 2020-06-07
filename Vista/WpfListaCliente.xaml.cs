@@ -99,6 +99,11 @@ namespace Vista
                 {
                     ((WpfCliente)objeto).llenar(cli);
                 }
+                else if (objeto.GetType() == typeof(WpfContrato))
+                {
+                    ((WpfContrato)objeto).txtRut.Text = cli.RutCliente;
+                    ((WpfContrato)objeto).txtRazonSocial.Text = cli.RazonSocial;
+                }
             }
             catch (Exception ex)
             {

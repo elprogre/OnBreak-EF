@@ -20,25 +20,51 @@ namespace Vista
     /// </summary>
     public partial class WpfContrato : Window
     {
-        Contrato contrato = new Contrato();
-        double asistentes = 0;
-        double valorBaseEvento = 0;
-        double valorAsistente = 0;
+        Contrato contrato;
+        double valorBaseEvento;
+        double valorAsistente;
+        double valorPersonalAdicional;
+
 
         public WpfContrato()
         {
             InitializeComponent();
             cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
+            limpiar();
+        }
+
+        public void limpiar()
+        {
+            contrato = new Contrato() { Asistentes = 0, PersonalAdicional = 0 };
+
+            valorBaseEvento = 0;
+            valorAsistente = 0;
+            valorPersonalAdicional = 0;
             txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");
             DateTime hoy = DateTime.Now;
             lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy  HH:mm");
-            txtRut.Focus();
-            
+            txtVigencia.Text = "";
+            txtRut.Text = "";
+            txtRazonSocial.Text = "Razon Social";
+            cboTipoEvento.SelectedIndex = -1;
+            cboModalidadServicio.SelectedIndex = -1;
+            txtAsistentes.Text = "0";
+            txtPersonal.Text = "0";
+            txtPersonalAdicional.Text = "0";
+            txtObservaciones.Text = "";
+            txtBaseEvento.Text = "0";
+            txtValorAsistente.Text = "0";
+            txtValorPersonalAdicional.Text = "0";
+            txtTotal.Text = "0";
+
         }
 
         private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento==((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
+            if (cboTipoEvento.SelectedIndex !=-1)
+            {
+                cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento == ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
+            }
         }
 
         private void cboModalidadServicio_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -48,12 +74,16 @@ namespace Vista
                 txtPersonal.Text = (((ModalidadServicio)cboModalidadServicio.SelectedItem).PersonalBase).ToString();
                 valorBaseEvento = ((ModalidadServicio)cboModalidadServicio.SelectedItem).ValorBase;
                 txtBaseEvento.Text = valorBaseEvento.ToString();
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
+                txtTotal.Text = contrato.ValorTotalContrato.ToString();
             }
             else
             {
                 txtPersonal.Text = "0";
                 valorBaseEvento = 0;
                 txtBaseEvento.Text = valorBaseEvento.ToString();
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
+                txtTotal.Text = contrato.ValorTotalContrato.ToString();
             }
         }
 
@@ -61,15 +91,15 @@ namespace Vista
         {
             try
             {
-                if (0 < double.Parse(txtAsistentes.Text))
+                if (0 < int.Parse(txtAsistentes.Text))
                 {
-                    asistentes = double.Parse(txtAsistentes.Text);
-                    if (asistentes>=1 && asistentes<=20)
+                    contrato.Asistentes = int.Parse(txtAsistentes.Text);
+                    if (contrato.Asistentes >= 1 && contrato.Asistentes <= 20)
                     {
                         valorAsistente = 3;
                         txtValorAsistente.Text = valorAsistente.ToString();
                     }
-                    else if (asistentes >= 21 && asistentes <= 50)
+                    else if (contrato.Asistentes >= 21 && contrato.Asistentes <= 50)
                     {
                         valorAsistente = 5;
                         txtValorAsistente.Text = valorAsistente.ToString();
@@ -78,7 +108,7 @@ namespace Vista
                     {
                         if (0 < Math.Truncate((double.Parse(txtAsistentes.Text)-50)/20))
                         {
-                            valorAsistente = 5 + Math.Truncate((double.Parse(txtAsistentes.Text) - 50) / 20);
+                            valorAsistente = 5 + 2*Math.Truncate((double.Parse(txtAsistentes.Text) - 50) / 20);
                             txtValorAsistente.Text = valorAsistente.ToString();
                         }
                         else
@@ -90,21 +120,108 @@ namespace Vista
                 }
                 else
                 {
-                    asistentes = 0;
-                    txtAsistentes.Text = asistentes.ToString();
+                    contrato.Asistentes = 0;
+                    txtAsistentes.Text = contrato.Asistentes.ToString();
                     valorAsistente = 0;
                     txtValorAsistente.Text = valorAsistente.ToString();
                 }
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
+                txtTotal.Text = contrato.ValorTotalContrato.ToString();
             }
             catch (Exception)
             {
-                asistentes = 0;
-                txtAsistentes.Text = asistentes.ToString();
+                contrato.Asistentes = 0;
+                txtAsistentes.Text = contrato.Asistentes.ToString();
                 valorAsistente = 0;
                 txtValorAsistente.Text = valorAsistente.ToString();
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
+                txtTotal.Text = contrato.ValorTotalContrato.ToString();
             }
         }
 
 
+        private void txtPersonalAdicional_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (0 < int.Parse(txtPersonalAdicional.Text))
+                {
+                    contrato.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
+                    if (contrato.PersonalAdicional==2)
+                    {
+                        valorPersonalAdicional = 2;
+                        txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
+                    }
+                    else if (contrato.PersonalAdicional == 3)
+                    {
+                        valorPersonalAdicional = 3;
+                        txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
+                    }
+                    else
+                    {
+                        valorPersonalAdicional = 3 + 0.5*(contrato.PersonalAdicional-3);
+                        txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
+                    }
+                }
+                else
+                {
+                    contrato.PersonalAdicional = 0;
+                    txtPersonalAdicional.Text = contrato.PersonalAdicional.ToString();
+                    valorPersonalAdicional = 0;
+                    txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
+                }
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
+                txtTotal.Text = contrato.ValorTotalContrato.ToString();
+            }
+            catch (Exception)
+            {
+                contrato.PersonalAdicional = 0;
+                txtPersonalAdicional.Text = contrato.PersonalAdicional.ToString();
+                valorPersonalAdicional = 0;
+                txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
+                txtTotal.Text = contrato.ValorTotalContrato.ToString();
+            }
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
+        }
+
+        private void btnComprobar_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Cliente cli = new Cliente() { RutCliente = txtRut.Text };
+                bool resp = cli.Read();
+                if (resp)
+                {
+                    txtRazonSocial.Text = cli.RazonSocial;
+                }
+                else
+                {
+                    MessageBox.Show("Cliente no existe");
+                    txtRut.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnListaCliente_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WpfListaCliente ventana = new WpfListaCliente(this);
+                ventana.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
