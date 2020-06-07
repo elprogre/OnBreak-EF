@@ -74,29 +74,5 @@ namespace Biblioteca.Negocio
             }
         }
 
-
-        public List<Negocio.ModalidadServicio> ReadAllbyTipoEvento()
-        {
-            try
-            {
-                List<DALC.ModalidadServicio> lista_modalidad = bdd.ModalidadServicio.ToList();
-                List<Negocio.ModalidadServicio> lista_clase_modalidad = new List<ModalidadServicio>();
-                foreach (DALC.ModalidadServicio item in lista_modalidad)
-                {
-                    Negocio.ModalidadServicio modalidad = new ModalidadServicio();
-                    modalidad.IdModalidad = item.IdModalidad;
-                    modalidad.IdTipoEvento = item.IdTipoEvento;
-                    modalidad.Nombre = item.Nombre;
-                    modalidad.ValorBase = item.ValorBase;
-                    modalidad.PersonalBase = item.PersonalBase;
-                    lista_clase_modalidad.Add(modalidad);
-                }
-                return lista_clase_modalidad;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
     }
 }
