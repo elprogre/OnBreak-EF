@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30104.148
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.DALC", "Biblioteca.DALC\Biblioteca.DALC.csproj", "{A8508773-AD33-45D7-A2C0-D9D5220B8EF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Negocio", "Biblioteca.Negocio\Biblioteca.Negocio.csproj", "{EED0C0BD-9318-423B-A819-B3C76694A03F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vista", "Vista\Vista.csproj", "{5C5BD810-2441-4E1C-9CA3-E8930FBDFAA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotecaControles", "BibliotecaControles\BibliotecaControles.csproj", "{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5C5BD810-2441-4E1C-9CA3-E8930FBDFAA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C5BD810-2441-4E1C-9CA3-E8930FBDFAA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C5BD810-2441-4E1C-9CA3-E8930FBDFAA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -35,7 +35,7 @@ namespace Vista
 
         public void limpiar()
         {
-            contrato = new Contrato() { Asistentes = 0, PersonalAdicional = 0 };
+            contrato = new Contrato() { Asistentes = 0, PersonalAdicional = 0, ValorTotalContrato=0};
 
             valorBaseEvento = 0;
             valorAsistente = 0;
@@ -43,6 +43,7 @@ namespace Vista
             txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");
             DateTime hoy = DateTime.Now;
             lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy  HH:mm");
+            dtpFechaHoraInicio.Text= hoy.ToString("dd/MM/yyyy");
             txtVigencia.Text = "";
             txtRut.Text = "";
             txtRazonSocial.Text = "Razon Social";
@@ -56,7 +57,6 @@ namespace Vista
             txtValorAsistente.Text = "0";
             txtValorPersonalAdicional.Text = "0";
             txtTotal.Text = "0";
-
         }
 
         private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -184,10 +184,18 @@ namespace Vista
             }
         }
 
+
+        private void dtpFechaHoraInicio_LostFocus(object sender, RoutedEventArgs e)
+        {
+            txtFechaHoraTermino.Text = (((DateTime)dtpFechaHoraInicio.SelectedDate).AddYears(1)).ToString("dd/MM/yyyy");
+        }
+
+
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             limpiar();
         }
+
 
         private void btnComprobar_Click(object sender, RoutedEventArgs e)
         {
@@ -211,12 +219,59 @@ namespace Vista
             }
         }
 
+
         private void btnListaCliente_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 WpfListaCliente ventana = new WpfListaCliente(this);
                 ventana.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                contrato.Numero = txtNumero.Text;
+                bool resp = new Cliente() { RutCliente = txtRut.Text }.Read();
+                if (resp)
+                {
+                    contrato.RutCliente = txtRut.Text;
+                }
+                else
+                {
+                    throw new Exception("Rut de cliente no existe");
+                }
+                contrato.Creacion = (DateTime)dtpFechaHoraInicio.SelectedDate;
+                contrato.Termino = contrato.Creacion.AddYears(1);
+                contrato.FechaHoraInicio = contrato.Creacion;
+                contrato.FechaHoraTermino = contrato.FechaHoraTermino;
+                if (cboTipoEvento.SelectedIndex>=0)
+                {
+                    contrato.IdTipoEvento =((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
+                }
+                else
+                {
+                    throw new Exception("Falta el campo Tipo Evento");
+                }
+                if (cboModalidadServicio.SelectedIndex >= 0)
+                {
+                    contrato.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
+                }
+                else
+                {
+                    throw new Exception("Falta el campo Modalidad Servicio");
+                }
+                //LOS ASISTENTES Y PERSONALES ADICIONALES LOS HACE LA MAQUINA
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional); //calcula el total del evento y lo asigna
+                contrato.Realizado = true;
+                contrato.Observaciones = txtObservaciones.Text;
+
             }
             catch (Exception ex)
             {

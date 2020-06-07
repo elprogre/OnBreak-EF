@@ -41,42 +41,9 @@ namespace Biblioteca.Negocio
 
         public DateTime FechaHoraTermino { get; set; }
 
-        private int _asistentes;
+        public int Asistentes { get; set; }
 
-        public int Asistentes
-        {
-            get { return _asistentes; }
-            set
-            {
-                if (value >= 0)
-                {
-                    _asistentes = value;
-                }
-                else
-                {
-                    throw new Exception("No se pueden tener menos de 0 asistentes");
-                }
-
-            }
-        }
-
-        private int _personaladicional;
-
-        public int PersonalAdicional
-        {
-            get { return _personaladicional; }
-            set
-            {
-                if (value >= 0)
-                {
-                    _personaladicional = value;
-                }
-                else
-                {
-                    throw new Exception("No se pueden tener menos de 0 personales adicionales");
-                }
-            }
-        }
+        public int PersonalAdicional { get; set; }
 
         public bool Realizado { get; set; }
 
@@ -89,7 +56,7 @@ namespace Biblioteca.Negocio
             get { return _observaciones; }
             set
             {
-                if (value.Trim().Length >= 3)
+                if (value.Trim().Length > 0)
                 {
                     _observaciones = value;
                 }

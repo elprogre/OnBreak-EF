@@ -36,7 +36,8 @@
                 <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="26" Margin="444,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" IsEnabled="False" Background="#FFFDFB90" Text="Razon Social"/>
                 <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="137,44,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboTipoEvento_SelectionChanged"/>
                 <ComboBox x:Name="cboModalidadServicio" HorizontalAlignment="Left" Margin="443,44,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboModalidadServicio_SelectionChanged" />
-                <DatePicker x:Name="dtpFechaInicioVigencia" HorizontalAlignment="Left" Margin="137,84,0,0" VerticalAlignment="Top" Width="150" Height="26"/>
+                <DatePicker x:Name="dtpFechaHoraInicio" HorizontalAlignment="Left" Margin="137,84,0,0" VerticalAlignment="Top" Width="150" Height="26" LostFocus="dtpFechaHoraInicio_LostFocus"/>
+                <TextBox x:Name="txtFechaHoraTermino" HorizontalAlignment="Left" Height="26" Margin="137,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" IsEnabled="False" Background="#FFFDFB90"/>
                 <TextBox x:Name="txtAsistentes" HorizontalAlignment="Left" Height="23" Margin="74,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Text="0" LostFocus="txtAsistentes_LostFocus"/>
                 <TextBox x:Name="txtPersonal" HorizontalAlignment="Left" Height="23" Margin="282,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" IsEnabled="False" Text="0" Background="#FFFDFB90"/>
                 <TextBox x:Name="txtPersonalAdicional" HorizontalAlignment="Left" Height="23" Margin="507,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Text="0" LostFocus="txtPersonalAdicional_LostFocus"/>
@@ -55,7 +56,7 @@
                 <TextBox x:Name="txtTotal" HorizontalAlignment="Left" Height="23" Margin="139,45,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="-7.5,0.348" IsEnabled="False" Background="#FFFDFB90"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="btnCreate" HorizontalAlignment="Left" Height="100" Margin="85,579,0,0" VerticalAlignment="Top" Width="100">
+        <Button x:Name="btnCreate" HorizontalAlignment="Left" Height="100" Margin="85,579,0,0" VerticalAlignment="Top" Width="100" Click="btnCreate_Click">
             <StackPanel>
                 <TextBlock><Run Text="Guardar"/></TextBlock>
             </StackPanel>
