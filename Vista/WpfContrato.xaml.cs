@@ -44,6 +44,7 @@ namespace Vista
             DateTime hoy = DateTime.Now;
             lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy  HH:mm");
             dtpFechaHoraInicio.Text= hoy.ToString("dd/MM/yyyy");
+            txtFechaHoraTermino.Clear();
             txtVigencia.Text = "";
             txtRut.Text = "";
             txtRazonSocial.Text = "Razon Social";
@@ -87,7 +88,7 @@ namespace Vista
             }
         }
 
-        private void txtAsistentes_LostFocus(object sender, RoutedEventArgs e)
+        public void calcularValorAsistente()
         {
             try
             {
@@ -106,9 +107,9 @@ namespace Vista
                     }
                     else
                     {
-                        if (0 < Math.Truncate((double.Parse(txtAsistentes.Text)-50)/20))
+                        if (0 < Math.Truncate((double.Parse(txtAsistentes.Text) - 50) / 20))
                         {
-                            valorAsistente = 5 + 2*Math.Truncate((double.Parse(txtAsistentes.Text) - 50) / 20);
+                            valorAsistente = 5 + 2 * Math.Truncate((double.Parse(txtAsistentes.Text) - 50) / 20);
                             txtValorAsistente.Text = valorAsistente.ToString();
                         }
                         else
@@ -139,15 +140,14 @@ namespace Vista
             }
         }
 
-
-        private void txtPersonalAdicional_LostFocus(object sender, RoutedEventArgs e)
+        public void calcularValorPersonalAdicional()
         {
             try
             {
                 if (0 < int.Parse(txtPersonalAdicional.Text))
                 {
                     contrato.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
-                    if (contrato.PersonalAdicional==2)
+                    if (contrato.PersonalAdicional == 2)
                     {
                         valorPersonalAdicional = 2;
                         txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
@@ -159,7 +159,7 @@ namespace Vista
                     }
                     else
                     {
-                        valorPersonalAdicional = 3 + 0.5*(contrato.PersonalAdicional-3);
+                        valorPersonalAdicional = 3 + 0.5 * (contrato.PersonalAdicional - 3);
                         txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
                     }
                 }
@@ -182,6 +182,18 @@ namespace Vista
                 contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
                 txtTotal.Text = contrato.ValorTotalContrato.ToString();
             }
+        }
+
+
+        private void txtAsistentes_LostFocus(object sender, RoutedEventArgs e)
+        {
+            calcularValorAsistente();
+        }
+
+
+        private void txtPersonalAdicional_LostFocus(object sender, RoutedEventArgs e)
+        {
+            calcularValorPersonalAdicional();
         }
 
 
@@ -248,10 +260,16 @@ namespace Vista
                 {
                     throw new Exception("Rut de cliente no existe");
                 }
+                //FALTA ASIGNARLE LOS CONTROLES DE FECHA Y HORA A ESTO
                 contrato.Creacion = (DateTime)dtpFechaHoraInicio.SelectedDate;
                 contrato.Termino = contrato.Creacion.AddYears(1);
-                contrato.FechaHoraInicio = contrato.Creacion;
-                contrato.FechaHoraTermino = contrato.FechaHoraTermino;
+                /*contrato.FechaHoraInicio = contrato.Creacion;
+                contrato.FechaHoraTermino = contrato.FechaHoraTermino;*/
+                /*contrato.Creacion = DateTime.Now;
+                contrato.Termino = DateTime.Now;*/
+                contrato.FechaHoraInicio = DateTime.Now;
+                contrato.FechaHoraTermino = DateTime.Now;
+
                 if (cboTipoEvento.SelectedIndex>=0)
                 {
                     contrato.IdTipoEvento =((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
@@ -277,6 +295,58 @@ namespace Vista
                 MessageBox.Show(respContrato ? "Cliente Guardado" : "Cliente NO Guardo");
                 limpiar();
                 txtRut.Focus();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnRead_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                valorBaseEvento = 0;
+                valorPersonalAdicional = 0;
+                contrato = new Contrato() { Numero=txtNumero.Text };
+                bool resp = contrato.Read();
+                if (resp)
+                {
+                    txtNumero.Text = contrato.Numero;
+                    string vigencia;
+                    if (contrato.Realizado)
+                    {
+                        vigencia = "Si";
+                    }
+                    else
+                    {
+                        vigencia = "No";
+                    }
+                    txtVigencia.Text = vigencia;
+                    txtRut.Text = contrato.RutCliente;
+                    Cliente cli = new Cliente() { RutCliente = txtRut.Text };
+                    cli.Read();
+                    txtRazonSocial.Text = cli.RazonSocial;
+                    TipoEvento te = new TipoEvento() { IdTipoEvento = contrato.IdTipoEvento };
+                    te.Read();
+                    cboTipoEvento.Text = te.Descripcion;
+                    ModalidadServicio ms = new ModalidadServicio() { IdModalidad = contrato.IdModalidad };
+                    ms.Read();
+                    cboModalidadServicio.Text = ms.Nombre.Trim();
+                    dtpFechaHoraInicio.Text = contrato.Creacion.ToString("dd/MM/yyyy");
+                    txtFechaHoraTermino.Text = contrato.Termino.ToString("dd/MM/yyyy");
+                    txtAsistentes.Text = contrato.Asistentes.ToString();
+                    calcularValorAsistente();
+                    txtPersonalAdicional.Text = contrato.PersonalAdicional.ToString();
+                    calcularValorPersonalAdicional();
+                    txtObservaciones.Text = contrato.Observaciones;
+
+                }
+                else
+                {
+
+                }
 
             }
             catch (Exception ex)
