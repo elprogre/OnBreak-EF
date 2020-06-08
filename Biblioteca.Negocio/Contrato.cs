@@ -83,18 +83,26 @@ namespace Biblioteca.Negocio
 
         public bool Create()
         {
+
+                DALC.Contrato con = new DALC.Contrato();
+                CommonBC.Syncronize(this,con);
+                bdd.Contrato.Add(con);
+                bdd.SaveChanges();
+                return true;
+
+            /*
             try
             {
                 DALC.Contrato con = new DALC.Contrato();
-                CommonBC.Syncronize(this,con);
+                CommonBC.Syncronize(this, con);
                 bdd.Contrato.Add(con);
                 bdd.SaveChanges();
                 return true;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
-            }
+                return false;
+            } */
         }
 
         public bool Read()
