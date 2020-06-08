@@ -210,6 +210,7 @@ namespace Vista
                 else
                 {
                     MessageBox.Show("Cliente no existe");
+                    txtRazonSocial.Text = "Razon Social";
                     txtRut.Clear();
                 }
             }
@@ -238,8 +239,8 @@ namespace Vista
             try
             {
                 contrato.Numero = txtNumero.Text;
-                bool resp = new Cliente() { RutCliente = txtRut.Text }.Read();
-                if (resp)
+                bool respCliente = new Cliente() { RutCliente = txtRut.Text }.Read();
+                if (respCliente)
                 {
                     contrato.RutCliente = txtRut.Text;
                 }
@@ -271,6 +272,11 @@ namespace Vista
                 contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional); //calcula el total del evento y lo asigna
                 contrato.Realizado = true;
                 contrato.Observaciones = txtObservaciones.Text;
+
+                bool respContrato = contrato.Create();
+                MessageBox.Show(respContrato ? "Cliente Guardado" : "Cliente NO Guardo");
+                limpiar();
+                txtRut.Focus();
 
             }
             catch (Exception ex)

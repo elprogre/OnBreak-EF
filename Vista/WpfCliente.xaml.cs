@@ -94,7 +94,7 @@ namespace Vista
                 }
 
                 bool resp = cli.Create();
-                MessageBox.Show(resp ? "Guardo" : "No Guardo");
+                MessageBox.Show(resp ? "Cliente Guardado" : "Cliente NO Guardo");
                 limpiar();
                 txtRut.Focus();
 

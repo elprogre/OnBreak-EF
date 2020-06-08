@@ -91,9 +91,9 @@ namespace Biblioteca.Negocio
                 bdd.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
         }
 
