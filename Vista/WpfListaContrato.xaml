@@ -14,7 +14,7 @@
         <Button x:Name="btnFiltrarNroContrato" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="91,42,0,0" VerticalAlignment="Top" Width="140"/>
         <Label Content="Nro contrato:" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btnBuscarCliente" Content="Buscar cliente" HorizontalAlignment="Left" Height="47" Margin="428,16,0,0" VerticalAlignment="Top" Width="83"/>
-        <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="643,16,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
+        <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="643,16,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboTipoEvento_SelectionChanged"/>
         <Button x:Name="btnFiltrarTipoEvento" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="643,42,0,0" VerticalAlignment="Top" Width="140"/>
         <Label Content="Tipo de evento:" HorizontalAlignment="Left" Margin="551,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
         <ComboBox x:Name="cboModalidadServicio" HorizontalAlignment="Left" Margin="643,70,0,0" VerticalAlignment="Top" Width="140" Height="26"/>

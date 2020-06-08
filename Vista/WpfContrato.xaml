@@ -66,12 +66,12 @@
                 <TextBlock><Run Text="Buscar"/></TextBlock>
             </StackPanel>
         </Button>
-        <Button x:Name="btnUpdate" HorizontalAlignment="Left" Height="100" Margin="365,579,0,0" VerticalAlignment="Top" Width="100">
+        <Button x:Name="btnUpdate" HorizontalAlignment="Left" Height="100" Margin="365,579,0,0" VerticalAlignment="Top" Width="100" Click="btnUpdate_Click">
             <StackPanel>
                 <TextBlock><Run Text="Actualizar"/></TextBlock>
             </StackPanel>
         </Button>
-        <Button x:Name="btnDelete" HorizontalAlignment="Left" Height="100" Margin="505,579,0,0" VerticalAlignment="Top" Width="100">
+        <Button x:Name="btnDelete" HorizontalAlignment="Left" Height="100" Margin="505,579,0,0" VerticalAlignment="Top" Width="100" Click="btnDelete_Click">
             <StackPanel>
                 <TextBlock><Run Text="Eliminar"/></TextBlock>
             </StackPanel>

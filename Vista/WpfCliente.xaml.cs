@@ -200,6 +200,11 @@ namespace Vista
                         throw new Exception("Cliente no existe");
                     }
                 }
+                else
+                {
+                    limpiar();
+                    txtRut.Focus();
+                }
             }
             catch (Exception ex)
             {

@@ -116,7 +116,7 @@ namespace Biblioteca.Negocio
             try
             {
                 DALC.Contrato con = bdd.Contrato.First(c => c.Numero.Equals(Numero));
-                CommonBC.Syncronize(con, this);
+                CommonBC.Syncronize(this, con);
                 bdd.SaveChanges();
                 return true;
             }
@@ -131,7 +131,8 @@ namespace Biblioteca.Negocio
             try
             {
                 DALC.Contrato con = bdd.Contrato.First(c => c.Numero.Equals(Numero));
-                bdd.Contrato.Remove(con);
+                con.Realizado = false;
+                con.Termino = DateTime.Now;
                 bdd.SaveChanges();
                 return true;
             }
@@ -145,15 +146,23 @@ namespace Biblioteca.Negocio
         {
             try
             {
-                List<DALC.Contrato> lista_con = bdd.Contrato.ToList(); 
-                List<Contrato> lista_clase_con = new List<Contrato>();
-                foreach (DALC.Contrato item in lista_con)
-                {
-                    Contrato con = new Contrato();
-                    CommonBC.Syncronize(item,con);
-                    lista_clase_con.Add(con);
-                }
-                return lista_clase_con;
+                var x = from con in bdd.Contrato
+                        join ae in bdd.ActividadEmpresa
+                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
+                        join te in bdd.TipoEmpresa
+                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
+                        select new ListaCliente()
+                        {
+                            Rut = cli.RutCliente,
+                            RazonSocial = cli.RazonSocial,
+                            Nombre = cli.NombreContacto,
+                            Mail = cli.MailContacto,
+                            Dirección = cli.Direccion,
+                            Telefono = cli.Telefono,
+                            ActividadEmpresa = ae.Descripcion,
+                            TipoEmpresa = te.Descripcion
+                        };
+                return x.ToList();
             }
             catch (Exception)
             {

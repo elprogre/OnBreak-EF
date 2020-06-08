@@ -25,16 +25,18 @@ namespace Vista
         {
             InitializeComponent();
             objeto = ventana_origen;
+            cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
+            dtgContrato.ItemsSource = new Contrato().ReadAll();
 
             if (objeto.GetType() == typeof(MainWindow))
             {
                 btnTraspasar.Visibility = Visibility.Hidden;
-                cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
-                cboTipoEvento.Items.Refresh();
-
             }
         }
 
-
+        private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento == ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
+        }
     }
 }

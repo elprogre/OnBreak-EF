@@ -258,7 +258,7 @@ namespace Vista
                 }
                 else
                 {
-                    throw new Exception("Rut de cliente no existe");
+                    throw new Exception("Rut del cliente no existe");
                 }
                 //FALTA ASIGNARLE LOS CONTROLES DE FECHA Y HORA A ESTO
                 contrato.Creacion = (DateTime)dtpFechaHoraInicio.SelectedDate;
@@ -292,9 +292,8 @@ namespace Vista
                 contrato.Observaciones = txtObservaciones.Text;
 
                 bool respContrato = contrato.Create();
-                MessageBox.Show(respContrato ? "Cliente Guardado" : "Cliente NO Guardo");
+                MessageBox.Show(respContrato ? "Contrato Guardado" : "Contrato NO Guardo");
                 limpiar();
-                txtRut.Focus();
 
             }
             catch (Exception ex)
@@ -345,9 +344,95 @@ namespace Vista
                 }
                 else
                 {
-
+                    MessageBox.Show("Contrato NO Encontrado");
                 }
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                contrato.Numero = txtNumero.Text;
+                bool respCliente = new Cliente() { RutCliente = txtRut.Text }.Read();
+                if (respCliente)
+                {
+                    contrato.RutCliente = txtRut.Text;
+                }
+                else
+                {
+                    throw new Exception("Rut del cliente no existe");
+                }
+                //FALTA ASIGNARLE LOS CONTROLES DE FECHA Y HORA A ESTO
+                contrato.Creacion = (DateTime)dtpFechaHoraInicio.SelectedDate;
+                contrato.Termino = contrato.Creacion.AddYears(1);
+                /*contrato.FechaHoraInicio = contrato.Creacion;
+                contrato.FechaHoraTermino = contrato.FechaHoraTermino;*/
+                /*contrato.Creacion = DateTime.Now;
+                contrato.Termino = DateTime.Now;*/
+                contrato.FechaHoraInicio = DateTime.Now;
+                contrato.FechaHoraTermino = DateTime.Now;
+
+                if (cboTipoEvento.SelectedIndex >= 0)
+                {
+                    contrato.IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
+                }
+                else
+                {
+                    throw new Exception("Falta el campo Tipo Evento");
+                }
+                if (cboModalidadServicio.SelectedIndex >= 0)
+                {
+                    contrato.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
+                }
+                else
+                {
+                    throw new Exception("Falta el campo Modalidad Servicio");
+                }
+                //LOS ASISTENTES Y PERSONALES ADICIONALES LOS HACE LA MAQUINA
+                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional); //calcula el total del evento y lo asigna
+                contrato.Realizado = true;
+                contrato.Observaciones = txtObservaciones.Text;
+
+                bool resp = contrato.Update();
+                MessageBox.Show(resp ? "Contrato Guardado" : "Contrato NO Guardo");
+                limpiar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MessageBoxResult resultado = MessageBox.Show("¿Desea eliminar al cliente?", "Confirmar",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (resultado == MessageBoxResult.Yes)
+                {
+                    contrato = new Contrato() { Numero = txtNumero.Text };
+                    bool resp = contrato.Delete();
+                    if (resp)
+                    {
+                        MessageBox.Show("Vigencia Del Contrato Terminada");
+                        limpiar();
+                    }
+                    else
+                    {
+                        throw new Exception("Contrato NO Existe");
+                    }
+                }
+                else
+                {
+                    limpiar();
+                }
             }
             catch (Exception ex)
             {
