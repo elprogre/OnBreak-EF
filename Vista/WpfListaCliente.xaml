@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vista"
         mc:Ignorable="d"
-        Title="Menu: Lista de clientes" Height="507.184" Width="851.516" ResizeMode="NoResize">
+        Title="Menu: Lista de clientes" Height="473.485" Width="1023.623" ResizeMode="NoResize">
     <Grid Margin="10,0,2,-21">
         <GroupBox x:Name="groupBox" Header="Filtros" HorizontalAlignment="Left" Height="87" Margin="19,11,0,0" VerticalAlignment="Top" Width="784">
             <Grid Margin="0,0,-2,-12">
@@ -20,9 +20,9 @@
                 <Button x:Name="btnFiltrarTipoEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="619,36,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarTipoEmpresa_Click"/>
             </Grid>
         </GroupBox>
-        <DataGrid x:Name="dtgCliente" HorizontalAlignment="Left" Height="328" Margin="19,111,0,0" VerticalAlignment="Top" Width="643"/>
-        <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="667,111,0,0" VerticalAlignment="Top" Width="136" Click="btnClear_Click"/>
-        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="667,160,0,0" VerticalAlignment="Top" Width="136" Click="btnTraspasar_Click"/>
+        <DataGrid x:Name="dtgCliente" HorizontalAlignment="Left" Height="311" Margin="19,111,0,0" VerticalAlignment="Top" Width="805"/>
+        <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="832,111,0,0" VerticalAlignment="Top" Width="136" Click="btnClear_Click"/>
+        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="832,160,0,0" VerticalAlignment="Top" Width="136" Click="btnTraspasar_Click"/>
 
     </Grid>
 </Window>

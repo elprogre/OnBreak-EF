@@ -413,7 +413,7 @@ namespace Vista
         {
             try
             {
-                MessageBoxResult resultado = MessageBox.Show("¿Desea eliminar al cliente?", "Confirmar",
+                MessageBoxResult resultado = MessageBox.Show("¿Desea terminar el contrato?", "Confirmar",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (resultado == MessageBoxResult.Yes)
                 {

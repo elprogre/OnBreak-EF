@@ -38,5 +38,31 @@ namespace Vista
         {
             cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento == ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
         }
+
+        private void btnFiltrarNroContrato_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dtgContrato.ItemsSource = new Contrato() {Numero=txtNroContrato.Text }.ReadAllByNumeroContrato();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnFiltrarRut_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dtgContrato.ItemsSource = new Contrato() { RutCliente = txtRut.Text }.ReadAllByRut();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
     }
 }

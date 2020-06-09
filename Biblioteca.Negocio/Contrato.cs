@@ -142,25 +142,35 @@ namespace Biblioteca.Negocio
             }
         }
 
-        public List<Contrato> ReadAll()
+        public List<ListaContrato> ReadAll()
         {
             try
             {
                 var x = from con in bdd.Contrato
-                        join ae in bdd.ActividadEmpresa
-                        on cli.IdActividadEmpresa equals ae.IdActividadEmpresa
-                        join te in bdd.TipoEmpresa
-                        on cli.IdTipoEmpresa equals te.IdTipoEmpresa
-                        select new ListaCliente()
+                        join ms in bdd.ModalidadServicio
+                        on con.IdModalidad equals ms.IdModalidad
+                        join te in bdd.TipoEvento
+                        on ms.IdTipoEvento equals te.IdTipoEvento
+                        join cli in bdd.Cliente
+                        on con.RutCliente equals cli.RutCliente
+                        select new ListaContrato()
                         {
-                            Rut = cli.RutCliente,
-                            RazonSocial = cli.RazonSocial,
-                            Nombre = cli.NombreContacto,
-                            Mail = cli.MailContacto,
-                            Dirección = cli.Direccion,
-                            Telefono = cli.Telefono,
-                            ActividadEmpresa = ae.Descripcion,
-                            TipoEmpresa = te.Descripcion
+                            Numero=con.Numero,
+                            RutCliente=con.RutCliente,
+                            RazonSocial=cli.RazonSocial,
+                            TipoDeEvento = te.Descripcion,
+                            ModalidadDeServicio = ms.Nombre,
+                            FechaCreacion =con.Creacion,
+                            FechaTermino=con.Termino,
+                            FechaHoraInicio=con.FechaHoraInicio,
+                            FechaHoraTermino=con.FechaHoraTermino,
+                            Asistentes=con.Asistentes,
+                            PersonalAdicional=con.PersonalAdicional,
+                            Vigencia =
+                            con.Realizado == true ? "Si" :
+                            "No",
+                            ValorTotalEvento = con.ValorTotalContrato,
+                            Observaciones=con.Observaciones
                         };
                 return x.ToList();
             }
@@ -170,30 +180,84 @@ namespace Biblioteca.Negocio
             }
         }
 
-        public List<Contrato> ReadAllByNumeroContrato()
+        public List<ListaContrato> ReadAllByNumeroContrato()
         {
             try
             {
-                return ReadAll().Where(c => c.Numero.Equals(Numero)).ToList();
+                var x = from con in bdd.Contrato
+                        join ms in bdd.ModalidadServicio
+                        on con.IdModalidad equals ms.IdModalidad
+                        join te in bdd.TipoEvento
+                        on ms.IdTipoEvento equals te.IdTipoEvento
+                        join cli in bdd.Cliente
+                        on con.RutCliente equals cli.RutCliente
+                        where con.Numero==this.Numero
+                        select new ListaContrato()
+                        {
+                            Numero=con.Numero,
+                            RutCliente=con.RutCliente,
+                            RazonSocial=cli.RazonSocial,
+                            TipoDeEvento = te.Descripcion,
+                            ModalidadDeServicio = ms.Nombre,
+                            FechaCreacion =con.Creacion,
+                            FechaTermino=con.Termino,
+                            FechaHoraInicio=con.FechaHoraInicio,
+                            FechaHoraTermino=con.FechaHoraTermino,
+                            Asistentes=con.Asistentes,
+                            PersonalAdicional=con.PersonalAdicional,
+                            Vigencia =
+                            con.Realizado == true ? "Si" :
+                            "No",
+                            ValorTotalEvento = con.ValorTotalContrato,
+                            Observaciones=con.Observaciones
+                        };
+                return x.ToList();
             }
             catch (Exception)
             {
                 return null;
             }
         }
-
-        public List<Contrato> ReadAllByRut()
+        
+        public List<ListaContrato> ReadAllByRut()
         {
             try
             {
-                return ReadAll().Where(c => c.RutCliente.Equals(RutCliente)).ToList();
+                var x = from con in bdd.Contrato
+                        join ms in bdd.ModalidadServicio
+                        on con.IdModalidad equals ms.IdModalidad
+                        join te in bdd.TipoEvento
+                        on ms.IdTipoEvento equals te.IdTipoEvento
+                        join cli in bdd.Cliente
+                        on con.RutCliente equals cli.RutCliente
+                        where con.RutCliente==this.RutCliente
+                        select new ListaContrato()
+                        {
+                            Numero=con.Numero,
+                            RutCliente=con.RutCliente,
+                            RazonSocial=cli.RazonSocial,
+                            TipoDeEvento = te.Descripcion,
+                            ModalidadDeServicio = ms.Nombre,
+                            FechaCreacion =con.Creacion,
+                            FechaTermino=con.Termino,
+                            FechaHoraInicio=con.FechaHoraInicio,
+                            FechaHoraTermino=con.FechaHoraTermino,
+                            Asistentes=con.Asistentes,
+                            PersonalAdicional=con.PersonalAdicional,
+                            Vigencia =
+                            con.Realizado == true ? "Si" :
+                            "No",
+                            ValorTotalEvento = con.ValorTotalContrato,
+                            Observaciones=con.Observaciones
+                        };
+                return x.ToList();
             }
             catch (Exception)
             {
                 return null;
             }
         }
-
+        /*
         public List<Contrato> ReadAllByTipo()
         {
             try
@@ -204,7 +268,34 @@ namespace Biblioteca.Negocio
             {
                 return null;
             }
-        }
+        }*/
 
+        public class ListaContrato
+        {
+            public ListaContrato()
+            {
+            }
+            public string Numero { get; set; }
+            public string RutCliente { get; set; }
+            public string RazonSocial { get; set; }
+            public string TipoDeEvento { get; set; }
+            private string _modalidadservicio;
+
+            public string ModalidadDeServicio
+            {
+                get { return _modalidadservicio; }
+                set { _modalidadservicio = value.Trim(); }
+            }
+
+            public DateTime FechaCreacion { get; set; }
+            public DateTime FechaTermino { get; set; }
+            public DateTime FechaHoraInicio { get; set; }
+            public DateTime FechaHoraTermino { get; set; }
+            public int Asistentes { get; set; }
+            public int PersonalAdicional { get; set; }
+            public string Vigencia { get; set; }
+            public double ValorTotalEvento { get; set; }
+            public string Observaciones { get; set; }
+        }
     }
 }
