@@ -12,13 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Biblioteca.Negocio;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Behaviours;
 
 namespace Vista
 {
     /// <summary>
     /// Lógica de interacción para WpfListaCliente.xaml
     /// </summary>
-    public partial class WpfListaCliente : Window
+    public partial class WpfListaCliente : MetroWindow
     {
         object objeto;
         public WpfListaCliente(object ventana_origen)

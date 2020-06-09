@@ -1,28 +1,33 @@
-﻿<Window x:Class="Vista.WpfListaCliente"
+﻿<Controls:MetroWindow x:Class="Vista.WpfListaCliente"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vista"
         mc:Ignorable="d"
-        Title="Menu: Lista de clientes" Height="473.485" Width="1023.623" ResizeMode="NoResize">
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        
+        Title="Menu: Lista de clientes" Height="473.485" Width="1023.623" ResizeMode="NoResize" Icon="img/Buscar Cliente.png">
     <Grid Margin="10,0,2,-21">
-        <GroupBox x:Name="groupBox" Header="Filtros" HorizontalAlignment="Left" Height="87" Margin="19,11,0,0" VerticalAlignment="Top" Width="784">
+        <GroupBox x:Name="groupBox" Header="Filtros" HorizontalAlignment="Left" Height="106" Margin="19,11,0,0" VerticalAlignment="Top" Width="805">
             <Grid Margin="0,0,-2,-12">
                 <Label Content="Rut:" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Actividad de empresa:" HorizontalAlignment="Left" Margin="228,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="Tipo de empresa:" HorizontalAlignment="Left" Margin="518,10,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="txtRut" HorizontalAlignment="Left" Height="26" Margin="61,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <Button x:Name="btnFiltrarRut" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="61,34,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarRut_Click"/>
+                <Button x:Name="btnFiltrarRut" Content="Filtrar" HorizontalAlignment="Left" Height="39" Margin="61,34,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarRut_Click"/>
                 <ComboBox x:Name="cboActividadEmpresa" HorizontalAlignment="Left" Margin="355,10,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
-                <Button x:Name="btnFiltrarActividadEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="355,36,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarActividadEmpresa_Click"/>
+                <Button x:Name="btnFiltrarActividadEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="37" Margin="355,36,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarActividadEmpresa_Click"/>
                 <ComboBox x:Name="cboTipoEmpresa" HorizontalAlignment="Left" Margin="619,10,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
-                <Button x:Name="btnFiltrarTipoEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="619,36,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarTipoEmpresa_Click"/>
+                <Button x:Name="btnFiltrarTipoEmpresa" Content="Filtrar" HorizontalAlignment="Left" Height="37" Margin="619,36,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarTipoEmpresa_Click"/>
             </Grid>
         </GroupBox>
-        <DataGrid x:Name="dtgCliente" HorizontalAlignment="Left" Height="311" Margin="19,111,0,0" VerticalAlignment="Top" Width="805"/>
-        <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="832,111,0,0" VerticalAlignment="Top" Width="136" Click="btnClear_Click"/>
-        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="832,160,0,0" VerticalAlignment="Top" Width="136" Click="btnTraspasar_Click"/>
+        <DataGrid x:Name="dtgCliente" HorizontalAlignment="Left" Height="311" Margin="19,122,0,0" VerticalAlignment="Top" Width="805"/>
+        <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="829,122,0,0" VerticalAlignment="Top" Width="136" Click="btnClear_Click"/>
+        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="829,171,0,0" VerticalAlignment="Top" Width="136" Click="btnTraspasar_Click"/>
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

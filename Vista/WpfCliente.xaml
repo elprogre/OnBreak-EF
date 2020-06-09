@@ -1,14 +1,20 @@
-﻿<Window x:Class="Vista.WpfCliente"
+﻿<Controls:MetroWindow 
+        x:Class="Vista.WpfCliente"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vista"
         mc:Ignorable="d"
-        Title="Menu: Clientes" Height="494.942" Width="453.947" ResizeMode="NoResize" WindowStartupLocation="Manual">
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        
+        Title="Menu: Clientes" Height="494.942" Width="453.947" ResizeMode="NoResize" WindowStartupLocation="Manual" Icon="img/Clientes.png">
     <Grid>
-        <Button x:Name="btnClear" Content="Limpiar" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="58" Height="22" Click="btnClear_Click"/>
-        <GroupBox x:Name="gpbInformacionCliente" Header="Datos del cliente" HorizontalAlignment="Left" Height="298" Margin="10,39,0,0" VerticalAlignment="Top" Width="411">
+        <Button x:Name="btnClear" Content="Limpiar" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="66" Height="29" Click="btnClear_Click"/>
+        <GroupBox x:Name="gpbInformacionCliente" Header="Datos del cliente" HorizontalAlignment="Left" Height="298" Margin="10,44,0,0" VerticalAlignment="Top" Width="411">
             <Grid Margin="0,0,-2,-13">
                 <Label Content="Rut cliente:" HorizontalAlignment="Left" Margin="5,16,0,0" VerticalAlignment="Top"/>
                 <Label Content="Nombre del contacto:" HorizontalAlignment="Left" Margin="5,73,0,0" VerticalAlignment="Top"/>
@@ -18,21 +24,31 @@
                 <Label Content="Razon social:" HorizontalAlignment="Left" Margin="5,44,0,0" VerticalAlignment="Top"/>
                 <Label Content="Actividad de empresa:" HorizontalAlignment="Left" Margin="5,189,0,0" VerticalAlignment="Top"/>
                 <Label Content="Tipo de empresa:" HorizontalAlignment="Left" Margin="5,220,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="txtRut" HorizontalAlignment="Left" Height="23" Margin="154,20,-85,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <Button x:Name="btnListaCliente" Content="Clientes" HorizontalAlignment="Left" Margin="299,20,0,0" VerticalAlignment="Top" Width="58" Height="22" Click="btnListaCliente_Click"/>
-                <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="23" Margin="154,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <TextBox x:Name="txtNombre" HorizontalAlignment="Left" Height="23" Margin="154,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <TextBox x:Name="txtMail" HorizontalAlignment="Left" Height="23" Margin="154,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
-                <TextBox x:Name="txtDireccion" HorizontalAlignment="Left" Height="23" Margin="154,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
-                <TextBox x:Name="txtTelefono" HorizontalAlignment="Left" Height="23" Margin="154,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+                <TextBox x:Name="txtRut" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: 99999999-9" HorizontalAlignment="Left" Height="23" Margin="154,20,-85,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+                <Button x:Name="btnListaCliente" Content="Clientes" HorizontalAlignment="Left" Margin="299,20,0,0" VerticalAlignment="Top" Width="63" Height="26" Click="btnListaCliente_Click"/>
+                <TextBox x:Name="txtRazonSocial" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: CocaCola" HorizontalAlignment="Left" Height="23" Margin="154,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+                <TextBox x:Name="txtNombre" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: Fulanito" HorizontalAlignment="Left" Height="23" Margin="154,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+                <TextBox x:Name="txtMail" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: ***@gmail.com" HorizontalAlignment="Left" Height="23" Margin="154,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
+                <TextBox x:Name="txtDireccion" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: Calle NroCasa" HorizontalAlignment="Left" Height="23" Margin="154,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
+                <TextBox x:Name="txtTelefono" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: 12345678" HorizontalAlignment="Left" Height="23" Margin="154,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
                 <ComboBox x:Name="cboActividadEmpresa" HorizontalAlignment="Left" Margin="154,193,0,0" VerticalAlignment="Top" Width="140"/>
                 <ComboBox x:Name="cboTipoEmpresa" HorizontalAlignment="Left" Margin="154,224,0,0" VerticalAlignment="Top" Width="140"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="btnCreate" Content="Create" HorizontalAlignment="Left" Margin="19,367,0,0" VerticalAlignment="Top" Width="94" Height="71" Click="btnCreate_Click"/>
-        <Button x:Name="btnRead" Content="Read" HorizontalAlignment="Left" Margin="118,367,0,0" VerticalAlignment="Top" Width="94" Height="71" Click="btnRead_Click"/>
-        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="217,367,0,0" VerticalAlignment="Top" Width="94" Height="71" Click="btnUpdate_Click"/>
-        <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="316,367,0,0" VerticalAlignment="Top" Width="94" Height="71" RenderTransformOrigin="3.135,0.558" Click="btnDelete_Click"/>
+        <Controls:Tile Title="Guardar" Margin="10,357,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="90" Width="90" Click="btnCreate_Click">
+            <Image Source="img/Guardar Cliente.png"></Image>
+        </Controls:Tile>
 
+        <Controls:Tile Title="Buscar" Margin="124,357,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="90" Width="90" Click="btnRead_Click">
+            <Image Source="img/Buscar Cliente.png"></Image>
+        </Controls:Tile>
+
+        <Controls:Tile Title="Actualizar" Margin="238,357,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="90" Width="90" Click="btnUpdate_Click">
+            <Image Source="img/Actualizar Cliente.png"></Image>
+        </Controls:Tile>
+
+        <Controls:Tile Title="Eliminar" Margin="348,357,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="90" Width="90" Click="btnDelete_Click">
+            <Image Source="img/Eliminar Cliente.png"></Image>
+        </Controls:Tile>
     </Grid>
-</Window>
+</Controls:MetroWindow>
