@@ -13,15 +13,15 @@
         <TextBox x:Name="txtNroContrato" HorizontalAlignment="Left" Height="26" Margin="91,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
         <Button x:Name="btnFiltrarNroContrato" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="91,42,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarNroContrato_Click"/>
         <Label Content="Nro contrato:" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnBuscarCliente" Content="Buscar cliente" HorizontalAlignment="Left" Height="47" Margin="401,18,0,0" VerticalAlignment="Top" Width="83"/>
+        <Button x:Name="btnBuscarCliente" Content="Buscar cliente" HorizontalAlignment="Left" Height="47" Margin="401,18,0,0" VerticalAlignment="Top" Width="83" Click="btnBuscarCliente_Click"/>
         <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="581,18,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboTipoEvento_SelectionChanged"/>
-        <Button x:Name="btnFiltrarTipoEvento" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="581,44,0,0" VerticalAlignment="Top" Width="140"/>
+        <Button x:Name="btnFiltrarTipoEvento" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="581,44,0,0" VerticalAlignment="Top" Width="140" Click="btnFiltrarTipoEvento_Click"/>
         <Label Content="Tipo de evento:" HorizontalAlignment="Left" Margin="489,18,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
         <ComboBox x:Name="cboModalidadServicio" HorizontalAlignment="Left" Margin="857,18,0,0" VerticalAlignment="Top" Width="140" Height="26"/>
-        <Button x:Name="btnModalidadServicio" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="857,44,0,0" VerticalAlignment="Top" Width="140"/>
+        <Button x:Name="btnModalidadServicio" Content="Filtrar" HorizontalAlignment="Left" Height="23" Margin="857,44,0,0" VerticalAlignment="Top" Width="140" Click="btnModalidadServicio_Click"/>
         <Label Content="Modalidad de servicio:" HorizontalAlignment="Left" Margin="726,18,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.619,0.9"/>
-        <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="820,103,0,0" VerticalAlignment="Top" Width="136"/>
-        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="820,152,0,0" VerticalAlignment="Top" Width="136"/>
+        <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="820,103,0,0" VerticalAlignment="Top" Width="136" Click="btnClear_Click"/>
+        <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="820,152,0,0" VerticalAlignment="Top" Width="136" Click="btnTraspasar_Click"/>
         <DataGrid x:Name="dtgContrato" HorizontalAlignment="Left" Height="311" Margin="10,102,0,0" VerticalAlignment="Top" Width="805"/>
 
     </Grid>

@@ -36,7 +36,15 @@ namespace Vista
 
         private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento == ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
+            try
+            {
+                cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento == ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
+            }
+            catch (Exception)
+            {
+                cboModalidadServicio.ItemsSource = null;
+            }
+            
         }
 
         private void btnFiltrarNroContrato_Click(object sender, RoutedEventArgs e)
@@ -63,6 +71,72 @@ namespace Vista
             }
         }
 
+        private void btnFiltrarTipoEvento_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dtgContrato.ItemsSource = new Contrato() { IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento }
+                    .ReadAllByTipo();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnModalidadServicio_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dtgContrato.ItemsSource = new Contrato() { IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad }
+                    .ReadAllByModalidad();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dtgContrato.ItemsSource = new Contrato().ReadAll();
+                cboTipoEvento.SelectedIndex = -1;
+                cboModalidadServicio.SelectedIndex = -1;
+                txtNroContrato.Clear();
+                txtRut.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnBuscarCliente_Click(object sender, RoutedEventArgs e)
+        {
+            WpfListaCliente ventana = new WpfListaCliente(this);
+            ventana.Show();
+
+        }
+
+        private void btnTraspasar_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Contrato.ListaContrato lc = (Contrato.ListaContrato)dtgContrato.SelectedItem;
+                Contrato coni = new Contrato() { Numero = lc.Numero };
+                coni.Read();
+                if (objeto.GetType() == typeof(WpfContrato))
+                {
+                    ((WpfContrato)objeto).llenar(coni);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
     }
 }

@@ -9,7 +9,7 @@
     <Grid>
         <Button x:Name="btnClear" Content="Limpiar" HorizontalAlignment="Left" Height="38" Margin="23,10,0,0" VerticalAlignment="Top" Width="104" Click="btnClear_Click"/>
         <Button x:Name="btnListaCliente" Content="Lista de clientes" HorizontalAlignment="Left" Height="38" Margin="132,10,0,0" VerticalAlignment="Top" Width="104" Click="btnListaCliente_Click"/>
-        <Button x:Name="btnListaContrato" Content="Lista de contratos" HorizontalAlignment="Left" Height="38" Margin="241,10,0,0" VerticalAlignment="Top" Width="104"/>
+        <Button x:Name="btnListaContrato" Content="Lista de contratos" HorizontalAlignment="Left" Height="38" Margin="241,10,0,0" VerticalAlignment="Top" Width="104" Click="btnListaContrato_Click"/>
         <GroupBox x:Name="gpbContrato" Header="Contrato" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="613" Margin="23,58,0,0">
             <Grid Margin="10,0,-2,-12">
                 <Label Content="Nro contrato:" HorizontalAlignment="Left" Margin="18,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.657,-0.189"/>

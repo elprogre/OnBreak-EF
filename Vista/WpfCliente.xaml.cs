@@ -185,20 +185,27 @@ namespace Vista
                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (resultado == MessageBoxResult.Yes)
                 {
-                    Cliente cli = new Cliente();
-                    cli.RutCliente = txtRut.Text;
-                    bool resp = cli.Delete();
-
-                    if (resp)
+                    bool respuestaContrato = new Contrato() { RutCliente = txtRut.Text }.ReadByRut();
+                    if (respuestaContrato)
                     {
-                        MessageBox.Show("Cliente Eliminado");
-                        limpiar();
-                        txtRut.Focus();
+                        throw new Exception("ERROR: No se puede eliminar un CLIENTE vinculado a un CONTRATO");
                     }
                     else
                     {
-                        throw new Exception("Cliente no existe");
+                        Cliente cli = new Cliente() { RutCliente = txtRut.Text };
+                        bool resp = cli.Delete();
+                        if (resp)
+                        {
+                            MessageBox.Show("Cliente Eliminado");
+                            limpiar();
+                            txtRut.Focus();
+                        }
+                        else
+                        {
+                            throw new Exception("Cliente no existe");
+                        }
                     }
+
                 }
                 else
                 {

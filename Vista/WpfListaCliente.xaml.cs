@@ -104,6 +104,10 @@ namespace Vista
                     ((WpfContrato)objeto).txtRut.Text = cli.RutCliente;
                     ((WpfContrato)objeto).txtRazonSocial.Text = cli.RazonSocial;
                 }
+                else if (objeto.GetType() == typeof(WpfListaContrato))
+                {
+                    ((WpfListaContrato)objeto).txtRut.Text = cli.RutCliente;
+                }
             }
             catch (Exception ex)
             {

@@ -111,6 +111,26 @@ namespace Biblioteca.Negocio
             }
         }
 
+        public bool ReadByRut()
+        {
+            try
+            {
+                List<DALC.Contrato> lista_contrato = bdd.Contrato.ToList();
+                foreach (DALC.Contrato item in lista_contrato)
+                {
+                    if (item.RutCliente.Equals(this.RutCliente))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public bool Update()
         {
             try
@@ -257,18 +277,85 @@ namespace Biblioteca.Negocio
                 return null;
             }
         }
-        /*
-        public List<Contrato> ReadAllByTipo()
+
+        public List<ListaContrato> ReadAllByTipo()
         {
             try
             {
-                return ReadAll().Where(c => c.IdTipoEvento == IdTipoEvento).ToList();
+                var x = from con in bdd.Contrato
+                        join ms in bdd.ModalidadServicio
+                        on con.IdModalidad equals ms.IdModalidad
+                        join te in bdd.TipoEvento
+                        on ms.IdTipoEvento equals te.IdTipoEvento
+                        join cli in bdd.Cliente
+                        on con.RutCliente equals cli.RutCliente
+                        where con.IdTipoEvento==this.IdTipoEvento
+                        select new ListaContrato()
+                        {
+                            Numero=con.Numero,
+                            RutCliente=con.RutCliente,
+                            RazonSocial=cli.RazonSocial,
+                            TipoDeEvento = te.Descripcion,
+                            ModalidadDeServicio = ms.Nombre,
+                            FechaCreacion =con.Creacion,
+                            FechaTermino=con.Termino,
+                            FechaHoraInicio=con.FechaHoraInicio,
+                            FechaHoraTermino=con.FechaHoraTermino,
+                            Asistentes=con.Asistentes,
+                            PersonalAdicional=con.PersonalAdicional,
+                            Vigencia =
+                            con.Realizado == true ? "Si" :
+                            "No",
+                            ValorTotalEvento = con.ValorTotalContrato,
+                            Observaciones=con.Observaciones
+                        };
+                return x.ToList();
             }
             catch (Exception)
             {
                 return null;
             }
-        }*/
+        }
+
+        public List<ListaContrato> ReadAllByModalidad()
+        {
+            try
+            {
+                var x = from con in bdd.Contrato
+                        join ms in bdd.ModalidadServicio
+                        on con.IdModalidad equals ms.IdModalidad
+                        join te in bdd.TipoEvento
+                        on ms.IdTipoEvento equals te.IdTipoEvento
+                        join cli in bdd.Cliente
+                        on con.RutCliente equals cli.RutCliente
+                        where con.IdModalidad == this.IdModalidad
+                        select new ListaContrato()
+                        {
+                            Numero = con.Numero,
+                            RutCliente = con.RutCliente,
+                            RazonSocial = cli.RazonSocial,
+                            TipoDeEvento = te.Descripcion,
+                            ModalidadDeServicio = ms.Nombre,
+                            FechaCreacion = con.Creacion,
+                            FechaTermino = con.Termino,
+                            FechaHoraInicio = con.FechaHoraInicio,
+                            FechaHoraTermino = con.FechaHoraTermino,
+                            Asistentes = con.Asistentes,
+                            PersonalAdicional = con.PersonalAdicional,
+                            Vigencia =
+                            con.Realizado == true ? "Si" :
+                            "No",
+                            ValorTotalEvento = con.ValorTotalContrato,
+                            Observaciones = con.Observaciones
+                        };
+                return x.ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
 
         public class ListaContrato
         {

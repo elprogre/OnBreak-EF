@@ -60,6 +60,39 @@ namespace Vista
             txtTotal.Text = "0";
         }
 
+        public void llenar(Contrato cont)
+        {
+            txtNumero.Text = cont.Numero;
+            string vigencia;
+            if (cont.Realizado)
+            {
+                vigencia = "Si";
+            }
+            else
+            {
+                vigencia = "No";
+            }
+            txtVigencia.Text = vigencia;
+            txtRut.Text = cont.RutCliente;
+            Cliente cli = new Cliente() { RutCliente = txtRut.Text };
+            cli.Read();
+            txtRazonSocial.Text = cli.RazonSocial;
+            TipoEvento te = new TipoEvento() { IdTipoEvento = cont.IdTipoEvento };
+            te.Read();
+            cboTipoEvento.Text = te.Descripcion;
+            ModalidadServicio ms = new ModalidadServicio() { IdModalidad = cont.IdModalidad };
+            ms.Read();
+            cboModalidadServicio.Text = ms.Nombre.Trim();
+            dtpFechaHoraInicio.Text = cont.Creacion.ToString("dd/MM/yyyy");
+            txtFechaHoraTermino.Text = cont.Termino.ToString("dd/MM/yyyy");
+            txtAsistentes.Text = cont.Asistentes.ToString();
+            calcularValorAsistente();
+            txtPersonalAdicional.Text = cont.PersonalAdicional.ToString();
+            calcularValorPersonalAdicional();
+            txtObservaciones.Text = cont.Observaciones;
+        }
+
+
         private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cboTipoEvento.SelectedIndex !=-1)
@@ -312,34 +345,7 @@ namespace Vista
                 bool resp = contrato.Read();
                 if (resp)
                 {
-                    txtNumero.Text = contrato.Numero;
-                    string vigencia;
-                    if (contrato.Realizado)
-                    {
-                        vigencia = "Si";
-                    }
-                    else
-                    {
-                        vigencia = "No";
-                    }
-                    txtVigencia.Text = vigencia;
-                    txtRut.Text = contrato.RutCliente;
-                    Cliente cli = new Cliente() { RutCliente = txtRut.Text };
-                    cli.Read();
-                    txtRazonSocial.Text = cli.RazonSocial;
-                    TipoEvento te = new TipoEvento() { IdTipoEvento = contrato.IdTipoEvento };
-                    te.Read();
-                    cboTipoEvento.Text = te.Descripcion;
-                    ModalidadServicio ms = new ModalidadServicio() { IdModalidad = contrato.IdModalidad };
-                    ms.Read();
-                    cboModalidadServicio.Text = ms.Nombre.Trim();
-                    dtpFechaHoraInicio.Text = contrato.Creacion.ToString("dd/MM/yyyy");
-                    txtFechaHoraTermino.Text = contrato.Termino.ToString("dd/MM/yyyy");
-                    txtAsistentes.Text = contrato.Asistentes.ToString();
-                    calcularValorAsistente();
-                    txtPersonalAdicional.Text = contrato.PersonalAdicional.ToString();
-                    calcularValorPersonalAdicional();
-                    txtObservaciones.Text = contrato.Observaciones;
+                    llenar(contrato);
 
                 }
                 else
@@ -438,6 +444,12 @@ namespace Vista
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btnListaContrato_Click(object sender, RoutedEventArgs e)
+        {
+            WpfListaContrato ventana = new WpfListaContrato(this);
+            ventana.Show();
         }
     }
 }
