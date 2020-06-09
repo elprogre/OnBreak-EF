@@ -141,5 +141,9 @@ namespace Vista
             }
         }
 
+        private void btnFiltros_Click(object sender, RoutedEventArgs e)
+        {
+            flyfiltros.IsOpen = true;
+        }
     }
 }

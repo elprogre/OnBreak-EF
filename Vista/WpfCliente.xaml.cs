@@ -68,7 +68,7 @@ namespace Vista
         }
 
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        private async void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -97,19 +97,19 @@ namespace Vista
                 }
 
                 bool resp = cli.Create();
-                MessageBox.Show(resp ? "Cliente Guardado" : "Cliente NO Guardo");
+                await this.ShowMessageAsync("Guardar:",resp ? "Cliente Guardado" : "Cliente NO Guardo");
                 limpiar();
                 txtRut.Focus();
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:",ex.Message);
             }
         }
 
 
-        private void btnRead_Click(object sender, RoutedEventArgs e)
+        private async void btnRead_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -127,12 +127,12 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace Vista
                 bool resp = cli.Update();
                 if (resp)
                 {
-                    MessageBox.Show("Cliente actualizado");
+                    await this.ShowMessageAsync("Actualizar:", "Cliente actualizado");
                     limpiar();
                     txtRut.Focus();
                 }
@@ -175,23 +175,22 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                MessageBoxResult resultado = MessageBox.Show("¿Desea eliminar al cliente?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (resultado == MessageBoxResult.Yes)
+                MessageDialogResult resultado = await this.ShowMessageAsync("Eliminar:", "Desea eliminar al cliente?",MessageDialogStyle.AffirmativeAndNegative);
+                if (resultado == MessageDialogResult.Affirmative)
                 {
                     bool respuestaContrato = new Contrato() { RutCliente = txtRut.Text }.ReadByRut();
                     if (respuestaContrato)
                     {
-                        throw new Exception("ERROR: No se puede eliminar un CLIENTE vinculado a un CONTRATO");
+                        throw new Exception("No se puede eliminar un CLIENTE vinculado a un CONTRATO");
                     }
                     else
                     {
@@ -199,7 +198,7 @@ namespace Vista
                         bool resp = cli.Delete();
                         if (resp)
                         {
-                            MessageBox.Show("Cliente Eliminado");
+                            await this.ShowMessageAsync("Eliminar:", "Cliente Eliminado");
                             limpiar();
                             txtRut.Focus();
                         }
@@ -218,21 +217,15 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
         private void btnListaCliente_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                WpfListaCliente ventana = new WpfListaCliente(this);
-                ventana.Show();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            WpfListaCliente ventana = new WpfListaCliente(this);
+            ventana.Show();
         }
+
     }
 }

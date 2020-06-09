@@ -47,51 +47,55 @@ namespace Vista
             txtRut.Clear();
             cboActividadEmpresa.SelectedIndex = -1;
             cboTipoEmpresa.SelectedIndex = -1;
+            FlyFiltros.IsOpen = false;
         }
 
 
-        private void btnFiltrarRut_Click(object sender, RoutedEventArgs e)
+        private async void btnFiltrarRut_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 dtgCliente.ItemsSource = new Cliente() { RutCliente = txtRut.Text }.ReadAllByRut();
+                FlyFiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
 
-        private void btnFiltrarActividadEmpresa_Click(object sender, RoutedEventArgs e)
+        private async void btnFiltrarActividadEmpresa_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 dtgCliente.ItemsSource = new Cliente() { IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa }
                     .ReadAllByActividad();
+                FlyFiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
 
-        private void btnFiltrarTipoEmpresa_Click(object sender, RoutedEventArgs e)
+        private async void btnFiltrarTipoEmpresa_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 dtgCliente.ItemsSource = new Cliente() { IdTipoEmpresa = ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa }
                     .ReadAllByTipoEmpresa();
+                FlyFiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
 
-        private void btnTraspasar_Click(object sender, RoutedEventArgs e)
+        private async void btnTraspasar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -114,8 +118,13 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
+        }
+
+        private void btnFiltrar_Click(object sender, RoutedEventArgs e)
+        {
+            FlyFiltros.IsOpen = true;
         }
     }
 }

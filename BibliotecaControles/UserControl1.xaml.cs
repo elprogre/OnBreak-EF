@@ -23,6 +23,8 @@ namespace BibliotecaControles
         public UserControl1()
         {
             InitializeComponent();
+            dtgFecha.DisplayDateStart = DateTime.Now;
+            dtgFecha.DisplayDateEnd = DateTime.Now.AddMonths(6);
         }
     }
 }
