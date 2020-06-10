@@ -55,6 +55,7 @@ namespace Vista
             try
             {
                 dtgContrato.ItemsSource = new Contrato() {Numero=txtNroContrato.Text }.ReadAllByNumeroContrato();
+                flyfiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
@@ -67,6 +68,7 @@ namespace Vista
             try
             {
                 dtgContrato.ItemsSource = new Contrato() { RutCliente = txtRut.Text }.ReadAllByRut();
+                flyfiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
@@ -80,6 +82,7 @@ namespace Vista
             {
                 dtgContrato.ItemsSource = new Contrato() { IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento }
                     .ReadAllByTipo();
+                flyfiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
@@ -93,6 +96,7 @@ namespace Vista
             {
                 dtgContrato.ItemsSource = new Contrato() { IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad }
                     .ReadAllByModalidad();
+                flyfiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
@@ -109,6 +113,7 @@ namespace Vista
                 cboModalidadServicio.SelectedIndex = -1;
                 txtNroContrato.Clear();
                 txtRut.Clear();
+                flyfiltros.IsOpen = false;
             }
             catch (Exception ex)
             {
