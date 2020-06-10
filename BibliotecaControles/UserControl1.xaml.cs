@@ -56,17 +56,24 @@ namespace BibliotecaControles
         {
             try
             {
-
+                dtgFecha.Text = fyh.ToString("dd/MM/yyyy");
+                string hora = fyh.ToString("HH");
+                string minu = fyh.ToString("mm");
+                if (hora.Substring(0,1)=="0")
+                {
+                    hora = hora.Substring(1,1);
+                }
+                if (minu.Substring(0, 1) == "0")
+                {
+                    minu = minu.Substring(1,1);
+                }
+                cboHora.Text = hora;
+                cboMinutos.Text = minu;
             }
             catch (Exception)
             {
                 throw new ArgumentException("No se puede visualizar la fecha y hora");
             }
-            dtgFecha.Text = fyh.ToString("dd/MM/yyyy");
-            string hora = fyh.ToString("HH");
-            string minu = fyh.ToString("mm");
-            cboHora.Text = hora;
-            cboMinutos.Text = minu;
         }
 
         public void LimpiarControl()

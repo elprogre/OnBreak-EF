@@ -50,7 +50,7 @@ namespace Vista
             
         }
 
-        private void btnFiltrarNroContrato_Click(object sender, RoutedEventArgs e)
+        private async void btnFiltrarNroContrato_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -58,11 +58,11 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
-        private void btnFiltrarRut_Click(object sender, RoutedEventArgs e)
+        private async void btnFiltrarRut_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -70,11 +70,11 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
-        private void btnFiltrarTipoEvento_Click(object sender, RoutedEventArgs e)
+        private async void btnFiltrarTipoEvento_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -83,11 +83,11 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
-        private void btnModalidadServicio_Click(object sender, RoutedEventArgs e)
+        private async void btnModalidadServicio_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -96,11 +96,11 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
-        private void btnClear_Click(object sender, RoutedEventArgs e)
+        private async void btnClear_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
@@ -123,7 +123,7 @@ namespace Vista
 
         }
 
-        private void btnTraspasar_Click(object sender, RoutedEventArgs e)
+        private async void btnTraspasar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 

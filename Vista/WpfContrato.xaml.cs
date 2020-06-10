@@ -48,7 +48,7 @@ namespace Vista
             lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy");
             ctrFechaHoraInicio.LimpiarControl();
             ctrFechaHoraFin.LimpiarControl();
-            txtFechaCreacion.Text = "";
+            txtFechaCreacion.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             txtFechaTermino.Text = "";
             txtVigencia.Text = "";
             txtRut.Text = "";
@@ -67,6 +67,7 @@ namespace Vista
 
         public void llenar(Contrato cont)
         {
+            contrato = cont;
             txtNumero.Text = cont.Numero;
             string vigencia;
             if (cont.Realizado)
@@ -88,8 +89,10 @@ namespace Vista
             ModalidadServicio ms = new ModalidadServicio() { IdModalidad = cont.IdModalidad };
             ms.Read();
             cboModalidadServicio.Text = ms.Nombre.Trim();
-            /*dtpFechaHoraInicio.Text = cont.Creacion.ToString("dd/MM/yyyy");
-            txtFechaHoraTermino.Text = cont.Termino.ToString("dd/MM/yyyy");*/
+            ctrFechaHoraInicio.VerFechaYHora(cont.FechaHoraInicio);
+            ctrFechaHoraFin.VerFechaYHora(cont.FechaHoraTermino);
+            txtFechaCreacion.Text = cont.Creacion.ToString("dd/MM/yyyy HH:mm");
+            txtFechaTermino.Text= cont.Termino.ToString("dd/MM/yyyy HH:mm");
             txtAsistentes.Text = cont.Asistentes.ToString();
             calcularValorAsistente();
             txtPersonalAdicional.Text = cont.PersonalAdicional.ToString();
@@ -237,7 +240,6 @@ namespace Vista
         private void ctrFechaHoraFin_LostFocus(object sender, RoutedEventArgs e)
         {
             ctrFechaHoraFin.RecuperarFechaHora();
-            txtFechaCreacion.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             txtFechaTermino.Text = ctrFechaHoraFin.RecuperarFechaHora().ToString("dd/MM/yyyy HH:mm");
         }
 
@@ -248,7 +250,7 @@ namespace Vista
         }
 
 
-        private void btnComprobar_Click(object sender, RoutedEventArgs e)
+        private async void btnComprobar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -260,32 +262,25 @@ namespace Vista
                 }
                 else
                 {
-                    MessageBox.Show("Cliente no existe");
+                    await this.ShowMessageAsync("Comprobar:", "Cliente no existe");
                     txtRazonSocial.Text = "Razon Social";
                     txtRut.Clear();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
 
         private void btnListaCliente_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                WpfListaCliente ventana = new WpfListaCliente(this);
-                ventana.Show();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            WpfListaCliente ventana = new WpfListaCliente(this);
+            ventana.Show();
         }
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        private async void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -299,11 +294,15 @@ namespace Vista
                 {
                     throw new Exception("Rut del cliente no existe");
                 }
-                //FALTA ASIGNARLE LOS CONTROLES DE FECHA Y HORA A ESTO
-                contrato.Creacion = DateTime.Now;
+                if (ctrFechaHoraInicio.RecuperarFechaHora()>ctrFechaHoraFin.RecuperarFechaHora())
+                {
+                    throw new Exception("La FechaHoraInicio no puede ser mayor a la FechaHoraTermino");
+                }
+                contrato.Creacion = DateTime.ParseExact(txtFechaCreacion.Text, "dd-MM-yyyy HH:mm", null); 
                 contrato.Termino = ctrFechaHoraFin.RecuperarFechaHora();
                 contrato.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
                 contrato.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
+                
                 if (cboTipoEvento.SelectedIndex>=0)
                 {
                     contrato.IdTipoEvento =((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
@@ -326,17 +325,17 @@ namespace Vista
                 contrato.Observaciones = txtObservaciones.Text;
 
                 bool respContrato = contrato.Create();
-                MessageBox.Show(respContrato ? "Contrato Guardado" : "Contrato NO Guardo");
+                await this.ShowMessageAsync("Guardar:", respContrato ? "Contrato Guardado" : "Contrato NO Guardo");
                 limpiar();
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
-        private void btnRead_Click(object sender, RoutedEventArgs e)
+        private async void btnRead_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -351,17 +350,17 @@ namespace Vista
                 }
                 else
                 {
-                    MessageBox.Show("Contrato NO Encontrado");
+                    await this.ShowMessageAsync("Buscar:", "Contrato NO Encontrado");
                 }
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -375,15 +374,14 @@ namespace Vista
                 {
                     throw new Exception("Rut del cliente no existe");
                 }
-                //FALTA ASIGNARLE LOS CONTROLES DE FECHA Y HORA A ESTO
-                contrato.Creacion = DateTime.Now;
-                contrato.Termino = contrato.Creacion.AddYears(1);
-                /*contrato.FechaHoraInicio = contrato.Creacion;
-                contrato.FechaHoraTermino = contrato.FechaHoraTermino;*/
-                /*contrato.Creacion = DateTime.Now;
-                contrato.Termino = DateTime.Now;*/
-                contrato.FechaHoraInicio = DateTime.Now;
-                contrato.FechaHoraTermino = DateTime.Now;
+                if (ctrFechaHoraInicio.RecuperarFechaHora() > ctrFechaHoraFin.RecuperarFechaHora())
+                {
+                    throw new Exception("La FechaHoraInicio no puede ser mayor a la FechaHoraTermino");
+                }
+                contrato.Creacion = DateTime.ParseExact(txtFechaCreacion.Text, "dd-MM-yyyy HH:mm", null);
+                contrato.Termino = ctrFechaHoraFin.RecuperarFechaHora();
+                contrato.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
+                contrato.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
 
                 if (cboTipoEvento.SelectedIndex >= 0)
                 {
@@ -407,28 +405,27 @@ namespace Vista
                 contrato.Observaciones = txtObservaciones.Text;
 
                 bool resp = contrato.Update();
-                MessageBox.Show(resp ? "Contrato Guardado" : "Contrato NO Guardo");
+                await this.ShowMessageAsync("Actualizar:", resp ? "Contrato Actualizo" : "Contrato NO Actualizo");
                 limpiar();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                MessageBoxResult resultado = MessageBox.Show("¿Desea terminar el contrato?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (resultado == MessageBoxResult.Yes)
+                MessageDialogResult resultado = await this.ShowMessageAsync("Terminar:", "Desea Terminar la vigencia de este contrato?", MessageDialogStyle.AffirmativeAndNegative);
+                if (resultado == MessageDialogResult.Affirmative)
                 {
                     contrato = new Contrato() { Numero = txtNumero.Text };
                     bool resp = contrato.Delete();
                     if (resp)
                     {
-                        MessageBox.Show("Vigencia Del Contrato Terminada");
+                        await this.ShowMessageAsync("Terminar:", "Vigencia del contrato TERMINADA");
                         limpiar();
                     }
                     else
@@ -443,7 +440,7 @@ namespace Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
 

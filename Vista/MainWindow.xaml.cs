@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Biblioteca.Negocio;
 
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -27,6 +28,8 @@ namespace Vista
         public MainWindow()
         {
             InitializeComponent();
+            Contrato contratos = new Contrato();
+            contratos.TerminarAllContratos();
         }
 
         private void BtnCliente_Click(object sender, RoutedEventArgs e)

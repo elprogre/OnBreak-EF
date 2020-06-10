@@ -136,9 +136,16 @@ namespace Biblioteca.Negocio
             try
             {
                 DALC.Contrato con = bdd.Contrato.First(c => c.Numero.Equals(Numero));
-                CommonBC.Syncronize(this, con);
-                bdd.SaveChanges();
-                return true;
+                if (con.Realizado)
+                {
+                    CommonBC.Syncronize(this, con);
+                    bdd.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
@@ -160,6 +167,20 @@ namespace Biblioteca.Negocio
             {
                 return false;
             }
+        }
+
+        public void TerminarAllContratos()
+        {
+             List<DALC.Contrato> lista_contrato = bdd.Contrato.ToList();
+             foreach (DALC.Contrato item in lista_contrato)
+             {
+                 if (item.Termino>DateTime.Now)
+                 {
+                     DALC.Contrato contrato = item;
+                     contrato.Realizado = false;
+                     bdd.SaveChanges();
+                 }
+             }
         }
 
         public List<ListaContrato> ReadAll()
