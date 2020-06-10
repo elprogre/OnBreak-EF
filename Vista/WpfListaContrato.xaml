@@ -10,7 +10,7 @@
         xmlns:behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         
-        Title="Menu: Lista de contratos" Height="497.485" Width="1073.623">
+        Title="Menu: Lista de contratos" Height="497.485" Width="1073.623" Icon="img/Document-Find.png">
     <Grid>
         <Button x:Name="btnClear" Content="Quitar filtros" HorizontalAlignment="Left" Height="44" Margin="908,206,0,0" VerticalAlignment="Top" Width="136" Click="btnClear_Click"/>
         <Button x:Name="btnTraspasar" Content="Traspasar" HorizontalAlignment="Left" Height="44" Margin="908,255,0,0" VerticalAlignment="Top" Width="136" Click="btnTraspasar_Click"/>
