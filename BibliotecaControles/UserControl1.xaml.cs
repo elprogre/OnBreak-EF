@@ -25,6 +25,56 @@ namespace BibliotecaControles
             InitializeComponent();
             dtgFecha.DisplayDateStart = DateTime.Now;
             dtgFecha.DisplayDateEnd = DateTime.Now.AddMonths(6);
+            for (int i = 0; i < 24; i++)
+            {
+                cboHora.Items.Add(i);
+            }
+            for (int i = 0; i < 60; i++)
+            {
+                cboMinutos.Items.Add(i);
+            }
         }
+        public DateTime RecuperarFechaHora()
+        {
+            try
+            {
+                int anno = ((DateTime)dtgFecha.SelectedDate).Year;
+                int mes = ((DateTime)dtgFecha.SelectedDate).Month;
+                int dia = ((DateTime)dtgFecha.SelectedDate).Day;
+                int hora = int.Parse(cboHora.SelectedValue.ToString());
+                int minuto = int.Parse(cboMinutos.SelectedValue.ToString());
+                DateTime fyh = new DateTime(anno,mes,dia,hora,minuto,0);
+                return fyh;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Error en recuperar datos");
+            }
+        }
+
+        public void VerFechaYHora(DateTime fyh)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("No se puede visualizar la fecha y hora");
+            }
+            dtgFecha.Text = fyh.ToString("dd/MM/yyyy");
+            string hora = fyh.ToString("HH");
+            string minu = fyh.ToString("mm");
+            cboHora.Text = hora;
+            cboMinutos.Text = minu;
+        }
+
+        public void LimpiarControl()
+        {
+            dtgFecha.SelectedDate=DateTime.Now;
+            cboHora.SelectedIndex = 0;
+            cboMinutos.SelectedIndex = 0;
+        }
+
     }
 }

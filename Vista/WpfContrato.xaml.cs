@@ -45,9 +45,11 @@ namespace Vista
             valorPersonalAdicional = 0;
             txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");
             DateTime hoy = DateTime.Now;
-            lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy  HH:mm");
-            dtpFechaHoraInicio.Text= hoy.ToString("dd/MM/yyyy");
-            txtFechaHoraTermino.Clear();
+            lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy");
+            ctrFechaHoraInicio.LimpiarControl();
+            ctrFechaHoraFin.LimpiarControl();
+            txtFechaCreacion.Text = "";
+            txtFechaTermino.Text = "";
             txtVigencia.Text = "";
             txtRut.Text = "";
             txtRazonSocial.Text = "Razon Social";
@@ -86,8 +88,8 @@ namespace Vista
             ModalidadServicio ms = new ModalidadServicio() { IdModalidad = cont.IdModalidad };
             ms.Read();
             cboModalidadServicio.Text = ms.Nombre.Trim();
-            dtpFechaHoraInicio.Text = cont.Creacion.ToString("dd/MM/yyyy");
-            txtFechaHoraTermino.Text = cont.Termino.ToString("dd/MM/yyyy");
+            /*dtpFechaHoraInicio.Text = cont.Creacion.ToString("dd/MM/yyyy");
+            txtFechaHoraTermino.Text = cont.Termino.ToString("dd/MM/yyyy");*/
             txtAsistentes.Text = cont.Asistentes.ToString();
             calcularValorAsistente();
             txtPersonalAdicional.Text = cont.PersonalAdicional.ToString();
@@ -232,10 +234,11 @@ namespace Vista
             calcularValorPersonalAdicional();
         }
 
-
-        private void dtpFechaHoraInicio_LostFocus(object sender, RoutedEventArgs e)
+        private void ctrFechaHoraFin_LostFocus(object sender, RoutedEventArgs e)
         {
-            txtFechaHoraTermino.Text = (((DateTime)dtpFechaHoraInicio.SelectedDate).AddYears(1)).ToString("dd/MM/yyyy");
+            ctrFechaHoraFin.RecuperarFechaHora();
+            txtFechaCreacion.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            txtFechaTermino.Text = ctrFechaHoraFin.RecuperarFechaHora().ToString("dd/MM/yyyy HH:mm");
         }
 
 
@@ -297,15 +300,10 @@ namespace Vista
                     throw new Exception("Rut del cliente no existe");
                 }
                 //FALTA ASIGNARLE LOS CONTROLES DE FECHA Y HORA A ESTO
-                contrato.Creacion = (DateTime)dtpFechaHoraInicio.SelectedDate;
-                contrato.Termino = contrato.Creacion.AddYears(1);
-                /*contrato.FechaHoraInicio = contrato.Creacion;
-                contrato.FechaHoraTermino = contrato.FechaHoraTermino;*/
-                /*contrato.Creacion = DateTime.Now;
-                contrato.Termino = DateTime.Now;*/
-                contrato.FechaHoraInicio = DateTime.Now;
-                contrato.FechaHoraTermino = DateTime.Now;
-
+                contrato.Creacion = DateTime.Now;
+                contrato.Termino = ctrFechaHoraFin.RecuperarFechaHora();
+                contrato.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
+                contrato.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
                 if (cboTipoEvento.SelectedIndex>=0)
                 {
                     contrato.IdTipoEvento =((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
@@ -378,7 +376,7 @@ namespace Vista
                     throw new Exception("Rut del cliente no existe");
                 }
                 //FALTA ASIGNARLE LOS CONTROLES DE FECHA Y HORA A ESTO
-                contrato.Creacion = (DateTime)dtpFechaHoraInicio.SelectedDate;
+                contrato.Creacion = DateTime.Now;
                 contrato.Termino = contrato.Creacion.AddYears(1);
                 /*contrato.FechaHoraInicio = contrato.Creacion;
                 contrato.FechaHoraTermino = contrato.FechaHoraTermino;*/
@@ -454,5 +452,6 @@ namespace Vista
             WpfListaContrato ventana = new WpfListaContrato(this);
             ventana.Show();
         }
+
     }
 }

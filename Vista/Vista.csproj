@@ -193,5 +193,11 @@
   <ItemGroup>
     <Resource Include="img\Clientes.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\Actualizar Contrato.png" />
+    <Resource Include="img\Buscar Contrato.png" />
+    <Resource Include="img\Guardar Contrato.png" />
+    <Resource Include="img\Terminar Contrato.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
