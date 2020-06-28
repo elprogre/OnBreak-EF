@@ -13,8 +13,7 @@
         
         Title="Menu inicio" Height="342.077" Width="684.368" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="img/Icono Inicio.png">
     <Grid>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="115" Margin="526,10,0,0" VerticalAlignment="Top" Width="115" Source="img/Logo OnBreak.png"/>
-        
+
         <Controls:Tile Title="Clientes" Margin="31,163,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="BtnCliente_Click">
             <Image Source="img/Clientes.png"></Image>
         </Controls:Tile>
@@ -30,5 +29,8 @@
         <Controls:Tile Title="Lista Contratos" Margin="505,163,0,0" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Click="btnListaContrato_Click">
             <Image Source="img/Document-Find.png"></Image>
         </Controls:Tile>
+        <Grid Margin="0,0,0,168" Background="Gray">
+            <Image x:Name="image" HorizontalAlignment="Left" Height="115" Margin="526,10,0,0" VerticalAlignment="Top" Width="115" Source="img/Logo OnBreak.png"/>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>

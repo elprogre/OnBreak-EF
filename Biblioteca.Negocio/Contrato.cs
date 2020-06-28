@@ -174,7 +174,7 @@ namespace Biblioteca.Negocio
              List<DALC.Contrato> lista_contrato = bdd.Contrato.ToList();
              foreach (DALC.Contrato item in lista_contrato)
              {
-                 if (item.Termino>DateTime.Now)
+                 if (item.Termino<DateTime.Now)
                  {
                      DALC.Contrato contrato = item;
                      contrato.Realizado = false;
@@ -395,10 +395,10 @@ namespace Biblioteca.Negocio
                 set { _modalidadservicio = value.Trim(); }
             }
 
-            public DateTime FechaCreacion { get; set; }
-            public DateTime FechaTermino { get; set; }
             public DateTime FechaHoraInicio { get; set; }
             public DateTime FechaHoraTermino { get; set; }
+            public DateTime FechaCreacion { get; set; }
+            public DateTime FechaTermino { get; set; }
             public int Asistentes { get; set; }
             public int PersonalAdicional { get; set; }
             public string Vigencia { get; set; }
