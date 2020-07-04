@@ -12,9 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Biblioteca.Negocio;
+
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
+
+//Cacheo simple
+using System.Runtime.Caching; //Libreria para el uso de Cache
+using System.Windows.Threading; //libreria de uso de Hilos
+using System.Runtime.Serialization.Formatters.Binary; //Serializar en un formato binario el cliente y dejarlo en un archivo
+using System.IO;//Manejar Archivos
 
 namespace Vista
 {
@@ -23,11 +30,153 @@ namespace Vista
     /// </summary>
     public partial class WpfCliente : MetroWindow
     {
+        //Creación de objeto TIMER
+        DispatcherTimer dt = new DispatcherTimer();
+        int x = 0; //contar veces que guardo cache
+        //Creación de objeto donde almacena el Cache
+        private ObjectCache cache = MemoryCache.Default;
+
+
         public WpfCliente()
         {
             InitializeComponent();
             cboActividadEmpresa.ItemsSource = new ActividadEmpresa().ReadAll();
             cboTipoEmpresa.ItemsSource = new TipoEmpresa().ReadAll();
+
+
+            ////ejemplo para que no de error
+            cboActividadEmpresa.SelectedIndex = 0;
+            cboTipoEmpresa.SelectedIndex = 0;
+
+            //Antes verificamos si existio un cache
+            //verificarCache(); //Cache simple
+
+            //Verificar si existe archivo binario
+            verificarArchivoBinario(); 
+
+            //Definir el tiempo para el objeto TIMER
+            dt.Interval = TimeSpan.FromSeconds(15); //Se ejecuta cada dias segundos
+            //Definición del metodo que se genera cada 10 segundos
+            dt.Tick += dtTiempo;
+            dt.Start(); //inicia el timer
+        }
+
+
+        private async void verificarArchivoBinario() //Archivo binario
+        {
+            string ruta = @"c:/Copias/ArchivoBin.bin";
+            if (File.Exists(ruta))
+            {
+                MessageDialogResult resul = await this.ShowMessageAsync("Informacion",
+                    "Hay una copia de datos en el cache ¿Desea Recuperarlos?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+                if (resul == MessageDialogResult.Affirmative)
+                {
+                    Stream stream = File.OpenRead(ruta);
+                    BinaryFormatter formato = new BinaryFormatter();
+                    ClienteCache cli = (ClienteCache)formato.Deserialize(stream);
+                    llenarDatosCache(cli);
+                    stream.Close();
+                }
+                else
+                {
+                    File.Delete(ruta);
+                }
+            }
+            
+        }
+
+
+        private async void verificarCache() //Cache simple
+        {
+            ClienteCache cli = (ClienteCache)cache["cliente"];
+            if (cli==null)
+            {
+                this.Title = "No hay nada en el cache";
+            }
+            else
+            {
+                MessageDialogResult resul = await this.ShowMessageAsync("Informacion",
+                    "Hay una copia de datos en el cache ¿Desea Recuperarlos?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+                if (resul==MessageDialogResult.Affirmative)
+                {
+                    llenarDatosCache(cli);
+                }
+            }
+        }
+
+
+        private void llenarDatosCache(ClienteCache cli)
+        {
+            txtRut.Text = cli.RutCliente;
+            txtRazonSocial.Text = cli.RazonSocial;
+            txtNombre.Text = cli.NombreContacto;
+            txtTelefono.Text = cli.Telefono;
+            txtMail.Text = cli.MailContacto;
+            txtDireccion.Text = cli.Direccion;
+            ActividadEmpresa act = new ActividadEmpresa() { IdActividadEmpresa = cli.IdActividadEmpresa };
+            act.Read();
+            cboActividadEmpresa.Text = act.Descripcion;
+            TipoEmpresa tip = new TipoEmpresa() { IdTipoEmpresa = cli.IdTipoEmpresa };
+            tip.Read();
+            cboTipoEmpresa.Text = tip.Descripcion;
+        }
+
+
+        private void dtTiempo(object sender, EventArgs e)
+        {
+            x++;
+            //grabarCache();
+            grabarClienteBIN();
+        }
+
+        private void grabarCache()
+        {
+            this.Title = "Almaceno Cache :" + x;
+            /////////////////////////////////
+            //Proceso almacenar datos
+            ClienteCache cli = new ClienteCache();
+            cli.RutCliente = txtRut.Text;
+            cli.RazonSocial = txtRazonSocial.Text;
+            cli.NombreContacto = txtNombre.Text;
+            cli.Telefono = txtTelefono.Text;
+            cli.MailContacto = txtMail.Text;
+            cli.Direccion = txtDireccion.Text;
+            cli.IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa;
+            cli.IdTipoEmpresa = ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa;
+            //Creación de una politica de acceso al cache
+            CacheItemPolicy politica = new CacheItemPolicy();
+            politica.Priority = CacheItemPriority.Default;
+            politica.AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(100);
+            //Almacenar el cache
+            cache.Set("cliente", cli, politica);
+        }
+
+        private void grabarClienteBIN()
+        {
+            this.Title = "Almaceno Archivo Binario :" + x;
+            /////////////////////////////////
+            //Proceso almacenar datos
+            ClienteCache cli = new ClienteCache();
+            cli.RutCliente = txtRut.Text;
+            cli.RazonSocial = txtRazonSocial.Text;
+            cli.NombreContacto = txtNombre.Text;
+            cli.Telefono = txtTelefono.Text;
+            cli.MailContacto = txtMail.Text;
+            cli.Direccion = txtDireccion.Text;
+            cli.IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa;
+            cli.IdTipoEmpresa = ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa;
+            string ruta = @"c:/Copias/ArchivoBin.bin";
+            if (File.Exists(ruta))
+            {
+                File.Delete(ruta);
+            }
+            Stream grabar_Archivo = File.Create(ruta);
+            BinaryFormatter serializador = new BinaryFormatter();
+            serializador.Serialize(grabar_Archivo, cli);
+            grabar_Archivo.Close();
+            
         }
 
 
