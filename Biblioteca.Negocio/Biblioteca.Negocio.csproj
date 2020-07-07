@@ -51,12 +51,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActividadEmpresa.cs" />
+    <Compile Include="CareTaker.cs" />
+    <Compile Include="Cenas.cs" />
     <Compile Include="Cliente.cs" />
+    <Compile Include="Cocktail.cs" />
+    <Compile Include="CoffeeBreak.cs" />
     <Compile Include="CommonBC.cs" />
+    <Compile Include="ContratoSalvar.cs" />
     <Compile Include="Contrato.cs" />
+    <Compile Include="Evento.cs" />
     <Compile Include="IMetodos.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Memento.cs" />
     <Compile Include="ModalidadServicio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TipoAmbientacion.cs" />
     <Compile Include="TipoEmpresa.cs" />
     <Compile Include="TipoEvento.cs" />
   </ItemGroup>

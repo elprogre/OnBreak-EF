@@ -405,5 +405,9 @@ namespace Biblioteca.Negocio
             public double ValorTotalEvento { get; set; }
             public string Observaciones { get; set; }
         }
+
+
+
     }
+
 }

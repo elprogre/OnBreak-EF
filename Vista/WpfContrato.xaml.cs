@@ -450,5 +450,42 @@ namespace Vista
             ventana.Show();
         }
 
+        private async void button_Click(object sender, RoutedEventArgs e)
+        {
+            Memento memento=new Memento();
+            ContratoSalvar cont = new ContratoSalvar();
+            cont.Numero = txtNumero.Text;
+            cont.RutCliente = txtRut.Text;
+            cont.Creacion = DateTime.Now;
+            cont.Termino = ctrFechaHoraFin.RecuperarFechaHora();
+            cont.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
+            cont.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
+
+            if (cboTipoEvento.SelectedIndex >= 0)
+            {
+                cont.IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
+            }
+            else
+            {
+                cont.IdTipoEvento = -1; //-1 quiere decir null al momento de recuperar
+            }
+            if (cboModalidadServicio.SelectedIndex >= 0)
+            {
+                cont.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
+            }
+            else
+            {
+                cont.IdModalidad = "-1"; //"-1" quiere decir null al momento de recuperar
+            }
+            cont.Asistentes = int.Parse(txtAsistentes.Text);
+            cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
+            cont.ValorTotalContrato = 0;
+            cont.Realizado = true;
+            cont.Observaciones = txtObservaciones.Text;
+
+            memento.Salvar(cont);
+            await this.ShowMessageAsync("Copia de seguridad:", "Guardado Exitosamente");
+
+        }
     }
 }

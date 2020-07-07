@@ -17,6 +17,7 @@ using Biblioteca.Negocio;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
+using MahApps.Metro;
 
 namespace Vista
 {
@@ -54,6 +55,11 @@ namespace Vista
         {
             WpfListaContrato ventana = new WpfListaContrato(this);
             ventana.Show();
+        }
+
+        private void btnAltoContraste_Click(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.ChangeAppTheme(this, "BaseDark");
         }
     }
 }

@@ -88,6 +88,7 @@
         <Controls:Tile Title="Terminar" Margin="541,736,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnDelete_Click">
             <Image Source="img/Terminar Contrato.png"></Image>
         </Controls:Tile>
+        <Button x:Name="button" Content="Copia. Seguridad" HorizontalAlignment="Left" Height="38" Margin="512,59,0,0" VerticalAlignment="Top" Width="126" Click="button_Click"/>
 
     </Grid>
 </Controls:MetroWindow>

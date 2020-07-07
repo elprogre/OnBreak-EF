@@ -31,5 +31,9 @@ namespace Biblioteca.DALC
         public virtual DbSet<ModalidadServicio> ModalidadServicio { get; set; }
         public virtual DbSet<TipoEmpresa> TipoEmpresa { get; set; }
         public virtual DbSet<TipoEvento> TipoEvento { get; set; }
+        public virtual DbSet<Cenas> Cenas { get; set; }
+        public virtual DbSet<Cocktail> Cocktail { get; set; }
+        public virtual DbSet<CoffeeBreak> CoffeeBreak { get; set; }
+        public virtual DbSet<TipoAmbientacion> TipoAmbientacion { get; set; }
     }
 }

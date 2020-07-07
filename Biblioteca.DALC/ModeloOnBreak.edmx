@@ -4,13 +4,24 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="OnBreakModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OnBreakModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActividadEmpresa">
           <Key>
             <PropertyRef Name="IdActividadEmpresa" />
           </Key>
           <Property Name="IdActividadEmpresa" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cenas">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="IdTipoAmbientacion" Type="int" Nullable="false" />
+          <Property Name="MusicaAmbiental" Type="bit" Nullable="false" />
+          <Property Name="LocalOnBreak" Type="bit" Nullable="false" />
+          <Property Name="OtroLocalOnBreak" Type="bit" Nullable="false" />
+          <Property Name="ValorArriendo" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Cliente">
           <Key>
@@ -24,6 +35,23 @@
           <Property Name="Telefono" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="IdActividadEmpresa" Type="int" Nullable="false" />
           <Property Name="IdTipoEmpresa" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cocktail">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="IdTipoAmbientacion" Type="int" Nullable="false" />
+          <Property Name="Ambientacion" Type="bit" Nullable="false" />
+          <Property Name="MusicaAmbiental" Type="bit" Nullable="false" />
+          <Property Name="MusicaCliente" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CoffeeBreak">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Vegetariana" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Contrato">
           <Key>
@@ -54,6 +82,13 @@
           <Property Name="ValorBase" Type="float" Nullable="false" />
           <Property Name="PersonalBase" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="TipoAmbientacion">
+          <Key>
+            <PropertyRef Name="IdTipoAmbientacion" />
+          </Key>
+          <Property Name="IdTipoAmbientacion" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
         <EntityType Name="TipoEmpresa">
           <Key>
             <PropertyRef Name="IdTipoEmpresa" />
@@ -68,6 +103,18 @@
           <Property Name="IdTipoEvento" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="15" Nullable="false" />
         </EntityType>
+        <Association Name="Cena_TipoAmbientacion_FK1">
+          <End Role="TipoAmbientacion" Type="Self.TipoAmbientacion" Multiplicity="1" />
+          <End Role="Cenas" Type="Self.Cenas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoAmbientacion">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Principal>
+            <Dependent Role="Cenas">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Cliente_ActividadEmpresa_FK1">
           <End Role="ActividadEmpresa" Type="Self.ActividadEmpresa" Multiplicity="1" />
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
@@ -92,6 +139,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Cocktail_TipoAmbientacion_FK1">
+          <End Role="TipoAmbientacion" Type="Self.TipoAmbientacion" Multiplicity="1" />
+          <End Role="Cocktail" Type="Self.Cocktail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoAmbientacion">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Principal>
+            <Dependent Role="Cocktail">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contrato_Cenas_FK1">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="Cenas" Type="Self.Cenas" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Cenas">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Contrato_Cliente_FK1">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
@@ -101,6 +172,30 @@
             </Principal>
             <Dependent Role="Contrato">
               <PropertyRef Name="RutCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contrato_Cocktail_FK1">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="Cocktail" Type="Self.Cocktail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Cocktail">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contrato_CoffeeBreak_FK1">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="CoffeeBreak" Type="Self.CoffeeBreak" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="CoffeeBreak">
+              <PropertyRef Name="Numero" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -132,11 +227,19 @@
         </Association>
         <EntityContainer Name="OnBreakModelStoreContainer">
           <EntitySet Name="ActividadEmpresa" EntityType="Self.ActividadEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cenas" EntityType="Self.Cenas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cocktail" EntityType="Self.Cocktail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CoffeeBreak" EntityType="Self.CoffeeBreak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contrato" EntityType="Self.Contrato" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModalidadServicio" EntityType="Self.ModalidadServicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoAmbientacion" EntityType="Self.TipoAmbientacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoEmpresa" EntityType="Self.TipoEmpresa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoEvento" EntityType="Self.TipoEvento" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Cena_TipoAmbientacion_FK1" Association="Self.Cena_TipoAmbientacion_FK1">
+            <End Role="TipoAmbientacion" EntitySet="TipoAmbientacion" />
+            <End Role="Cenas" EntitySet="Cenas" />
+          </AssociationSet>
           <AssociationSet Name="Cliente_ActividadEmpresa_FK1" Association="Self.Cliente_ActividadEmpresa_FK1">
             <End Role="ActividadEmpresa" EntitySet="ActividadEmpresa" />
             <End Role="Cliente" EntitySet="Cliente" />
@@ -145,9 +248,25 @@
             <End Role="TipoEmpresa" EntitySet="TipoEmpresa" />
             <End Role="Cliente" EntitySet="Cliente" />
           </AssociationSet>
+          <AssociationSet Name="Cocktail_TipoAmbientacion_FK1" Association="Self.Cocktail_TipoAmbientacion_FK1">
+            <End Role="TipoAmbientacion" EntitySet="TipoAmbientacion" />
+            <End Role="Cocktail" EntitySet="Cocktail" />
+          </AssociationSet>
+          <AssociationSet Name="Contrato_Cenas_FK1" Association="Self.Contrato_Cenas_FK1">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Cenas" EntitySet="Cenas" />
+          </AssociationSet>
           <AssociationSet Name="Contrato_Cliente_FK1" Association="Self.Contrato_Cliente_FK1">
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="Contrato_Cocktail_FK1" Association="Self.Contrato_Cocktail_FK1">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Cocktail" EntitySet="Cocktail" />
+          </AssociationSet>
+          <AssociationSet Name="Contrato_CoffeeBreak_FK1" Association="Self.Contrato_CoffeeBreak_FK1">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="CoffeeBreak" EntitySet="CoffeeBreak" />
           </AssociationSet>
           <AssociationSet Name="Contrato_ModalidadEvento_FK1" Association="Self.Contrato_ModalidadEvento_FK1">
             <End Role="ModalidadServicio" EntitySet="ModalidadServicio" />
@@ -158,8 +277,7 @@
             <End Role="ModalidadServicio" EntitySet="ModalidadServicio" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="OnBreakModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -206,6 +324,9 @@
           <Property Name="Observaciones" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Cliente" Relationship="Self.Contrato_Cliente_FK1" FromRole="Contrato" ToRole="Cliente" />
           <NavigationProperty Name="ModalidadServicio" Relationship="Self.Contrato_ModalidadEvento_FK1" FromRole="Contrato" ToRole="ModalidadServicio" />
+          <NavigationProperty Name="Cenas" Relationship="OnBreakModel.Contrato_Cenas_FK1" FromRole="Contrato" ToRole="Cenas" />
+          <NavigationProperty Name="Cocktail" Relationship="OnBreakModel.Contrato_Cocktail_FK1" FromRole="Contrato" ToRole="Cocktail" />
+          <NavigationProperty Name="CoffeeBreak" Relationship="OnBreakModel.Contrato_CoffeeBreak_FK1" FromRole="Contrato" ToRole="CoffeeBreak" />
         </EntityType>
         <EntityType Name="ModalidadServicio">
           <Key>
@@ -325,7 +446,133 @@
             <End Role="TipoEvento" EntitySet="TipoEvento" />
             <End Role="ModalidadServicio" EntitySet="ModalidadServicio" />
           </AssociationSet>
+          <EntitySet Name="Cenas" EntityType="OnBreakModel.Cenas" />
+          <EntitySet Name="Cocktail" EntityType="OnBreakModel.Cocktail" />
+          <EntitySet Name="CoffeeBreak" EntityType="OnBreakModel.CoffeeBreak" />
+          <EntitySet Name="TipoAmbientacion" EntityType="OnBreakModel.TipoAmbientacion" />
+          <AssociationSet Name="Cena_TipoAmbientacion_FK1" Association="OnBreakModel.Cena_TipoAmbientacion_FK1">
+            <End Role="TipoAmbientacion" EntitySet="TipoAmbientacion" />
+            <End Role="Cenas" EntitySet="Cenas" />
+          </AssociationSet>
+          <AssociationSet Name="Contrato_Cenas_FK1" Association="OnBreakModel.Contrato_Cenas_FK1">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Cenas" EntitySet="Cenas" />
+          </AssociationSet>
+          <AssociationSet Name="Cocktail_TipoAmbientacion_FK1" Association="OnBreakModel.Cocktail_TipoAmbientacion_FK1">
+            <End Role="TipoAmbientacion" EntitySet="TipoAmbientacion" />
+            <End Role="Cocktail" EntitySet="Cocktail" />
+          </AssociationSet>
+          <AssociationSet Name="Contrato_Cocktail_FK1" Association="OnBreakModel.Contrato_Cocktail_FK1">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Cocktail" EntitySet="Cocktail" />
+          </AssociationSet>
+          <AssociationSet Name="Contrato_CoffeeBreak_FK1" Association="OnBreakModel.Contrato_CoffeeBreak_FK1">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="CoffeeBreak" EntitySet="CoffeeBreak" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Cenas">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="IdTipoAmbientacion" Type="Int32" Nullable="false" />
+          <Property Name="MusicaAmbiental" Type="Boolean" Nullable="false" />
+          <Property Name="LocalOnBreak" Type="Boolean" Nullable="false" />
+          <Property Name="OtroLocalOnBreak" Type="Boolean" Nullable="false" />
+          <Property Name="ValorArriendo" Type="Double" Nullable="false" />
+          <NavigationProperty Name="TipoAmbientacion" Relationship="OnBreakModel.Cena_TipoAmbientacion_FK1" FromRole="Cenas" ToRole="TipoAmbientacion" />
+          <NavigationProperty Name="Contrato" Relationship="OnBreakModel.Contrato_Cenas_FK1" FromRole="Cenas" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="Cocktail">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="IdTipoAmbientacion" Type="Int32" Nullable="false" />
+          <Property Name="Ambientacion" Type="Boolean" Nullable="false" />
+          <Property Name="MusicaAmbiental" Type="Boolean" Nullable="false" />
+          <Property Name="MusicaCliente" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TipoAmbientacion" Relationship="OnBreakModel.Cocktail_TipoAmbientacion_FK1" FromRole="Cocktail" ToRole="TipoAmbientacion" />
+          <NavigationProperty Name="Contrato" Relationship="OnBreakModel.Contrato_Cocktail_FK1" FromRole="Cocktail" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="CoffeeBreak">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Vegetariana" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="OnBreakModel.Contrato_CoffeeBreak_FK1" FromRole="CoffeeBreak" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="TipoAmbientacion">
+          <Key>
+            <PropertyRef Name="IdTipoAmbientacion" />
+          </Key>
+          <Property Name="IdTipoAmbientacion" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cenas" Relationship="OnBreakModel.Cena_TipoAmbientacion_FK1" FromRole="TipoAmbientacion" ToRole="Cenas" />
+          <NavigationProperty Name="Cocktail" Relationship="OnBreakModel.Cocktail_TipoAmbientacion_FK1" FromRole="TipoAmbientacion" ToRole="Cocktail" />
+        </EntityType>
+        <Association Name="Cena_TipoAmbientacion_FK1">
+          <End Type="OnBreakModel.TipoAmbientacion" Role="TipoAmbientacion" Multiplicity="1" />
+          <End Type="OnBreakModel.Cenas" Role="Cenas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoAmbientacion">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Principal>
+            <Dependent Role="Cenas">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contrato_Cenas_FK1">
+          <End Type="OnBreakModel.Contrato" Role="Contrato" Multiplicity="1" />
+          <End Type="OnBreakModel.Cenas" Role="Cenas" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Cenas">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Cocktail_TipoAmbientacion_FK1">
+          <End Type="OnBreakModel.TipoAmbientacion" Role="TipoAmbientacion" Multiplicity="1" />
+          <End Type="OnBreakModel.Cocktail" Role="Cocktail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoAmbientacion">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Principal>
+            <Dependent Role="Cocktail">
+              <PropertyRef Name="IdTipoAmbientacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contrato_Cocktail_FK1">
+          <End Type="OnBreakModel.Contrato" Role="Contrato" Multiplicity="1" />
+          <End Type="OnBreakModel.Cocktail" Role="Cocktail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Cocktail">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contrato_CoffeeBreak_FK1">
+          <End Type="OnBreakModel.Contrato" Role="Contrato" Multiplicity="1" />
+          <End Type="OnBreakModel.CoffeeBreak" Role="CoffeeBreak" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="CoffeeBreak">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -397,6 +644,45 @@
               <MappingFragment StoreEntitySet="TipoEvento">
                 <ScalarProperty Name="IdTipoEvento" ColumnName="IdTipoEvento" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cenas">
+            <EntityTypeMapping TypeName="OnBreakModel.Cenas">
+              <MappingFragment StoreEntitySet="Cenas">
+                <ScalarProperty Name="ValorArriendo" ColumnName="ValorArriendo" />
+                <ScalarProperty Name="OtroLocalOnBreak" ColumnName="OtroLocalOnBreak" />
+                <ScalarProperty Name="LocalOnBreak" ColumnName="LocalOnBreak" />
+                <ScalarProperty Name="MusicaAmbiental" ColumnName="MusicaAmbiental" />
+                <ScalarProperty Name="IdTipoAmbientacion" ColumnName="IdTipoAmbientacion" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cocktail">
+            <EntityTypeMapping TypeName="OnBreakModel.Cocktail">
+              <MappingFragment StoreEntitySet="Cocktail">
+                <ScalarProperty Name="MusicaCliente" ColumnName="MusicaCliente" />
+                <ScalarProperty Name="MusicaAmbiental" ColumnName="MusicaAmbiental" />
+                <ScalarProperty Name="Ambientacion" ColumnName="Ambientacion" />
+                <ScalarProperty Name="IdTipoAmbientacion" ColumnName="IdTipoAmbientacion" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoffeeBreak">
+            <EntityTypeMapping TypeName="OnBreakModel.CoffeeBreak">
+              <MappingFragment StoreEntitySet="CoffeeBreak">
+                <ScalarProperty Name="Vegetariana" ColumnName="Vegetariana" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoAmbientacion">
+            <EntityTypeMapping TypeName="OnBreakModel.TipoAmbientacion">
+              <MappingFragment StoreEntitySet="TipoAmbientacion">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdTipoAmbientacion" ColumnName="IdTipoAmbientacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

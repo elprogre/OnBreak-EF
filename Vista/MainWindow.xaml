@@ -32,5 +32,6 @@
         <Grid Margin="0,0,0,168" Background="Gray">
             <Image x:Name="image" HorizontalAlignment="Left" Height="115" Margin="526,10,0,0" VerticalAlignment="Top" Width="115" Source="img/Logo OnBreak.png"/>
         </Grid>
+        <Button x:Name="btnAltoContraste" Content="Alto Contraste" HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Width="113" Click="btnAltoContraste_Click"/>
     </Grid>
 </Controls:MetroWindow>

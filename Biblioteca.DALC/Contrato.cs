@@ -30,5 +30,8 @@ namespace Biblioteca.DALC
     
         public virtual Cliente Cliente { get; set; }
         public virtual ModalidadServicio ModalidadServicio { get; set; }
+        public virtual Cenas Cenas { get; set; }
+        public virtual Cocktail Cocktail { get; set; }
+        public virtual CoffeeBreak CoffeeBreak { get; set; }
     }
 }
