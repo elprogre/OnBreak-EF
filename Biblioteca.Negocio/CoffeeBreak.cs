@@ -93,8 +93,7 @@ namespace Biblioteca.Negocio
             }
             else if (ra > 50)
             {
-                recargo = ra / 20;
-                recargo = Math.Truncate(recargo) * 2;
+                recargo = 5 + (((ra - 50) / 20) * 2);
             }
             return recargo;
         }

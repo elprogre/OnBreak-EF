@@ -75,7 +75,7 @@ namespace Biblioteca.Negocio
 
         public override double ValorBase()
         {
-            double ambientacion;
+            double ambientacion = 0;
             double musica_ambiental = 0;
             double local_recargo = 0;
             string modalidad = base.cont.IdModalidad;
@@ -93,10 +93,6 @@ namespace Biblioteca.Negocio
             else if (ta.Descripcion.Equals("Personalizada"))
             {
                 ambientacion = 5;
-            }
-            else
-            {
-                throw new Exception("La ambientación es obligatoria.");
             }
             if (this.MusicaAmbiental)
             {
@@ -119,23 +115,40 @@ namespace Biblioteca.Negocio
             int ra = base.cont.Asistentes;
             if (ra >= 1 && ra <= 20)
             {
-                recargo = 3;
+                recargo = 1.5*ra;
             }
             else if (ra >= 21 && ra <= 50)
             {
-                recargo = 5;
+                recargo = 1.2*ra;
             }
             else if (ra > 50)
             {
-                recargo = ra / 20;
-                recargo = Math.Truncate(recargo) * 2;
+                recargo = 1 * ra;
             }
             return recargo;
         }
 
         public override double RecargoPersonalAdicional()
         {
-            throw new NotImplementedException();
+            double recargo = 0;
+            int pa = base.cont.PersonalAdicional;
+            if (pa == 2)
+            {
+                recargo = 3;
+            }
+            else if (pa == 3)
+            {
+                recargo = 4;
+            }
+            else if (pa == 4)
+            {
+                recargo = 5;
+            }
+            else if (pa > 4)
+            {
+                recargo = 5 + ((pa - 4) * 0.5);
+            }
+            return recargo;
         }
     }
 }

@@ -12,83 +12,122 @@
         xmlns:BibliotecaControles="clr-namespace:BibliotecaControles;assembly=BibliotecaControles" x:Class="Vista.WpfContrato"
         mc:Ignorable="d"
         
-        Title="Menu: Contratos" Height="876.508" Width="669.416" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="img/Documents-02.png">
+        Title="Menu: Contratos" Height="965.508" Width="926.416" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="img/Documents-02.png">
     <Grid>
-        <Button x:Name="btnClear" Content="Limpiar" HorizontalAlignment="Left" Height="38" Margin="28,59,0,0" VerticalAlignment="Top" Width="104" Click="btnClear_Click"/>
-        <Button x:Name="btnListaCliente" Content="Lista de clientes" HorizontalAlignment="Left" Height="38" Margin="137,59,0,0" VerticalAlignment="Top" Width="104" Click="btnListaCliente_Click"/>
-        <Button x:Name="btnListaContrato" Content="Lista de contratos" HorizontalAlignment="Left" Height="38" Margin="246,59,0,0" VerticalAlignment="Top" Width="104" Click="btnListaContrato_Click"/>
-        <GroupBox x:Name="gpbContrato" Header="Contrato" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="613" Margin="25,111,0,0">
+        <Button x:Name="btnClear" Content="Limpiar" HorizontalAlignment="Left" Height="38" Margin="28,22,0,0" VerticalAlignment="Top" Width="104" Click="btnClear_Click"/>
+        <Button x:Name="btnListaCliente" Content="Lista de clientes" HorizontalAlignment="Left" Height="38" Margin="137,22,0,0" VerticalAlignment="Top" Width="104" Click="btnListaCliente_Click"/>
+        <Button x:Name="btnListaContrato" Content="Lista de contratos" HorizontalAlignment="Left" Height="38" Margin="246,22,0,0" VerticalAlignment="Top" Width="104" Click="btnListaContrato_Click"/>
+        <GroupBox x:Name="gpbContrato" Header="Contrato" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="865" Margin="27,71,0,0">
             <Grid Margin="10,0,-2,-12">
-                <Label Content="Nro contrato:" HorizontalAlignment="Left" Margin="18,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.657,-0.189"/>
-                <Label Content="Fecha de hoy:" HorizontalAlignment="Left" Margin="260,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.021,-1.174"/>
-                <Label x:Name="lblFechaHoy" Content="Label" HorizontalAlignment="Left" Margin="343,10,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblVigencia" Content="Vigencia:" HorizontalAlignment="Left" Margin="469,10,0,0" VerticalAlignment="Top" Width="94"/>
-                <TextBox x:Name="txtNumero" HorizontalAlignment="Left" Height="26" Margin="101,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtVigencia" HorizontalAlignment="Left" Height="26" Margin="525,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38" IsEnabled="False" Background="#FFFDFB90"/>
+                <Label Content="Nro contrato:" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.657,-0.189"/>
+                <Label x:Name="lblVigencia" Content="Vigencia:" HorizontalAlignment="Left" Margin="735,10,0,0" VerticalAlignment="Top" Width="59"/>
+                <TextBox x:Name="txtNumero" HorizontalAlignment="Left" Height="26" Margin="81,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtVigencia" HorizontalAlignment="Left" Height="26" Margin="799,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38" IsEnabled="False" Background="#FFFDFB90"/>
+                <Label Content="Rut:" HorizontalAlignment="Left" Margin="235,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.613,0.577"/>
+                <TextBox x:Name="txtRut" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: 123456789012" HorizontalAlignment="Left" Height="27" Margin="266,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
+                <Button x:Name="btnComprobar" Content="Comprobar si existe" HorizontalAlignment="Left" Height="26" Margin="411,10,0,0" VerticalAlignment="Top" Width="152" Click="btnComprobar_Click"/>
+                <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="26" Margin="568,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" IsEnabled="False" Background="#FFFDFB90" Text="Razon Social"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="gpbDatosContrato" Header="Datos contrato" HorizontalAlignment="Left" Height="416" Margin="25,191,0,0" VerticalAlignment="Top" Width="613">
+        <GroupBox x:Name="gpbTipoEvento" Header="Tipo de evento" HorizontalAlignment="Left" Height="177" Margin="27,151,0,0" VerticalAlignment="Top" Width="613">
             <Grid Margin="0,0,-2,-12">
-                <Label Content="Rut:" HorizontalAlignment="Left" Margin="11,4,0,0" VerticalAlignment="Top"/>
-                <Label Content="Tipo de evento:" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.927,1.516"/>
-                <Label Content="Fecha hora de inicio:" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.164,-0.157"/>
-                <Label Content="Fecha hora de termino:" HorizontalAlignment="Left" Margin="8,149,0,0" VerticalAlignment="Top"/>
-                <Label Content="Observaciones:" HorizontalAlignment="Left" Margin="10,321,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.644,0.538"/>
-                <Label Content="Modalidad de servicio:" HorizontalAlignment="Left" Margin="300,44,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.927,1.516"/>
-                <Label Content="Asistentes:" HorizontalAlignment="Left" Margin="11,274,0,0" VerticalAlignment="Top"/>
-                <Label Content="Personal:" HorizontalAlignment="Left" Margin="229,275,0,0" VerticalAlignment="Top"/>
-                <Label Content="Personal adicional:" HorizontalAlignment="Left" Margin="391,274,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.472,1.038"/>
-                <TextBox x:Name="txtRut" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: 123456789012" HorizontalAlignment="Left" Height="26" Margin="142,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
-                <Button x:Name="btnComprobar" Content="Comprobar si existe" HorizontalAlignment="Left" Height="26" Margin="291,4,0,0" VerticalAlignment="Top" Width="148" Click="btnComprobar_Click"/>
-                <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="26" Margin="444,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" IsEnabled="False" Background="#FFFDFB90" Text="Razon Social"/>
-                <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="142,44,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboTipoEvento_SelectionChanged"/>
-                <ComboBox x:Name="cboModalidadServicio" HorizontalAlignment="Left" Margin="443,44,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboModalidadServicio_SelectionChanged" />
-                <TextBox x:Name="txtAsistentes" HorizontalAlignment="Left" Height="23" Margin="100,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Text="0" LostFocus="txtAsistentes_LostFocus"/>
-                <TextBox x:Name="txtPersonal" HorizontalAlignment="Left" Height="23" Margin="291,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" IsEnabled="False" Text="0" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtPersonalAdicional" HorizontalAlignment="Left" Height="23" Margin="504,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Text="0" LostFocus="txtPersonalAdicional_LostFocus" RenderTransformOrigin="0.441,0.385"/>
-                <TextBox x:Name="txtObservaciones" HorizontalAlignment="Left" Height="56" Margin="105,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="335"/>
-                <Label x:Name="label" Content="Fecha de Creacion:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,192,0,0" RenderTransformOrigin="0.605,0.846"/>
-                <Label x:Name="label1" Content="Fecha de Termino:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,235,0,0"/>
-                <TextBox x:Name="txtFechaCreacion" HorizontalAlignment="Left" Height="26" Margin="142,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtFechaTermino" HorizontalAlignment="Left" Height="26" Margin="142,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" IsEnabled="False" Background="#FFFDFB90"/>
-                <BibliotecaControles:UserControl1 x:Name="ctrFechaHoraInicio" HorizontalAlignment="Left" VerticalAlignment="Top" Height="55" Margin="145,75,0,0" Width="294"/>
-                <BibliotecaControles:UserControl1 x:Name="ctrFechaHoraFin" HorizontalAlignment="Left" VerticalAlignment="Top" Height="55" Margin="145,130,0,0" Width="294" LostFocus="ctrFechaHoraFin_LostFocus"/>
+                <Label Content="Tipo de evento:" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.927,1.516"/>
+                <Label Content="Observaciones:" HorizontalAlignment="Left" Margin="11,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.6,0.192"/>
+                <Label Content="Modalidad de servicio:" HorizontalAlignment="Left" Margin="291,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.927,1.516"/>
+                <Label Content="Asistentes:" HorizontalAlignment="Left" Margin="11,42,0,0" VerticalAlignment="Top"/>
+                <Label Content="Personal:" HorizontalAlignment="Left" Margin="229,43,0,0" VerticalAlignment="Top"/>
+                <Label Content="Personal adicional:" HorizontalAlignment="Left" Margin="391,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.472,1.038"/>
+                <ComboBox x:Name="cboTipoEvento" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboTipoEvento_SelectionChanged"/>
+                <ComboBox x:Name="cboModalidadServicio" HorizontalAlignment="Left" Margin="455,10,0,0" VerticalAlignment="Top" Width="140" Height="26" SelectionChanged="cboModalidadServicio_SelectionChanged" />
+                <TextBox x:Name="txtAsistentes" HorizontalAlignment="Left" Height="23" Margin="100,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Text="0" LostFocus="txtAsistentes_LostFocus"/>
+                <TextBox x:Name="txtPersonal" HorizontalAlignment="Left" Height="23" Margin="291,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" IsEnabled="False" Text="0" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtPersonalAdicional" HorizontalAlignment="Left" Height="23" Margin="504,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Text="0" LostFocus="txtPersonalAdicional_LostFocus" RenderTransformOrigin="0.441,0.385"/>
+                <TextBox x:Name="txtObservaciones" HorizontalAlignment="Left" Height="53" Margin="106,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="489"/>
 
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="gpbPrecios" Header="Precios de evento" HorizontalAlignment="Left" Height="109" Margin="25,612,0,0" VerticalAlignment="Top" Width="613">
+        <GroupBox x:Name="gpbPrecios" Header="Precios de evento (UF)" HorizontalAlignment="Left" Height="320" Margin="657,151,0,0" VerticalAlignment="Top" Width="235">
             <Grid Margin="0,0,-2,-12">
-                <Label Content="Valor base evento:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label Content="Valor por asistente:" HorizontalAlignment="Left" Margin="202,10,0,0" VerticalAlignment="Top"/>
-                <Label Content="Valor por personal adicional" HorizontalAlignment="Left" Margin="382,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.395,-0.192"/>
-                <Label Content="Valor total del evento:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.211,0.231"/>
-                <TextBox x:Name="txtBaseEvento" HorizontalAlignment="Left" Height="23" Margin="139,13,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="1.725,1.478" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorAsistente" HorizontalAlignment="Left" Height="23" Margin="318,14,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorPersonalAdicional" HorizontalAlignment="Left" Height="23" Margin="540,15,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="5.35,0.696" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtTotal" HorizontalAlignment="Left" Height="23" Margin="139,45,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="-7.5,0.348" IsEnabled="False" Background="#FFFDFB90"/>
-                <Label x:Name="label2" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="179,41,0,0"/>
-                <Label x:Name="label2_Copy" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="581,10,0,0" RenderTransformOrigin="0.375,0.192"/>
-                <Label x:Name="label2_Copy1" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="358,10,0,0"/>
-                <Label x:Name="label2_Copy2" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="178,10,0,0"/>
+                <Label Content="Valor base evento:" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top"/>
+                <Label Content="Valor por asistente:" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top"/>
+                <Label Content="Valor por personal adicional:" HorizontalAlignment="Left" Margin="0,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.395,-0.192"/>
+                <Label Content="Valor total del evento:" HorizontalAlignment="Left" Margin="0,119,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.211,0.231"/>
+                <TextBox x:Name="txtBaseEvento" HorizontalAlignment="Left" Height="23" Margin="160,3,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="1.725,1.478" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtValorAsistente" HorizontalAlignment="Left" Height="23" Margin="160,40,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtValorPersonalAdicional" HorizontalAlignment="Left" Height="23" Margin="160,79,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="5.35,0.696" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtTotal" HorizontalAlignment="Left" Height="23" Margin="160,119,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="-7.5,0.348" IsEnabled="False" Background="#FFFDFB90"/>
+                <Label x:Name="label2" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="199,119,0,0" RenderTransformOrigin="0.667,1.577"/>
+                <Label x:Name="label2_Copy" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="199,78,0,0" RenderTransformOrigin="0.375,0.192"/>
+                <Label x:Name="label2_Copy1" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,40,0,0" RenderTransformOrigin="-2.208,3.038"/>
+                <Label x:Name="label2_Copy2" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="199,0,0,0"/>
             </Grid>
         </GroupBox>
 
-        <Controls:Tile Title="Guardar" Margin="28,736,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnCreate_Click">
+        <Controls:Tile Title="Guardar" Margin="18,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnCreate_Click">
             <Image Source="img/Guardar Contrato.png"></Image>
         </Controls:Tile>
 
-        <Controls:Tile Title="Buscar" Margin="203,736,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnRead_Click">
+        <Controls:Tile Title="Buscar" Margin="193,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnRead_Click">
             <Image Source="img/Buscar Contrato.png"></Image>
         </Controls:Tile>
 
-        <Controls:Tile Title="Actualizar" Margin="374,736,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnUpdate_Click">
+        <Controls:Tile Title="Actualizar" Margin="364,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnUpdate_Click">
             <Image Source="img/Actualizar Contrato.png"></Image>
         </Controls:Tile>
 
-        <Controls:Tile Title="Terminar" Margin="541,736,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnDelete_Click">
+        <Controls:Tile Title="Terminar" Margin="531,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnDelete_Click">
             <Image Source="img/Terminar Contrato.png"></Image>
         </Controls:Tile>
-        <Button x:Name="button" Content="Copia. Seguridad" HorizontalAlignment="Left" Height="38" Margin="512,59,0,0" VerticalAlignment="Top" Width="126" Click="button_Click"/>
+        <Button x:Name="btnCopiaSeguridad" Content="Copia. Seguridad" HorizontalAlignment="Left" Height="38" Margin="766,22,0,0" VerticalAlignment="Top" Width="126" Click="button_Click"/>
+        <GroupBox x:Name="gpbCocktail" Header="Cocktail" HorizontalAlignment="Left" Height="138" Margin="27,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
+            <Grid Margin="0,0,0,-3">
+                <Label x:Name="label3" Content="Tipo de ambientación:" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.375,0.692"/>
+                <ComboBox x:Name="cboCocktailTipoAmbientacion" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Margin="146,47,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="chkCocktailMusicaAmbiental" Content="Musica ambiental" HorizontalAlignment="Left" Margin="322,19,0,0" VerticalAlignment="Top" Unchecked="chkCocktailMusicaAmbiental_Unchecked" Checked="chkCocktailMusicaAmbiental_Checked"/>
+                <CheckBox x:Name="chkCocktailMusicaCliente" Content="Cliente provee musica" HorizontalAlignment="Left" Margin="322,42,0,0" VerticalAlignment="Top" IsEnabled="False"/>
+                <CheckBox x:Name="chkCocktailAmbientacion" Content="Ambientacion" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" Checked="chkCocktailAmbientacion_Checked" Unchecked="chkCocktailAmbientacion_Unchecked"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="gpbFechas" Header="Horario" HorizontalAlignment="Left" Margin="28,476,0,0" VerticalAlignment="Top" Width="612" Height="268">
+            <Grid Margin="0,0,0,-5">
+                <Label Content="Fecha hora de inicio:" HorizontalAlignment="Left" Margin="5,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.164,-0.157"/>
+                <Label Content="Fecha hora de termino:" HorizontalAlignment="Left" Margin="3,73,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label" Content="Fecha de Creacion:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,116,0,0" RenderTransformOrigin="0.605,0.846"/>
+                <Label x:Name="label1" Content="Fecha de Termino:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,159,0,0"/>
+                <TextBox x:Name="txtFechaCreacion" HorizontalAlignment="Left" Height="26" Margin="137,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtFechaTermino" HorizontalAlignment="Left" Height="26" Margin="137,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" IsEnabled="False" Background="#FFFDFB90"/>
+                <BibliotecaControles:UserControl1 x:Name="ctrFechaHoraInicio" HorizontalAlignment="Left" VerticalAlignment="Top" Height="55" Margin="140,-1,0,0" Width="294"/>
+                <BibliotecaControles:UserControl1 x:Name="ctrFechaHoraFin" HorizontalAlignment="Left" VerticalAlignment="Top" Height="55" Margin="140,54,0,0" Width="294" LostFocus="ctrFechaHoraFin_LostFocus"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="gpbCenas" Header="Cenas" HorizontalAlignment="Left" Height="138" Margin="28,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
+            <Grid Margin="0,0,0,-3">
+                <Label x:Name="label4" Content="Tipo de ambientación:" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.375,0.692"/>
+                <ComboBox x:Name="cboCenasTipoAmbientacion" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Margin="128,1,0,0"/>
+                <CheckBox x:Name="chkCenasMusicaAmbiental" Content="Musica ambiental" HorizontalAlignment="Left" Margin="299,1,0,0" VerticalAlignment="Top"/>
+                <RadioButton x:Name="rbtLocalOnBreak" Content="Local OnBreak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0" RenderTransformOrigin="0.45,1.556" GroupName="local" IsChecked="True" Checked="rbtLocalOnBreak_Checked"/>
+                <RadioButton x:Name="rbtOtroLocal" Content="Otro Local Propuesto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,36,0,0" GroupName="local" Checked="rbtOtroLocal_Checked"/>
+                <TextBox x:Name="txtValorArriendoLocal" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="330,63,0,0" TextChanged="txtValorArriendoLocal_TextChanged" Visibility="Hidden"/>
+                <Label x:Name="label5" Content="Valor Arriendo:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="241,63,0,0" Visibility="Hidden"/>
+                <Label x:Name="label6" Content="Comision:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="430,63,0,0" Visibility="Hidden"/>
+                <TextBox x:Name="txtComision" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="492,63,0,0" Visibility="Hidden"/>
+                <RadioButton x:Name="rbtOtroOnbreak" Content="OnBreak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,67,0,0" GroupName="OtroLocal" Checked="rbtOtroOnbreak_Checked" Visibility="Hidden"/>
+                <RadioButton x:Name="rbtOtroCliente" Content="Cliente" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,67,0,0" GroupName="OtroLocal" Checked="rbtOtroCliente_Checked" Visibility="Hidden"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="gpbCoffeBreak" Header="Coffe Break " HorizontalAlignment="Left" Height="138" Margin="27,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
+            <Grid Margin="0,0,0,-3">
+                <Label x:Name="label7" Content="Tipo de ambientación:" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.375,0.692"/>
+                <ComboBox x:Name="cboCoffeeBreakTipoAmbientacion" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Margin="128,1,0,0"/>
+                <RadioButton x:Name="rbtVegetariana" Content="Alimentacion vegetariana" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,46,0,0" GroupName="alimentacion"/>
+                <RadioButton x:Name="rbtMixta" Content="Alimentacion mixta" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="189,46,0,0" GroupName="alimentacion" IsChecked="True"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="gpbEvento" Header="Evento" HorizontalAlignment="Left" Height="138" Margin="28,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
+            <Grid Margin="0,0,0,-3">
+                <Label x:Name="label8" Content="Seleccione un tipo de evento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="223,37,0,0"/>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Controls:MetroWindow>

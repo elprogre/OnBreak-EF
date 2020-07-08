@@ -38,14 +38,17 @@ namespace Vista
 
         public void limpiar()
         {
+            gpbEvento.Visibility = Visibility.Visible;
+            gpbCoffeBreak.Visibility = Visibility.Hidden;
+            gpbCocktail.Visibility = Visibility.Hidden;
+            gpbCenas.Visibility = Visibility.Hidden;
+
             contrato = new Contrato() { Asistentes = 0, PersonalAdicional = 0, ValorTotalContrato=0};
 
             valorBaseEvento = 0;
             valorAsistente = 0;
             valorPersonalAdicional = 0;
-            txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");
-            DateTime hoy = DateTime.Now;
-            lblFechaHoy.Content = hoy.ToString("dd/MM/yyyy");
+            txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");;
             ctrFechaHoraInicio.LimpiarControl();
             ctrFechaHoraFin.LimpiarControl();
             txtFechaCreacion.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
@@ -105,7 +108,49 @@ namespace Vista
         {
             if (cboTipoEvento.SelectedIndex !=-1)
             {
-                cboModalidadServicio.ItemsSource = new ModalidadServicio().ReadAll().Where(x => x.IdTipoEvento == ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento);
+                gpbEvento.Visibility = Visibility.Hidden;
+                gpbCoffeBreak.Visibility = Visibility.Hidden;
+                gpbCocktail.Visibility = Visibility.Hidden;
+                gpbCenas.Visibility = Visibility.Hidden;
+                TipoEvento te = (TipoEvento)cboTipoEvento.SelectedItem;
+                cboModalidadServicio.ItemsSource = new ModalidadServicio()
+                    .ReadAll().Where(x => x.IdTipoEvento == (te).IdTipoEvento);
+
+
+                if (te.IdTipoEvento == 10)
+                {
+                    gpbCoffeBreak.Visibility = Visibility.Visible;
+                    cboCoffeeBreakTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll();
+                }
+                if (te.IdTipoEvento==20)
+                {
+                    gpbCocktail.Visibility = Visibility.Visible;
+                    cboCocktailTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll();
+                    
+                }
+                else if (te.IdTipoEvento == 30)
+                {
+                    gpbCenas.Visibility = Visibility.Visible;
+                    cboCenasTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll();
+                }
+
+                Evento ev;
+                switch (te.Descripcion)
+                {
+                    case "Cocktail":
+                        ev = new Cocktail();
+                        break;
+                    case "Coffee Break":
+                        ev = new CoffeeBreak();
+                        break;
+                    case "Cenas":
+                        ev = new Cenas();
+                        break;
+                    default:
+                        ev = null;
+                        break;
+                }
+
             }
         }
 
@@ -487,5 +532,108 @@ namespace Vista
             await this.ShowMessageAsync("Copia de seguridad:", "Guardado Exitosamente");
 
         }
+
+        private void chkCocktailAmbientacion_Checked(object sender, RoutedEventArgs e)
+        {
+            cboCocktailTipoAmbientacion.IsEnabled = true;
+        }
+
+        private void chkCocktailAmbientacion_Unchecked(object sender, RoutedEventArgs e)
+        {
+            cboCocktailTipoAmbientacion.IsEnabled = false;
+        }
+
+        private void chkCocktailMusicaAmbiental_Checked(object sender, RoutedEventArgs e)
+        {
+            chkCocktailMusicaCliente.IsEnabled = true;
+        }
+
+        private void chkCocktailMusicaAmbiental_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chkCocktailMusicaCliente.IsEnabled = false;
+        }
+
+        private void rbtOtroLocal_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                rbtOtroOnbreak.Visibility = Visibility.Visible;
+                rbtOtroCliente.Visibility = Visibility.Visible;
+                label5.Visibility = Visibility.Hidden;
+                label6.Visibility = Visibility.Hidden;
+                txtValorArriendoLocal.Visibility = Visibility.Hidden;
+                txtComision.Visibility = Visibility.Hidden;
+                txtValorArriendoLocal.Text = "0";
+                rbtOtroOnbreak.IsChecked = true;
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void rbtOtroOnbreak_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                label5.Visibility = Visibility.Visible;
+                label6.Visibility = Visibility.Visible;
+                txtValorArriendoLocal.Visibility = Visibility.Visible;
+                txtComision.Visibility = Visibility.Visible;
+                txtValorArriendoLocal.Text = "0";
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void rbtOtroCliente_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                label5.Visibility = Visibility.Hidden;
+                label6.Visibility = Visibility.Hidden;
+                txtValorArriendoLocal.Visibility = Visibility.Hidden;
+                txtComision.Visibility = Visibility.Hidden;
+                txtValorArriendoLocal.Text = "0";
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void rbtLocalOnBreak_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                rbtOtroOnbreak.Visibility = Visibility.Hidden;
+                rbtOtroCliente.Visibility = Visibility.Hidden;
+                label5.Visibility = Visibility.Hidden;
+                label6.Visibility = Visibility.Hidden;
+                txtValorArriendoLocal.Visibility = Visibility.Hidden;
+                txtComision.Visibility = Visibility.Hidden;
+                txtValorArriendoLocal.Text = "0";
+                rbtOtroOnbreak.IsChecked = false;
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void txtValorArriendoLocal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                txtComision.Text = (int.Parse(txtValorArriendoLocal.Text) * 0.05).ToString();
+            }
+            catch (Exception)
+            {
+                txtValorArriendoLocal.Text = "0";
+            }
+        }
+
     }
 }

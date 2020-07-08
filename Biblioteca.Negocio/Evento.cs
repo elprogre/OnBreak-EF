@@ -10,6 +10,10 @@ namespace Biblioteca.Negocio
     {
         protected Contrato cont;
 
+        public void TipoContrato(Contrato cont)
+        {
+            this.cont = cont;
+        }
         public abstract double ValorBase();
         public abstract double RecargoAsistentes();
         public abstract double RecargoPersonalAdicional();
