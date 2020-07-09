@@ -23,11 +23,6 @@ namespace Vista
     /// </summary>
     public partial class WpfContrato : MetroWindow
     {
-        Contrato contrato;
-        double valorBaseEvento;
-        double valorAsistente;
-        double valorPersonalAdicional;
-
 
         public WpfContrato()
         {
@@ -42,13 +37,8 @@ namespace Vista
             gpbCoffeBreak.Visibility = Visibility.Hidden;
             gpbCocktail.Visibility = Visibility.Hidden;
             gpbCenas.Visibility = Visibility.Hidden;
-
-            contrato = new Contrato() { Asistentes = 0, PersonalAdicional = 0, ValorTotalContrato=0};
-
-            valorBaseEvento = 0;
-            valorAsistente = 0;
-            valorPersonalAdicional = 0;
-            txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");;
+            cboModalidadServicio.ItemsSource = null;
+            txtNumero.Text = DateTime.Now.ToString("yyyyMMddHHmm");
             ctrFechaHoraInicio.LimpiarControl();
             ctrFechaHoraFin.LimpiarControl();
             txtFechaCreacion.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
@@ -57,7 +47,6 @@ namespace Vista
             txtRut.Text = "";
             txtRazonSocial.Text = "Razon Social";
             cboTipoEvento.SelectedIndex = -1;
-            cboModalidadServicio.SelectedIndex = -1;
             txtAsistentes.Text = "0";
             txtPersonal.Text = "0";
             txtPersonalAdicional.Text = "0";
@@ -68,46 +57,18 @@ namespace Vista
             txtTotal.Text = "0";
         }
 
+        
         public void llenar(Contrato cont)
         {
-            contrato = cont;
-            txtNumero.Text = cont.Numero;
-            string vigencia;
-            if (cont.Realizado)
-            {
-                vigencia = "Si";
-            }
-            else
-            {
-                vigencia = "No";
-            }
-            txtVigencia.Text = vigencia;
-            txtRut.Text = cont.RutCliente;
-            Cliente cli = new Cliente() { RutCliente = txtRut.Text };
-            cli.Read();
-            txtRazonSocial.Text = cli.RazonSocial;
-            TipoEvento te = new TipoEvento() { IdTipoEvento = cont.IdTipoEvento };
-            te.Read();
-            cboTipoEvento.Text = te.Descripcion;
-            ModalidadServicio ms = new ModalidadServicio() { IdModalidad = cont.IdModalidad };
-            ms.Read();
-            cboModalidadServicio.Text = ms.Nombre.Trim();
-            ctrFechaHoraInicio.VerFechaYHora(cont.FechaHoraInicio);
-            ctrFechaHoraFin.VerFechaYHora(cont.FechaHoraTermino);
-            txtFechaCreacion.Text = cont.Creacion.ToString("dd/MM/yyyy HH:mm");
-            txtFechaTermino.Text= cont.Termino.ToString("dd/MM/yyyy HH:mm");
-            txtAsistentes.Text = cont.Asistentes.ToString();
-            calcularValorAsistente();
-            txtPersonalAdicional.Text = cont.PersonalAdicional.ToString();
-            calcularValorPersonalAdicional();
-            txtObservaciones.Text = cont.Observaciones;
-        }
 
+        }
+        
 
         private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cboTipoEvento.SelectedIndex !=-1)
             {
+                txtValorArriendoLocal.Text = "0"; //por un error, al cambiar el txtvalorArriendo con el boton limpiar se ejecutaba el metodo CrearObjetoEvento sin un tipo de evento
                 gpbEvento.Visibility = Visibility.Hidden;
                 gpbCoffeBreak.Visibility = Visibility.Hidden;
                 gpbCocktail.Visibility = Visibility.Hidden;
@@ -120,7 +81,6 @@ namespace Vista
                 if (te.IdTipoEvento == 10)
                 {
                     gpbCoffeBreak.Visibility = Visibility.Visible;
-                    cboCoffeeBreakTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll();
                 }
                 if (te.IdTipoEvento==20)
                 {
@@ -151,136 +111,11 @@ namespace Vista
                         break;
                 }
 
+                mostrarCalculosPantalla();
+
             }
         }
 
-        private void cboModalidadServicio_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cboModalidadServicio.SelectedItem != null)
-            {
-                txtPersonal.Text = (((ModalidadServicio)cboModalidadServicio.SelectedItem).PersonalBase).ToString();
-                valorBaseEvento = ((ModalidadServicio)cboModalidadServicio.SelectedItem).ValorBase;
-                txtBaseEvento.Text = valorBaseEvento.ToString();
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
-                txtTotal.Text = contrato.ValorTotalContrato.ToString();
-            }
-            else
-            {
-                txtPersonal.Text = "0";
-                valorBaseEvento = 0;
-                txtBaseEvento.Text = valorBaseEvento.ToString();
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
-                txtTotal.Text = contrato.ValorTotalContrato.ToString();
-            }
-        }
-
-        public void calcularValorAsistente()
-        {
-            try
-            {
-                if (0 < int.Parse(txtAsistentes.Text))
-                {
-                    contrato.Asistentes = int.Parse(txtAsistentes.Text);
-                    if (contrato.Asistentes >= 1 && contrato.Asistentes <= 20)
-                    {
-                        valorAsistente = 3;
-                        txtValorAsistente.Text = valorAsistente.ToString();
-                    }
-                    else if (contrato.Asistentes >= 21 && contrato.Asistentes <= 50)
-                    {
-                        valorAsistente = 5;
-                        txtValorAsistente.Text = valorAsistente.ToString();
-                    }
-                    else
-                    {
-                        if (0 < Math.Truncate((double.Parse(txtAsistentes.Text) - 50) / 20))
-                        {
-                            valorAsistente = 5 + 2 * Math.Truncate((double.Parse(txtAsistentes.Text) - 50) / 20);
-                            txtValorAsistente.Text = valorAsistente.ToString();
-                        }
-                        else
-                        {
-                            valorAsistente = 5;
-                            txtValorAsistente.Text = valorAsistente.ToString();
-                        }
-                    }
-                }
-                else
-                {
-                    contrato.Asistentes = 0;
-                    txtAsistentes.Text = contrato.Asistentes.ToString();
-                    valorAsistente = 0;
-                    txtValorAsistente.Text = valorAsistente.ToString();
-                }
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
-                txtTotal.Text = contrato.ValorTotalContrato.ToString();
-            }
-            catch (Exception)
-            {
-                contrato.Asistentes = 0;
-                txtAsistentes.Text = contrato.Asistentes.ToString();
-                valorAsistente = 0;
-                txtValorAsistente.Text = valorAsistente.ToString();
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
-                txtTotal.Text = contrato.ValorTotalContrato.ToString();
-            }
-        }
-
-        public void calcularValorPersonalAdicional()
-        {
-            try
-            {
-                if (0 < int.Parse(txtPersonalAdicional.Text))
-                {
-                    contrato.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
-                    if (contrato.PersonalAdicional == 2)
-                    {
-                        valorPersonalAdicional = 2;
-                        txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
-                    }
-                    else if (contrato.PersonalAdicional == 3)
-                    {
-                        valorPersonalAdicional = 3;
-                        txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
-                    }
-                    else
-                    {
-                        valorPersonalAdicional = 3 + 0.5 * (contrato.PersonalAdicional - 3);
-                        txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
-                    }
-                }
-                else
-                {
-                    contrato.PersonalAdicional = 0;
-                    txtPersonalAdicional.Text = contrato.PersonalAdicional.ToString();
-                    valorPersonalAdicional = 0;
-                    txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
-                }
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
-                txtTotal.Text = contrato.ValorTotalContrato.ToString();
-            }
-            catch (Exception)
-            {
-                contrato.PersonalAdicional = 0;
-                txtPersonalAdicional.Text = contrato.PersonalAdicional.ToString();
-                valorPersonalAdicional = 0;
-                txtValorPersonalAdicional.Text = valorPersonalAdicional.ToString();
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional);
-                txtTotal.Text = contrato.ValorTotalContrato.ToString();
-            }
-        }
-
-
-        private void txtAsistentes_LostFocus(object sender, RoutedEventArgs e)
-        {
-            calcularValorAsistente();
-        }
-
-
-        private void txtPersonalAdicional_LostFocus(object sender, RoutedEventArgs e)
-        {
-            calcularValorPersonalAdicional();
-        }
 
         private void ctrFechaHoraFin_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -325,6 +160,7 @@ namespace Vista
             ventana.Show();
         }
 
+        /*
         private async void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -379,7 +215,11 @@ namespace Vista
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
+        */
 
+
+
+        /*
         private async void btnRead_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -404,7 +244,10 @@ namespace Vista
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
+        */
 
+
+        /*
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -458,7 +301,10 @@ namespace Vista
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
+        */
 
+
+        /*
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -488,6 +334,7 @@ namespace Vista
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
+        */
 
         private void btnListaContrato_Click(object sender, RoutedEventArgs e)
         {
@@ -540,16 +387,21 @@ namespace Vista
 
         private void chkCocktailAmbientacion_Unchecked(object sender, RoutedEventArgs e)
         {
+            cboCocktailTipoAmbientacion.SelectedIndex = -1;
+            mostrarCalculosPantalla();
             cboCocktailTipoAmbientacion.IsEnabled = false;
         }
 
         private void chkCocktailMusicaAmbiental_Checked(object sender, RoutedEventArgs e)
         {
+            mostrarCalculosPantalla();
             chkCocktailMusicaCliente.IsEnabled = true;
         }
 
         private void chkCocktailMusicaAmbiental_Unchecked(object sender, RoutedEventArgs e)
         {
+            mostrarCalculosPantalla();
+            chkCocktailMusicaCliente.IsChecked = false;
             chkCocktailMusicaCliente.IsEnabled = false;
         }
 
@@ -581,6 +433,7 @@ namespace Vista
                 txtValorArriendoLocal.Visibility = Visibility.Visible;
                 txtComision.Visibility = Visibility.Visible;
                 txtValorArriendoLocal.Text = "0";
+                mostrarCalculosPantalla();
             }
             catch (Exception)
             {
@@ -616,6 +469,7 @@ namespace Vista
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";
                 rbtOtroOnbreak.IsChecked = false;
+                mostrarCalculosPantalla();
             }
             catch (Exception)
             {
@@ -628,12 +482,170 @@ namespace Vista
             try
             {
                 txtComision.Text = (int.Parse(txtValorArriendoLocal.Text) * 0.05).ToString();
+                mostrarCalculosPantalla();
             }
             catch (Exception)
             {
                 txtValorArriendoLocal.Text = "0";
+                mostrarCalculosPantalla();
             }
         }
 
+        private void cboModalidadServicio_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cboModalidadServicio.SelectedItem!=null)
+            {
+                ModalidadServicio mo = new ModalidadServicio();
+                mo = (ModalidadServicio)cboModalidadServicio.SelectedItem;
+                txtPersonal.Text =""+mo.PersonalBase;
+                mostrarCalculosPantalla();
+            }
+            else
+            {
+                txtPersonal.Text = "0";
+            }
+        }
+
+        public Evento crearObjetoEvento()
+        {
+            Evento ev;
+            Contrato cont = new Contrato();
+            TipoEvento te = (TipoEvento)cboTipoEvento.SelectedItem;
+            ModalidadServicio mo = new ModalidadServicio();
+            if (cboModalidadServicio.SelectedIndex == -1) // En caso de modificar los datos del evento antes de escoger una modalidad
+            {
+                mo.IdModalidad = "0";
+            }
+            else
+            {
+                mo = (ModalidadServicio)cboModalidadServicio.SelectedItem;
+            }
+            cont.IdModalidad = mo.IdModalidad;
+            cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
+            cont.Asistentes = int.Parse(txtAsistentes.Text);
+            switch (te.Descripcion)
+            {
+                case "Cocktail": //Se instancia un Cocktail con los datos disponibles
+                    TipoAmbientacion tipoa = new TipoAmbientacion();
+                    if (cboCocktailTipoAmbientacion.SelectedIndex==-1)
+                    {
+                        tipoa.idTipoAmbientacion = 30;
+                    }
+                    else
+                    {
+                        tipoa = (TipoAmbientacion)cboCocktailTipoAmbientacion.SelectedItem;
+                    }
+                    bool ambientacion = chkCocktailAmbientacion.IsChecked == true ? true : false;
+                    bool musica_ambiental_cocktail = chkCocktailMusicaAmbiental.IsChecked == true ? true : false;
+                    bool musica_cliente = chkCocktailMusicaCliente.IsChecked == true ? true : false;
+                    ev = new Cocktail()
+                    {
+                         Numero=txtNumero.Text, IdTipoAmbientacion=tipoa.idTipoAmbientacion,Ambientacion=ambientacion,
+                         MusicaAmbiental=musica_ambiental_cocktail,MusicaCliente=musica_cliente
+                    };
+                    ev.TipoContrato(cont);
+                    break;
+
+                case "Coffee Break"://Se instancia un CoffeeBreak con los datos disponibles
+                    bool vegetariana = rbtVegetariana.IsChecked == true ? true : false;
+                    ev = new CoffeeBreak()
+                    {
+                        Numero=txtNumero.Text, Vegetariana=vegetariana
+                    };
+                    ev.TipoContrato(cont);
+                    break;
+
+                case "Cenas"://Se instancia Cenas con los datos disponibles
+                    TipoAmbientacion tipoa2 = new TipoAmbientacion();
+                    if (cboCenasTipoAmbientacion.SelectedIndex == -1)
+                    {
+                        tipoa2.idTipoAmbientacion = 30;
+                    }
+                    else
+                    {
+                        tipoa2 = (TipoAmbientacion)cboCenasTipoAmbientacion.SelectedItem;
+                    }
+                    bool musica_ambiental_cenas = chkCenasMusicaAmbiental.IsChecked == true ? true : false;
+                    bool localOnbreak = rbtLocalOnBreak.IsChecked == true ? true : false ;
+                    bool otroLocalOnbreak = rbtOtroOnbreak.IsChecked == true ? true : false;
+                    int valoraArriendo=int.Parse(txtValorArriendoLocal.Text);
+                    ev = new Cenas()
+                    {
+                        Numero=txtNumero.Text, IdTipoAmbientacion=tipoa2.idTipoAmbientacion, MusicaAmbiental=musica_ambiental_cenas, LocalOnBreak=localOnbreak,
+                        OtroLocalOnBreak=otroLocalOnbreak, ValorArriendo=valoraArriendo
+                    };
+                    ev.TipoContrato(cont);
+                    break;
+
+                default:
+                    ev = null;
+                    break;
+            }
+
+            return ev;
+        }
+
+        public void mostrarCalculosPantalla()
+        {
+            Evento ev = crearObjetoEvento();
+            txtBaseEvento.Text = "" + ev.ValorBase();
+            txtValorAsistente.Text = "" + ev.RecargoAsistentes();
+            txtValorPersonalAdicional.Text = "" + ev.RecargoPersonalAdicional();
+        }
+
+
+        private void cboCocktailTipoAmbientacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mostrarCalculosPantalla();
+        }
+
+        private void rbtLocalOnBreak_Unchecked(object sender, RoutedEventArgs e)
+        {
+            mostrarCalculosPantalla();
+        }
+
+        private void cboCenasTipoAmbientacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mostrarCalculosPantalla();
+        }
+
+        private void chkCenasMusicaAmbiental_Checked(object sender, RoutedEventArgs e)
+        {
+            mostrarCalculosPantalla();
+        }
+
+        private void chkCenasMusicaAmbiental_Unchecked(object sender, RoutedEventArgs e)
+        {
+            mostrarCalculosPantalla();
+        }
+
+        private void rbtOtroOnbreak_Unchecked(object sender, RoutedEventArgs e)
+        {
+            mostrarCalculosPantalla();
+        }
+
+        private void txtAsistentes_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                mostrarCalculosPantalla();
+            }
+            catch (Exception)
+            {
+                txtAsistentes.Text = "0";
+            }
+        }
+
+        private void txtPersonalAdicional_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                mostrarCalculosPantalla();
+            }
+            catch (Exception)
+            {
+                txtPersonalAdicional.Text = "0";
+            }
+        }
     }
 }

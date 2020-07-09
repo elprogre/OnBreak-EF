@@ -86,9 +86,13 @@ namespace Biblioteca.Negocio
             TipoAmbientacion ta = new TipoAmbientacion();
             ta.idTipoAmbientacion = this.IdTipoAmbientacion;
             ta.Read();
-            if (ta.Descripcion.Equals("Básica"))
+            if (ta.Descripcion==null)
             {
-                ambientacion = 2;
+                ambientacion = 0;
+            }
+            else if (ta.Descripcion.Equals("Básica"))
+            {
+                ambientacion = 3;
             }
             else if (ta.Descripcion.Equals("Personalizada"))
             {
@@ -104,7 +108,7 @@ namespace Biblioteca.Negocio
             }
             if (this.OtroLocalOnBreak)
             {
-                local_recargo = this.ValorArriendo + (this.ValorArriendo * 0.05);
+                local_recargo = this.ValorArriendo + (this.ValorArriendo * 0.05); //Falta pasar de peso a euro aca
             }
             return valor_base + ambientacion + musica_ambiental + local_recargo;
         }

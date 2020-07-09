@@ -85,7 +85,11 @@ namespace Biblioteca.Negocio
             TipoAmbientacion ta = new TipoAmbientacion();
             ta.idTipoAmbientacion = this.IdTipoAmbientacion;
             ta.Read();
-            if (ta.Descripcion.Equals("Básica"))
+            if (ta.Descripcion==null)
+            {
+                ambientacion = 0;
+            }
+            else if (ta.Descripcion.Equals("Básica"))
             {
                 ambientacion = 2;
             }
