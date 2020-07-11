@@ -26,7 +26,7 @@
                 <Label Content="Rut:" HorizontalAlignment="Left" Margin="235,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.613,0.577"/>
                 <TextBox x:Name="txtRut" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Ej: 123456789012" HorizontalAlignment="Left" Height="27" Margin="266,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140"/>
                 <Button x:Name="btnComprobar" Content="Comprobar si existe" HorizontalAlignment="Left" Height="26" Margin="411,10,0,0" VerticalAlignment="Top" Width="152" Click="btnComprobar_Click"/>
-                <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="26" Margin="568,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" IsEnabled="False" Background="#FFFDFB90" Text="Razon Social"/>
+                <TextBox x:Name="txtRazonSocial" HorizontalAlignment="Left" Height="26" Margin="568,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" IsEnabled="False" Background="#FFFDFB90" Text="Razon Social"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="gpbTipoEvento" Header="Tipo de evento" HorizontalAlignment="Left" Height="177" Margin="27,151,0,0" VerticalAlignment="Top" Width="613">
@@ -66,11 +66,11 @@
             </Grid>
         </GroupBox>
 
-        <Controls:Tile Title="Guardar" Margin="18,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97">
+        <Controls:Tile Title="Guardar" Margin="18,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnCreate_Click">
             <Image Source="img/Guardar Contrato.png"></Image>
         </Controls:Tile>
 
-        <Controls:Tile Title="Buscar" Margin="193,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97">
+        <Controls:Tile Title="Buscar" Margin="193,830,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="97" Width="97" Click="btnRead_Click">
             <Image Source="img/Buscar Contrato.png"></Image>
         </Controls:Tile>
 
@@ -82,7 +82,7 @@
             <Image Source="img/Terminar Contrato.png"></Image>
         </Controls:Tile>
         <Button x:Name="btnCopiaSeguridad" Content="Copia. Seguridad" HorizontalAlignment="Left" Height="38" Margin="766,22,0,0" VerticalAlignment="Top" Width="126" Click="button_Click"/>
-        <GroupBox x:Name="gpbCocktail" Header="Cocktail" HorizontalAlignment="Left" Height="138" Margin="27,333,0,0" VerticalAlignment="Top" Width="612">
+        <GroupBox x:Name="gpbCocktail" Header="Cocktail" HorizontalAlignment="Left" Height="138" Margin="27,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
             <Grid Margin="0,0,0,-3">
                 <Label x:Name="label3" Content="Tipo de ambientación:" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.375,0.692"/>
                 <ComboBox x:Name="cboCocktailTipoAmbientacion" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Margin="146,47,0,0" IsEnabled="False" SelectionChanged="cboCocktailTipoAmbientacion_SelectionChanged"/>
@@ -97,13 +97,13 @@
                 <Label Content="Fecha hora de termino:" HorizontalAlignment="Left" Margin="3,73,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label" Content="Fecha de Creacion:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,116,0,0" RenderTransformOrigin="0.605,0.846"/>
                 <Label x:Name="label1" Content="Fecha de Termino:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,159,0,0"/>
-                <TextBox x:Name="txtFechaCreacion" HorizontalAlignment="Left" Height="26" Margin="137,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtFechaTermino" HorizontalAlignment="Left" Height="26" Margin="137,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtFechaCreacion" HorizontalAlignment="Left" Height="26" Margin="140,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtFechaTermino" HorizontalAlignment="Left" Height="26" Margin="140,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" IsEnabled="False" Background="#FFFDFB90"/>
                 <BibliotecaControles:UserControl1 x:Name="ctrFechaHoraInicio" HorizontalAlignment="Left" VerticalAlignment="Top" Height="55" Margin="140,-1,0,0" Width="294"/>
                 <BibliotecaControles:UserControl1 x:Name="ctrFechaHoraFin" HorizontalAlignment="Left" VerticalAlignment="Top" Height="55" Margin="140,54,0,0" Width="294" LostFocus="ctrFechaHoraFin_LostFocus"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="gpbCenas" Header="Cenas" HorizontalAlignment="Left" Height="138" Margin="28,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
+        <GroupBox x:Name="gpbCenas" Header="Cenas" HorizontalAlignment="Left" Height="138" Margin="28,333,0,0" VerticalAlignment="Top" Width="612">
             <Grid Margin="0,0,0,-3">
                 <Label x:Name="label4" Content="Tipo de ambientación:" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.375,0.692"/>
                 <ComboBox x:Name="cboCenasTipoAmbientacion" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Margin="128,1,0,0" SelectionChanged="cboCenasTipoAmbientacion_SelectionChanged"/>

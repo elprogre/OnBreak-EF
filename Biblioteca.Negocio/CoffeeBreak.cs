@@ -116,5 +116,10 @@ namespace Biblioteca.Negocio
             }
             return recargo;
         }
+
+        public override double RecargoExtras()
+        {
+            return 0;
+        }
     }
 }

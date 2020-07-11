@@ -74,35 +74,12 @@ namespace Biblioteca.Negocio
 
         public override double ValorBase()
         {
-            double ambientacion = 0;
-            double musica_ambiental = 0;
             string modalidad = base.cont.IdModalidad;
             ModalidadServicio m = new ModalidadServicio();
             m.IdModalidad = modalidad;
             m.Read();
             double valor_base = m.ValorBase;
-            ////// tipo de ambientacion
-            TipoAmbientacion ta = new TipoAmbientacion();
-            ta.idTipoAmbientacion = this.IdTipoAmbientacion;
-            ta.Read();
-            if (ta.Descripcion==null)
-            {
-                ambientacion = 0;
-            }
-            else if (ta.Descripcion.Equals("Básica"))
-            {
-                ambientacion = 2;
-            }
-            else if (ta.Descripcion.Equals("Personalizada"))
-            {
-                ambientacion = 5;
-            }
-            ////// musica ambiental
-            if (MusicaAmbiental)
-            {
-                musica_ambiental = 1;
-            }
-            return ambientacion + musica_ambiental + valor_base;
+            return valor_base;
         }
 
         public override double RecargoAsistentes()
@@ -141,6 +118,34 @@ namespace Biblioteca.Negocio
                 recargo = 3 + ((pa - 3) * 0.5);
             }
             return recargo;
+        }
+
+        public override double RecargoExtras()
+        {
+            double ambientacion = 0;
+            double musica_ambiental = 0;
+            TipoAmbientacion ta = new TipoAmbientacion();
+            ta.idTipoAmbientacion = this.IdTipoAmbientacion;
+            ta.Read();
+            if (ta.Descripcion == null) //posiblemente se cambie
+            {
+                ambientacion = 0;
+            }
+            else if (ta.Descripcion.Equals("Básica"))
+            {
+                ambientacion = 2;
+            }
+            else if (ta.Descripcion.Equals("Personalizada"))
+            {
+                ambientacion = 5;
+            }
+            ////// musica ambiental
+            if (MusicaAmbiental)
+            {
+                musica_ambiental = 1;
+            }
+            return ambientacion + musica_ambiental;
+
         }
     }
 }

@@ -54,15 +54,16 @@ namespace Vista
             txtBaseEvento.Text = "0";
             txtValorAsistente.Text = "0";
             txtValorPersonalAdicional.Text = "0";
+            txtValorExtra.Text = "0";
             txtTotal.Text = "0";
         }
 
-        
-        public void llenar(Contrato cont)
-        {
 
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
         }
-        
+
 
         private void cboTipoEvento_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -85,13 +86,13 @@ namespace Vista
                 if (te.IdTipoEvento==20)
                 {
                     gpbCocktail.Visibility = Visibility.Visible;
-                    cboCocktailTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll();
+                    cboCocktailTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll().Where(x => x.idTipoAmbientacion<=20);
                     
                 }
                 else if (te.IdTipoEvento == 30)
                 {
                     gpbCenas.Visibility = Visibility.Visible;
-                    cboCenasTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll();
+                    cboCenasTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll().Where(x => x.idTipoAmbientacion <= 20);
                 }
 
                 Evento ev;
@@ -121,12 +122,6 @@ namespace Vista
         {
             ctrFechaHoraFin.RecuperarFechaHora();
             txtFechaTermino.Text = ctrFechaHoraFin.RecuperarFechaHora().ToString("dd/MM/yyyy HH:mm");
-        }
-
-
-        private void btnClear_Click(object sender, RoutedEventArgs e)
-        {
-            limpiar();
         }
 
 
@@ -160,13 +155,15 @@ namespace Vista
             ventana.Show();
         }
 
-        /*
+
         private async void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                Contrato contrato = new Contrato();
                 contrato.Numero = txtNumero.Text;
                 bool respCliente = new Cliente() { RutCliente = txtRut.Text }.Read();
+                contrato.RutCliente = txtRut.Text;
                 if (respCliente)
                 {
                     contrato.RutCliente = txtRut.Text;
@@ -184,7 +181,7 @@ namespace Vista
                 contrato.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
                 contrato.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
                 
-                if (cboTipoEvento.SelectedIndex>=0)
+                if (cboTipoEvento.SelectedIndex>=0) //necesario
                 {
                     contrato.IdTipoEvento =((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
                 }
@@ -192,7 +189,7 @@ namespace Vista
                 {
                     throw new Exception("Falta el campo Tipo Evento");
                 }
-                if (cboModalidadServicio.SelectedIndex >= 0)
+                if (cboModalidadServicio.SelectedIndex >= 0) //necesario
                 {
                     contrato.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
                 }
@@ -200,13 +197,34 @@ namespace Vista
                 {
                     throw new Exception("Falta el campo Modalidad Servicio");
                 }
-                //LOS ASISTENTES Y PERSONALES ADICIONALES LOS HACE LA MAQUINA
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional); //calcula el total del evento y lo asigna
+                contrato.Asistentes = int.Parse(txtAsistentes.Text);
+                contrato.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
                 contrato.Realizado = true;
                 contrato.Observaciones = txtObservaciones.Text;
+                Evento evento = crearObjetoEvento();
+                contrato.ValorTotalContrato = evento.ValorBase() + evento.RecargoAsistentes() + evento.RecargoPersonalAdicional() + evento.RecargoExtras();
 
                 bool respContrato = contrato.Create();
-                await this.ShowMessageAsync("Guardar:", respContrato ? "Contrato Guardado" : "Contrato NO Guardo");
+                await this.ShowMessageAsync("Contrato:", respContrato ? "Contrato Guardado" : "Contrato NO Guardo");
+
+                bool RespTipoEvento = false;
+                if (contrato.IdTipoEvento==10)
+                {
+                    CoffeeBreak coff = ((CoffeeBreak)evento);
+                    RespTipoEvento = coff.Create();
+                }
+                else if (contrato.IdTipoEvento == 20)
+                {
+                    Cocktail cock = ((Cocktail)evento);
+                    RespTipoEvento = cock.Create();
+                }
+                else if (contrato.IdTipoEvento == 30)
+                {
+                    Cenas cena = ((Cenas)evento);
+                    RespTipoEvento = cena.Create();
+                }
+                await this.ShowMessageAsync("Tipo de evento:", RespTipoEvento ? "Guardado" : "NO Guardo");
+
                 limpiar();
 
             }
@@ -215,18 +233,98 @@ namespace Vista
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
-        */
 
 
+        public void llenar(Contrato cont)
+        {
+            txtNumero.Text = cont.Numero;
+            txtRut.Text = cont.RutCliente;
+            Cliente cli = new Cliente() { RutCliente = txtRut.Text };
+            cli.Read();
+            txtRazonSocial.Text = cli.RazonSocial;
+            txtVigencia.Text = cont.Realizado.ToString();
+            TipoEvento te = new TipoEvento() { IdTipoEvento = cont.IdTipoEvento };
+            te.Read();
+            cboTipoEvento.Text = te.Descripcion;
+            ModalidadServicio ms = new ModalidadServicio() { IdModalidad = cont.IdModalidad };
+            ms.Read();
+            cboModalidadServicio.Text = ms.Nombre.Trim();
+            txtPersonal.Text = ms.PersonalBase.ToString();
+            txtAsistentes.Text = cont.Asistentes.ToString();
+            txtPersonalAdicional.Text = cont.PersonalAdicional.ToString();
+            txtObservaciones.Text = cont.Observaciones;
+            txtFechaCreacion.Text = cont.Creacion.ToString();
+            txtFechaTermino.Text = cont.Termino.ToString();
+            ctrFechaHoraInicio.VerFechaYHora(cont.FechaHoraInicio);
+            ctrFechaHoraFin.VerFechaYHora(cont.FechaHoraTermino);
+            Evento evento;
+            if (te.IdTipoEvento == 10)
+            {
+                evento = new CoffeeBreak() { Numero = cont.Numero };
+                ((CoffeeBreak)evento).Read();
+                if (((CoffeeBreak)evento).Vegetariana)
+                {
+                    rbtVegetariana.IsChecked = true;
+                }
+                else
+                {
+                    rbtMixta.IsChecked = true;
+                }
+            }
+            else if (te.IdTipoEvento == 20)
+            {
+                evento = new Cocktail() { Numero = cont.Numero };
+                ((Cocktail)evento).Read();
+                chkCocktailAmbientacion.IsChecked = ((Cocktail)evento).Ambientacion;
+                chkCocktailMusicaAmbiental.IsChecked = ((Cocktail)evento).MusicaAmbiental;
+                chkCocktailMusicaCliente.IsChecked = ((Cocktail)evento).MusicaCliente;
+                if (((Cocktail)evento).Ambientacion == false)
+                {
+                    cboCocktailTipoAmbientacion.SelectedIndex = -1;
+                }
+                else
+                {
+                    TipoAmbientacion ta = new TipoAmbientacion() { idTipoAmbientacion = ((Cocktail)evento).IdTipoAmbientacion };
+                    ta.Read();
+                    cboCocktailTipoAmbientacion.Text = ta.Descripcion;
+                }
 
-        /*
+            }
+            else if (te.IdTipoEvento == 30)
+            {
+                evento = new Cenas() { Numero = cont.Numero };
+                ((Cenas)evento).Read();
+                TipoAmbientacion ta = new TipoAmbientacion() { idTipoAmbientacion = ((Cenas)evento).IdTipoAmbientacion };
+                ta.Read();
+                cboCenasTipoAmbientacion.Text = ta.Descripcion;
+                chkCenasMusicaAmbiental.IsChecked = ((Cenas)evento).MusicaAmbiental;
+                if (((Cenas)evento).LocalOnBreak)
+                {
+                    rbtLocalOnBreak.IsChecked = true;
+                }
+                else
+                {
+                    rbtOtroLocal.IsChecked = true;
+                    if (((Cenas)evento).OtroLocalOnBreak)
+                    {
+                        rbtOtroOnbreak.IsChecked = true;
+                        txtValorArriendoLocal.Text = (((Cenas)evento).ValorArriendo).ToString();
+                    }
+                    else
+                    {
+                        rbtOtroCliente.IsChecked = true;
+                    }
+                }
+            }
+
+        }
+
+
         private async void btnRead_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                valorBaseEvento = 0;
-                valorPersonalAdicional = 0;
-                contrato = new Contrato() { Numero=txtNumero.Text };
+                Contrato contrato = new Contrato() { Numero=txtNumero.Text };
                 bool resp = contrato.Read();
                 if (resp)
                 {
@@ -237,14 +335,13 @@ namespace Vista
                 {
                     await this.ShowMessageAsync("Buscar:", "Contrato NO Encontrado");
                 }
-
             }
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
-        */
+
 
 
         /*
@@ -591,6 +688,8 @@ namespace Vista
             txtBaseEvento.Text = "" + ev.ValorBase();
             txtValorAsistente.Text = "" + ev.RecargoAsistentes();
             txtValorPersonalAdicional.Text = "" + ev.RecargoPersonalAdicional();
+            txtValorExtra.Text = "" + ev.RecargoExtras();
+            txtTotal.Text= (ev.ValorBase() + ev.RecargoAsistentes() + ev.RecargoPersonalAdicional() + ev.RecargoExtras()).ToString();
         }
 
 
@@ -646,6 +745,11 @@ namespace Vista
             {
                 txtPersonalAdicional.Text = "0";
             }
+        }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

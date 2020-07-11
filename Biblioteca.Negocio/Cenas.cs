@@ -75,42 +75,12 @@ namespace Biblioteca.Negocio
 
         public override double ValorBase()
         {
-            double ambientacion = 0;
-            double musica_ambiental = 0;
-            double local_recargo = 0;
             string modalidad = base.cont.IdModalidad;
             ModalidadServicio m = new ModalidadServicio();
             m.IdModalidad = modalidad;
             m.Read();
             double valor_base = m.ValorBase;
-            TipoAmbientacion ta = new TipoAmbientacion();
-            ta.idTipoAmbientacion = this.IdTipoAmbientacion;
-            ta.Read();
-            if (ta.Descripcion==null)
-            {
-                ambientacion = 0;
-            }
-            else if (ta.Descripcion.Equals("Básica"))
-            {
-                ambientacion = 3;
-            }
-            else if (ta.Descripcion.Equals("Personalizada"))
-            {
-                ambientacion = 5;
-            }
-            if (this.MusicaAmbiental)
-            {
-                musica_ambiental = 1.5;
-            }
-            if (this.LocalOnBreak)
-            {
-                local_recargo = 9;
-            }
-            if (this.OtroLocalOnBreak)
-            {
-                local_recargo = this.ValorArriendo + (this.ValorArriendo * 0.05); //Falta pasar de peso a euro aca
-            }
-            return valor_base + ambientacion + musica_ambiental + local_recargo;
+            return valor_base;
         }
 
         public override double RecargoAsistentes()
@@ -153,6 +123,41 @@ namespace Biblioteca.Negocio
                 recargo = 5 + ((pa - 4) * 0.5);
             }
             return recargo;
+        }
+
+        public override double RecargoExtras()
+        {
+            double ambientacion = 0;
+            double musica_ambiental = 0;
+            double local_recargo = 0;
+            TipoAmbientacion ta = new TipoAmbientacion();
+            ta.idTipoAmbientacion = this.IdTipoAmbientacion;
+            ta.Read();
+            if (ta.Descripcion == null) //posiblemente se cambie
+            {
+                ambientacion = 0;
+            }
+            else if (ta.Descripcion.Equals("Básica"))
+            {
+                ambientacion = 3;
+            }
+            else if (ta.Descripcion.Equals("Personalizada"))
+            {
+                ambientacion = 5;
+            }
+            if (this.MusicaAmbiental)
+            {
+                musica_ambiental = 1.5;
+            }
+            if (this.LocalOnBreak)
+            {
+                local_recargo = 9;
+            }
+            if (this.OtroLocalOnBreak)
+            {
+                local_recargo = this.ValorArriendo * 0.05; //Falta pasar de peso a euro aca?
+            }
+            return ambientacion + musica_ambiental + local_recargo;
         }
     }
 }

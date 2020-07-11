@@ -17,5 +17,6 @@ namespace Biblioteca.Negocio
         public abstract double ValorBase();
         public abstract double RecargoAsistentes();
         public abstract double RecargoPersonalAdicional();
+        public abstract double RecargoExtras();
     }
 }

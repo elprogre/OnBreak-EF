@@ -42,12 +42,6 @@ namespace Vista
             InitializeComponent();
             cboActividadEmpresa.ItemsSource = new ActividadEmpresa().ReadAll();
             cboTipoEmpresa.ItemsSource = new TipoEmpresa().ReadAll();
-
-
-            ////ejemplo para que no de error
-            cboActividadEmpresa.SelectedIndex = 0;
-            cboTipoEmpresa.SelectedIndex = 0;
-
             //Antes verificamos si existio un cache
             //verificarCache(); //Cache simple
 
@@ -55,7 +49,7 @@ namespace Vista
             verificarArchivoBinario(); 
 
             //Definir el tiempo para el objeto TIMER
-            dt.Interval = TimeSpan.FromSeconds(15); //Se ejecuta cada dias segundos
+            dt.Interval = TimeSpan.FromMinutes(1); //Se ejecuta cada dias segundos
             //Definición del metodo que se genera cada 10 segundos
             dt.Tick += dtTiempo;
             dt.Start(); //inicia el timer
@@ -165,8 +159,22 @@ namespace Vista
             cli.Telefono = txtTelefono.Text;
             cli.MailContacto = txtMail.Text;
             cli.Direccion = txtDireccion.Text;
-            cli.IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa;
-            cli.IdTipoEmpresa = ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa;
+            if (cboActividadEmpresa.SelectedIndex!=-1)
+            {
+                cli.IdActividadEmpresa = ((ActividadEmpresa)cboActividadEmpresa.SelectedItem).IdActividadEmpresa;
+            }
+            else
+            {
+                cli.IdActividadEmpresa = -1;
+            }
+            if (cboTipoEmpresa.SelectedIndex!=-1)
+            {
+                cli.IdTipoEmpresa = ((TipoEmpresa)cboTipoEmpresa.SelectedItem).IdTipoEmpresa;
+            }
+            else
+            {
+                cli.IdTipoEmpresa = -1;
+            }
             string ruta = @"c:/Copias/ArchivoBin.bin";
             if (File.Exists(ruta))
             {
