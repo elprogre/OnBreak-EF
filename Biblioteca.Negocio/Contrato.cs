@@ -73,11 +73,6 @@ namespace Biblioteca.Negocio
 
         }
 
-        public void CalcularValorEvento(double valorBase,double valorAsistente,double valorPersonal)
-        {
-            ValorTotalContrato = valorBase + valorAsistente + valorPersonal;
-        }
-
 
         OnBreakEntities bdd = new OnBreakEntities();
 
@@ -91,8 +86,9 @@ namespace Biblioteca.Negocio
                 bdd.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             } 
         }
@@ -105,8 +101,9 @@ namespace Biblioteca.Negocio
                 CommonBC.Syncronize(con, this);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -125,8 +122,9 @@ namespace Biblioteca.Negocio
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -147,8 +145,9 @@ namespace Biblioteca.Negocio
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -163,8 +162,9 @@ namespace Biblioteca.Negocio
                 bdd.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -215,8 +215,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
@@ -254,8 +255,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
@@ -293,8 +295,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
@@ -332,8 +335,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
@@ -371,8 +375,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }

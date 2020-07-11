@@ -94,26 +94,7 @@ namespace Vista
                     gpbCenas.Visibility = Visibility.Visible;
                     cboCenasTipoAmbientacion.ItemsSource = new TipoAmbientacion().ReadAll().Where(x => x.idTipoAmbientacion <= 20);
                 }
-
-                Evento ev;
-                switch (te.Descripcion)
-                {
-                    case "Cocktail":
-                        ev = new Cocktail();
-                        break;
-                    case "Coffee Break":
-                        ev = new CoffeeBreak();
-                        break;
-                    case "Cenas":
-                        ev = new Cenas();
-                        break;
-                    default:
-                        ev = null;
-                        break;
-                }
-
                 mostrarCalculosPantalla();
-
             }
         }
 
@@ -145,6 +126,7 @@ namespace Vista
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("ERROR:", ex.Message);
+                Logger.mensaje(ex.Message);
             }
         }
 
@@ -205,32 +187,34 @@ namespace Vista
                 contrato.ValorTotalContrato = evento.ValorBase() + evento.RecargoAsistentes() + evento.RecargoPersonalAdicional() + evento.RecargoExtras();
 
                 bool respContrato = contrato.Create();
-                await this.ShowMessageAsync("Contrato:", respContrato ? "Contrato Guardado" : "Contrato NO Guardo");
 
-                bool RespTipoEvento = false;
                 if (contrato.IdTipoEvento==10)
                 {
                     CoffeeBreak coff = ((CoffeeBreak)evento);
-                    RespTipoEvento = coff.Create();
+                    coff.Create();
                 }
                 else if (contrato.IdTipoEvento == 20)
                 {
                     Cocktail cock = ((Cocktail)evento);
-                    RespTipoEvento = cock.Create();
+                    cock.Create();
                 }
                 else if (contrato.IdTipoEvento == 30)
                 {
                     Cenas cena = ((Cenas)evento);
-                    RespTipoEvento = cena.Create();
+                    cena.Create();
                 }
-                await this.ShowMessageAsync("Tipo de evento:", RespTipoEvento ? "Guardado" : "NO Guardo");
 
-                limpiar();
+                await this.ShowMessageAsync("Contrato:", respContrato ? "Contrato Guardado" : "Contrato NO Guardo");
+                if (respContrato)
+                {
+                    limpiar();
+                }
 
             }
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("ERROR:", ex.Message);
+                Logger.mensaje(ex.Message);
             }
         }
 
@@ -242,7 +226,14 @@ namespace Vista
             Cliente cli = new Cliente() { RutCliente = txtRut.Text };
             cli.Read();
             txtRazonSocial.Text = cli.RazonSocial;
-            txtVigencia.Text = cont.Realizado.ToString();
+            if (cont.Realizado)
+            {
+                txtVigencia.Text = "Si";
+            }
+            else
+            {
+                txtVigencia.Text = "No";
+            }
             TipoEvento te = new TipoEvento() { IdTipoEvento = cont.IdTipoEvento };
             te.Read();
             cboTipoEvento.Text = te.Descripcion;
@@ -253,8 +244,8 @@ namespace Vista
             txtAsistentes.Text = cont.Asistentes.ToString();
             txtPersonalAdicional.Text = cont.PersonalAdicional.ToString();
             txtObservaciones.Text = cont.Observaciones;
-            txtFechaCreacion.Text = cont.Creacion.ToString();
-            txtFechaTermino.Text = cont.Termino.ToString();
+            txtFechaCreacion.Text = cont.Creacion.ToString("dd/MM/yyyy HH:mm");
+            txtFechaTermino.Text = cont.Termino.ToString("dd/MM/yyyy HH:mm");
             ctrFechaHoraInicio.VerFechaYHora(cont.FechaHoraInicio);
             ctrFechaHoraFin.VerFechaYHora(cont.FechaHoraTermino);
             Evento evento;
@@ -339,18 +330,20 @@ namespace Vista
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("ERROR:", ex.Message);
+                Logger.mensaje(ex.Message);
             }
         }
 
 
 
-        /*
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                Contrato contrato = new Contrato();
                 contrato.Numero = txtNumero.Text;
                 bool respCliente = new Cliente() { RutCliente = txtRut.Text }.Read();
+                contrato.RutCliente = txtRut.Text;
                 if (respCliente)
                 {
                     contrato.RutCliente = txtRut.Text;
@@ -359,24 +352,24 @@ namespace Vista
                 {
                     throw new Exception("Rut del cliente no existe");
                 }
-                if (ctrFechaHoraInicio.RecuperarFechaHora() > ctrFechaHoraFin.RecuperarFechaHora())
+                if (ctrFechaHoraInicio.RecuperarFechaHora()>ctrFechaHoraFin.RecuperarFechaHora())
                 {
                     throw new Exception("La FechaHoraInicio no puede ser mayor a la FechaHoraTermino");
                 }
-                contrato.Creacion = DateTime.ParseExact(txtFechaCreacion.Text, "dd-MM-yyyy HH:mm", null);
-                contrato.Termino = ctrFechaHoraFin.RecuperarFechaHora();
+                contrato.Creacion = DateTime.ParseExact(txtFechaCreacion.Text, "dd-MM-yyyy HH:mm", null); 
+                contrato.Termino = DateTime.ParseExact(txtFechaTermino.Text, "dd-MM-yyyy HH:mm", null);
                 contrato.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
                 contrato.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
-
-                if (cboTipoEvento.SelectedIndex >= 0)
+                
+                if (cboTipoEvento.SelectedIndex>=0) //necesario
                 {
-                    contrato.IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
+                    contrato.IdTipoEvento =((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
                 }
                 else
                 {
                     throw new Exception("Falta el campo Tipo Evento");
                 }
-                if (cboModalidadServicio.SelectedIndex >= 0)
+                if (cboModalidadServicio.SelectedIndex >= 0) //necesario
                 {
                     contrato.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
                 }
@@ -384,24 +377,57 @@ namespace Vista
                 {
                     throw new Exception("Falta el campo Modalidad Servicio");
                 }
-                //LOS ASISTENTES Y PERSONALES ADICIONALES LOS HACE LA MAQUINA
-                contrato.CalcularValorEvento(valorBaseEvento, valorAsistente, valorPersonalAdicional); //calcula el total del evento y lo asigna
-                contrato.Realizado = true;
+                contrato.Asistentes = int.Parse(txtAsistentes.Text);
+                contrato.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
+                if (txtVigencia.Text.Equals("Si"))
+                {
+                    contrato.Realizado = true;
+                }
+                else
+                {
+                    contrato.Realizado = false;
+                }
+
                 contrato.Observaciones = txtObservaciones.Text;
+                Evento evento = crearObjetoEvento();
+                contrato.ValorTotalContrato = evento.ValorBase() + evento.RecargoAsistentes() + evento.RecargoPersonalAdicional() + evento.RecargoExtras();
 
                 bool resp = contrato.Update();
+                if (contrato.IdTipoEvento==10)
+                {
+                    CoffeeBreak coff = ((CoffeeBreak)evento);
+                    coff.Update();
+                }
+                else if (contrato.IdTipoEvento == 20)
+                {
+                    Cocktail cock = ((Cocktail)evento);
+                    cock.Update();
+                }
+                else if (contrato.IdTipoEvento == 30)
+                {
+                    Cenas cena = ((Cenas)evento);
+                    cena.Update();
+                }
+
                 await this.ShowMessageAsync("Actualizar:", resp ? "Contrato Actualizo" : "Contrato NO Actualizo");
-                limpiar();
+                if (txtVigencia.Text.Equals("No"))
+                {
+                    await this.ShowMessageAsync("VIGENCIA TERMINADA:", "No se puede ACTUALIZAR un contrato con su vigencia terminada");
+                }
+                if (resp)
+                {
+                    limpiar();
+                }
             }
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("ERROR:", ex.Message);
+                Logger.mensaje(ex.Message);
             }
         }
-        */
 
 
-        /*
+
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -409,7 +435,7 @@ namespace Vista
                 MessageDialogResult resultado = await this.ShowMessageAsync("Terminar:", "Desea Terminar la vigencia de este contrato?", MessageDialogStyle.AffirmativeAndNegative);
                 if (resultado == MessageDialogResult.Affirmative)
                 {
-                    contrato = new Contrato() { Numero = txtNumero.Text };
+                    Contrato contrato= new Contrato() { Numero = txtNumero.Text };
                     bool resp = contrato.Delete();
                     if (resp)
                     {
@@ -421,17 +447,13 @@ namespace Vista
                         throw new Exception("Contrato NO Existe");
                     }
                 }
-                else
-                {
-                    limpiar();
-                }
             }
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("ERROR:", ex.Message);
+                Logger.mensaje(ex.Message);
             }
         }
-        */
 
         private void btnListaContrato_Click(object sender, RoutedEventArgs e)
         {
@@ -515,9 +537,9 @@ namespace Vista
                 txtValorArriendoLocal.Text = "0";
                 rbtOtroOnbreak.IsChecked = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Logger.mensaje(ex.Message);
             }
         }
 
@@ -532,9 +554,9 @@ namespace Vista
                 txtValorArriendoLocal.Text = "0";
                 mostrarCalculosPantalla();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Logger.mensaje(ex.Message);
             }
         }
 
@@ -548,9 +570,9 @@ namespace Vista
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Logger.mensaje(ex.Message);
             }
         }
 
@@ -568,9 +590,9 @@ namespace Vista
                 rbtOtroOnbreak.IsChecked = false;
                 mostrarCalculosPantalla();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Logger.mensaje(ex.Message);
             }
         }
 
@@ -747,9 +769,5 @@ namespace Vista
             }
         }
 
-        private void Tile_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

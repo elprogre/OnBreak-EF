@@ -34,8 +34,9 @@ namespace Biblioteca.Negocio
                 this.Descripcion = tip.Descripcion;
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -55,8 +56,9 @@ namespace Biblioteca.Negocio
                 }
                 return lista_clase_tipoe;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }

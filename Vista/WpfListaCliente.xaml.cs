@@ -60,6 +60,7 @@ namespace Vista
             }
             catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
@@ -75,6 +76,7 @@ namespace Vista
             }
             catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
@@ -90,6 +92,7 @@ namespace Vista
             }
             catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }
@@ -118,6 +121,7 @@ namespace Vista
             }
             catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 await this.ShowMessageAsync("ERROR:", ex.Message);
             }
         }

@@ -161,8 +161,9 @@ namespace Biblioteca.Negocio
                 bdd.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -183,8 +184,9 @@ namespace Biblioteca.Negocio
                 this.IdTipoEmpresa = cli.IdTipoEmpresa; */
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -198,8 +200,9 @@ namespace Biblioteca.Negocio
                 bdd.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -214,8 +217,9 @@ namespace Biblioteca.Negocio
                 bdd.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -263,8 +267,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
@@ -293,8 +298,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
@@ -323,8 +329,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
@@ -353,8 +360,9 @@ namespace Biblioteca.Negocio
                         };
                 return x.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }

@@ -39,6 +39,32 @@ namespace Biblioteca.Negocio
             }
         }
 
+        public bool Update()
+        {
+            try
+            {
+                DALC.Cenas c = bdd.Cenas.Find(this.Numero);
+                Contrato con = new Contrato() { Numero = this.Numero };
+                con.Read();
+                if (con.Realizado)
+                {
+                    CommonBC.Syncronize(this, c);
+                    bdd.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Logger.mensaje(ex.Message);
+                return false;
+            }
+        }
+
         public bool Delete()
         {
             try

@@ -43,8 +43,9 @@ namespace Biblioteca.Negocio
                 return true;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return false;
             }
         }
@@ -68,8 +69,9 @@ namespace Biblioteca.Negocio
                 }
                 return lista_clase_modalidad;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.mensaje(ex.Message);
                 return null;
             }
         }
