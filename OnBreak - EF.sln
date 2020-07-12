@@ -8,8 +8,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Negocio", "Biblioteca.Negocio\Biblioteca.Negocio.csproj", "{EED0C0BD-9318-423B-A819-B3C76694A03F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vista", "Vista\Vista.csproj", "{5C5BD810-2441-4E1C-9CA3-E8930FBDFAA6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{98D75D2D-E4FD-471D-B1FF-A9186C352A0A} = {98D75D2D-E4FD-471D-B1FF-A9186C352A0A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotecaControles", "BibliotecaControles\BibliotecaControles.csproj", "{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WS_UF", "WS_UF\WS_UF.csproj", "{98D75D2D-E4FD-471D-B1FF-A9186C352A0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99D19E0C-8D0D-482C-AC71-7CAD477DCD16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98D75D2D-E4FD-471D-B1FF-A9186C352A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98D75D2D-E4FD-471D-B1FF-A9186C352A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98D75D2D-E4FD-471D-B1FF-A9186C352A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98D75D2D-E4FD-471D-B1FF-A9186C352A0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

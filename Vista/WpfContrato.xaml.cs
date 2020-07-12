@@ -31,6 +31,8 @@ namespace Vista
         public WpfContrato()
         {
             InitializeComponent();
+            ServiceReferenceUF.Service1Client WS = new ServiceReferenceUF.Service1Client();
+            txtValorUF.Text = WS.UF().ToString();
             cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
             limpiar();
             verificarArchivoBinario();
@@ -462,6 +464,10 @@ namespace Vista
                 else if (contrato.IdTipoEvento == 30)
                 {
                     Cenas cena = ((Cenas)evento);
+                    if (((Cenas)evento).IdTipoAmbientacion==30)
+                    {
+                        throw new Exception("El campo 'Tipo De Ambientacion' es obligatorio");
+                    }
                     cena.Create();
                 }
 
@@ -756,6 +762,7 @@ namespace Vista
                 rbtOtroCliente.Visibility = Visibility.Visible;
                 label5.Visibility = Visibility.Hidden;
                 label6.Visibility = Visibility.Hidden;
+                labelPequeño.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Visibility = Visibility.Hidden;
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";
@@ -773,6 +780,7 @@ namespace Vista
             {
                 label5.Visibility = Visibility.Visible;
                 label6.Visibility = Visibility.Visible;
+                labelPequeño.Visibility = Visibility.Visible;
                 txtValorArriendoLocal.Visibility = Visibility.Visible;
                 txtComision.Visibility = Visibility.Visible;
                 txtValorArriendoLocal.Text = "0";
@@ -790,6 +798,7 @@ namespace Vista
             {
                 label5.Visibility = Visibility.Hidden;
                 label6.Visibility = Visibility.Hidden;
+                labelPequeño.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Visibility = Visibility.Hidden;
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";
@@ -808,6 +817,7 @@ namespace Vista
                 rbtOtroCliente.Visibility = Visibility.Hidden;
                 label5.Visibility = Visibility.Hidden;
                 label6.Visibility = Visibility.Hidden;
+                labelPequeño.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Visibility = Visibility.Hidden;
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";
@@ -1023,7 +1033,65 @@ namespace Vista
             }
         }
 
+        private void txtBaseEvento_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                txtBaseEventoCLP.Text = (double.Parse(txtBaseEvento.Text) * double.Parse(txtValorUF.Text)).ToString("0,0.0");
+            }
+            catch (Exception ex)
+            {
+                Logger.mensaje(ex.Message);
+            }
+        }
 
+        private void txtValorAsistente_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                txtValorAsistenteCLP.Text = (double.Parse(txtValorAsistente.Text) * double.Parse(txtValorUF.Text)).ToString("0,0.0");
+            }
+            catch (Exception ex)
+            {
+                Logger.mensaje(ex.Message);
+            }
+        }
+
+        private void txtValorPersonalAdicional_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                txtValorPersonalAdicionalCLP.Text = (double.Parse(txtValorPersonalAdicional.Text) * double.Parse(txtValorUF.Text)).ToString("0,0.0");
+            }
+            catch (Exception ex)
+            {
+                Logger.mensaje(ex.Message);
+            }
+        }
+
+        private void txtValorExtra_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                txtValorExtraCLP.Text = (double.Parse(txtValorExtra.Text) * double.Parse(txtValorUF.Text)).ToString("0,0.0");
+            }
+            catch (Exception ex)
+            {
+                Logger.mensaje(ex.Message);
+            }
+        }
+
+        private void txtTotal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                txtTotalCLP.Text = (double.Parse(txtTotal.Text) * double.Parse(txtValorUF.Text)).ToString("0,0.0");
+            }
+            catch (Exception ex)
+            {
+                Logger.mensaje(ex.Message);
+            }
+        }
 
     }
 }

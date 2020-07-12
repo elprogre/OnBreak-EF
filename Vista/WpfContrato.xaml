@@ -52,11 +52,11 @@
                 <Label Content="Valor por asistente:" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top"/>
                 <Label Content="Valor por personal adicional:" HorizontalAlignment="Left" Margin="0,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.395,-0.192"/>
                 <Label Content="Valor total del evento:" HorizontalAlignment="Left" Margin="0,159,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.211,0.231"/>
-                <TextBox x:Name="txtBaseEvento" HorizontalAlignment="Left" Height="23" Margin="168,2,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.725,1.478" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorAsistente" HorizontalAlignment="Left" Height="23" Margin="168,40,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorPersonalAdicional" HorizontalAlignment="Left" Height="23" Margin="168,79,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="5.35,0.696" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtTotal" HorizontalAlignment="Left" Height="23" Margin="168,159,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="-7.5,0.348" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorExtra" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="168,119,0,0" IsEnabled="False" Text="0" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtBaseEvento" HorizontalAlignment="Left" Height="23" Margin="168,2,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.725,1.478" IsEnabled="False" Background="#FFFDFB90" TextChanged="txtBaseEvento_TextChanged"/>
+                <TextBox x:Name="txtValorAsistente" HorizontalAlignment="Left" Height="23" Margin="168,40,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" IsEnabled="False" Background="#FFFDFB90" TextChanged="txtValorAsistente_TextChanged"/>
+                <TextBox x:Name="txtValorPersonalAdicional" HorizontalAlignment="Left" Height="23" Margin="168,79,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="5.35,0.696" IsEnabled="False" Background="#FFFDFB90" TextChanged="txtValorPersonalAdicional_TextChanged"/>
+                <TextBox x:Name="txtTotal" HorizontalAlignment="Left" Height="23" Margin="168,159,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="-7.5,0.348" IsEnabled="False" Background="#FFFDFB90" TextChanged="txtTotal_TextChanged"/>
+                <TextBox x:Name="txtValorExtra" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="168,119,0,0" IsEnabled="False" Text="0" Background="#FFFDFB90" TextChanged="txtValorExtra_TextChanged"/>
                 <Label x:Name="label2" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,119,0,0" RenderTransformOrigin="0.667,1.577"/>
                 <Label x:Name="label2_Copy" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,78,0,0" RenderTransformOrigin="0.375,0.192"/>
                 <Label x:Name="label2_Copy1" Content="UF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,40,0,0" RenderTransformOrigin="-2.208,3.038"/>
@@ -116,6 +116,7 @@
                 <TextBox x:Name="txtComision" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="492,63,0,0" Visibility="Hidden"/>
                 <RadioButton x:Name="rbtOtroOnbreak" Content="OnBreak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,67,0,0" GroupName="OtroLocal" Checked="rbtOtroOnbreak_Checked" Visibility="Hidden" Unchecked="rbtOtroOnbreak_Unchecked"/>
                 <RadioButton x:Name="rbtOtroCliente" Content="Cliente" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,67,0,0" GroupName="OtroLocal" Checked="rbtOtroCliente_Checked" Visibility="Hidden"/>
+                <Label x:Name="labelPequeño" Content="(en UF)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="262,84,0,-9" Width="45" Height="26" FontSize="9" Visibility="Hidden"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="gpbCoffeBreak" Header="Coffe Break " HorizontalAlignment="Left" Height="138" Margin="27,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
@@ -133,19 +134,22 @@
             <Grid Margin="0,0,-2,-12">
                 <Label Content="Valor base evento:" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top"/>
                 <Label Content="Valor por asistente:" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top"/>
-                <Label Content="Valor por personal adicional:" HorizontalAlignment="Left" Margin="0,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.395,-0.192"/>
+                <Label Content="Valor por P.A:" HorizontalAlignment="Left" Margin="0,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.395,-0.192"/>
                 <Label Content="Valor total del evento:" HorizontalAlignment="Left" Margin="0,159,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.211,0.231"/>
-                <TextBox x:Name="txtBaseEventoCLP" HorizontalAlignment="Left" Height="23" Margin="168,2,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.725,1.478" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorAsistenteCLP" HorizontalAlignment="Left" Height="23" Margin="168,40,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorPersonalAdicionalCLP" HorizontalAlignment="Left" Height="23" Margin="168,79,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="5.35,0.696" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtTotalCLP" HorizontalAlignment="Left" Height="23" Margin="168,159,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="-7.5,0.348" IsEnabled="False" Background="#FFFDFB90"/>
-                <TextBox x:Name="txtValorExtraCLP" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" Margin="168,119,0,0" IsEnabled="False" Text="0" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtBaseEventoCLP" HorizontalAlignment="Left" Height="23" Margin="134,2,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="89" RenderTransformOrigin="1.725,1.478" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtValorAsistenteCLP" HorizontalAlignment="Left" Height="23" Margin="134,40,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="89" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtValorPersonalAdicionalCLP" HorizontalAlignment="Left" Height="23" Margin="134,79,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="89" RenderTransformOrigin="5.35,0.696" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtTotalCLP" HorizontalAlignment="Left" Height="23" Margin="134,159,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="89" RenderTransformOrigin="-7.5,0.348" IsEnabled="False" Background="#FFFDFB90"/>
+                <TextBox x:Name="txtValorExtraCLP" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="89" Margin="134,119,0,0" IsEnabled="False" Text="0" Background="#FFFDFB90"/>
                 <Label x:Name="label9" Content="CLP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,119,0,0" RenderTransformOrigin="0.667,1.577"/>
                 <Label x:Name="label2_Copy4" Content="CLP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,78,0,0" RenderTransformOrigin="0.375,0.192"/>
                 <Label x:Name="label2_Copy5" Content="CLP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,40,0,0" RenderTransformOrigin="-2.208,3.038"/>
                 <Label x:Name="label2_Copy6" Content="CLP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,2,0,0"/>
                 <Label x:Name="label10" Content="Valor por extras:" HorizontalAlignment="Left" Margin="0,119,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label2_Copy7" Content="CLP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,159,0,0" RenderTransformOrigin="0.667,1.577"/>
+                <Label x:Name="lbl" Content="Valor UF a CLP:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,214,0,0"/>
+                <TextBox x:Name="txtValorUF" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Margin="118,214,0,0" IsEnabled="False" Background="#FFFDFB90"/>
+                <Label x:Name="label2_Copy8" Content="CLP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="221,214,0,0" RenderTransformOrigin="0.667,1.577"/>
             </Grid>
         </GroupBox>
 
