@@ -53,13 +53,17 @@
     <Compile Include="ActividadEmpresa.cs" />
     <Compile Include="CareTaker.cs" />
     <Compile Include="Cenas.cs" />
+    <Compile Include="CenasCache.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Cocktail.cs" />
+    <Compile Include="CocktailCache.cs" />
     <Compile Include="CoffeeBreak.cs" />
+    <Compile Include="CoffeeBreakCache.cs" />
     <Compile Include="CommonBC.cs" />
     <Compile Include="ContratoSalvar.cs" />
     <Compile Include="Contrato.cs" />
     <Compile Include="Evento.cs" />
+    <Compile Include="EventoSalvar.cs" />
     <Compile Include="IMetodos.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Memento.cs" />

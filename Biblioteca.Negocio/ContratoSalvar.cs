@@ -43,14 +43,14 @@ namespace Biblioteca.Negocio
 
         public void Restaurar(Memento memento)
         {
-            ContratoSalvar cont = memento.Recuperar();
+            ContratoSalvar cont = memento.RecuperarContratoCache();
             CommonBC.Syncronize(cont, this);
         }
 
         public Memento CrearMemento()
         {
             Memento memento = new Memento();
-            memento.Salvar(this);
+            memento.SalvarContratoCache(this);
             return memento;
         }
         

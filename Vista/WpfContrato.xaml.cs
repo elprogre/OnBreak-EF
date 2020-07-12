@@ -18,6 +18,7 @@ using MahApps.Metro.Behaviours;
 using System.Windows.Threading;
 using System.IO;
 
+
 namespace Vista
 {
     /// <summary>
@@ -40,8 +41,9 @@ namespace Vista
 
         private async void verificarArchivoBinario()
         {
-            string ruta = @"Contrato.bin";
-            if (File.Exists(ruta))
+            string rutaContrato = @"Contrato.bin";
+            string rutaEvento= @"Evento.bin";
+            if (File.Exists(rutaContrato))
             {
                 MessageDialogResult resul = await this.ShowMessageAsync("Informacion",
                     "Hay una copia de datos en el cache ¿Desea Recuperarlos?",
@@ -52,15 +54,97 @@ namespace Vista
                     ContratoSalvar cont = new ContratoSalvar();
                     cont.Restaurar(memento);
                     LlenarContratoCache(cont);
-                    File.Delete(ruta);
+
+                    if (File.Exists(rutaEvento))
+                    {
+                        EventoSalvar ev;
+                        if (cont.IdTipoEvento == 10)
+                        {
+                            ev = new CoffeeBreakCache();
+
+                        }
+                        else if (cont.IdTipoEvento == 20)
+                        {
+                            ev = new CocktailCache();
+                        }
+                        else
+                        {
+                            ev = new CenasCache();
+                        }
+                        ev.RestaurarEventoCache(memento);
+                        LlenarEventoCache(ev,cont.IdTipoEvento);
+                        File.Delete(rutaEvento);
+                    }
+
+                    File.Delete(rutaContrato);
+
 
                 }
                 else
                 {
-                    File.Delete(ruta);
+                    File.Delete(rutaContrato);
+                    File.Delete(rutaEvento);
                 }
             }
 
+        }
+
+        private void LlenarEventoCache(EventoSalvar ev,int idTipoEventos)
+        {
+            EventoSalvar eventoCache = ev;
+            if (idTipoEventos == 10)
+            {
+
+                if (((CoffeeBreakCache)eventoCache).Vegetariana)
+                {
+                    rbtVegetariana.IsChecked = true;
+                }
+                else
+                {
+                    rbtMixta.IsChecked = true;
+                }
+            }
+            else if (idTipoEventos == 20)
+            {
+                chkCocktailAmbientacion.IsChecked = ((CocktailCache)eventoCache).Ambientacion;
+                chkCocktailMusicaAmbiental.IsChecked = ((CocktailCache)eventoCache).MusicaAmbiental;
+                chkCocktailMusicaCliente.IsChecked = ((CocktailCache)eventoCache).MusicaCliente;
+                if (((CocktailCache)eventoCache).Ambientacion == false)
+                {
+                    cboCocktailTipoAmbientacion.SelectedIndex = -1;
+                }
+                else
+                {
+                    TipoAmbientacion ta = new TipoAmbientacion() { idTipoAmbientacion = ((CocktailCache)eventoCache).IdTipoAmbientacion };
+                    ta.Read();
+                    cboCocktailTipoAmbientacion.Text = ta.Descripcion;
+                }
+
+            }
+            else if (idTipoEventos == 30)
+            {
+                TipoAmbientacion ta = new TipoAmbientacion() { idTipoAmbientacion = ((CenasCache)eventoCache).IdTipoAmbientacion };
+                ta.Read();
+                cboCenasTipoAmbientacion.Text = ta.Descripcion;
+                chkCenasMusicaAmbiental.IsChecked = ((CenasCache)eventoCache).MusicaAmbiental;
+                if (((CenasCache)eventoCache).LocalOnBreak)
+                {
+                    rbtLocalOnBreak.IsChecked = true;
+                }
+                else
+                {
+                    rbtOtroLocal.IsChecked = true;
+                    if (((CenasCache)eventoCache).OtroLocalOnBreak)
+                    {
+                        rbtOtroOnbreak.IsChecked = true;
+                        txtValorArriendoLocal.Text = (((CenasCache)eventoCache).ValorArriendo).ToString();
+                    }
+                    else
+                    {
+                        rbtOtroCliente.IsChecked = true;
+                    }
+                }
+            }
         }
 
         private void LlenarContratoCache(ContratoSalvar cont)
@@ -143,8 +227,69 @@ namespace Vista
             }
 
             cont.Observaciones = txtObservaciones.Text;
-
-            memento.Salvar(cont);
+            memento.SalvarContratoCache(cont);
+            if (cboTipoEvento.SelectedIndex>=0)
+            {
+                EventoSalvar ev;
+                if (cont.IdTipoEvento==10)
+                {
+                    bool respVegetariana = rbtVegetariana.IsChecked == true ? true : false;
+                    ev = new CoffeeBreakCache()
+                    {
+                        Numero = txtNumero.Text,
+                        Vegetariana = respVegetariana
+                    };
+                }
+                else if (cont.IdTipoEvento==20)
+                {
+                    bool respAmbientacionCock = chkCocktailAmbientacion.IsChecked == true ? true : false;
+                    TipoAmbientacion ta = new TipoAmbientacion();
+                    if (respAmbientacionCock)
+                    {
+                        ta = (TipoAmbientacion)cboCocktailTipoAmbientacion.SelectedItem;
+                    }
+                    else
+                    {
+                        ta.idTipoAmbientacion = 30;
+                    }
+                    bool respMusicaCock = chkCocktailMusicaAmbiental.IsChecked == true ? true : false;
+                    bool respMusicaClienteCock = chkCocktailMusicaCliente.IsChecked == true ? true : false;
+                    ev = new CocktailCache()
+                    {
+                        Numero = txtNumero.Text,
+                        Ambientacion = respAmbientacionCock,
+                        IdTipoAmbientacion = ta.idTipoAmbientacion,
+                        MusicaAmbiental = respMusicaCock,
+                        MusicaCliente = respMusicaClienteCock
+                    };
+                }
+                else
+                {
+                    TipoAmbientacion ta2 = new TipoAmbientacion();
+                    if (cboCenasTipoAmbientacion.SelectedIndex == -1)
+                    {
+                        ta2.idTipoAmbientacion = 30;
+                    }
+                    else
+                    {
+                        ta2 = (TipoAmbientacion)cboCenasTipoAmbientacion.SelectedItem;
+                    }
+                    bool musica_ambiental_cenas = chkCenasMusicaAmbiental.IsChecked == true ? true : false;
+                    bool localOnbreak = rbtLocalOnBreak.IsChecked == true ? true : false;
+                    bool otroLocalOnbreak = rbtOtroOnbreak.IsChecked == true ? true : false;
+                    int valoraArriendo = int.Parse(txtValorArriendoLocal.Text);
+                    ev = new CenasCache()
+                    {
+                        Numero = txtNumero.Text,
+                        IdTipoAmbientacion = ta2.idTipoAmbientacion,
+                        MusicaAmbiental = musica_ambiental_cenas,
+                        LocalOnBreak = localOnbreak,
+                        OtroLocalOnBreak = otroLocalOnbreak,
+                        ValorArriendo = valoraArriendo
+                    };
+                }
+                memento.SalvarEventoCache(ev);
+            }
         }
 
         public void limpiar()

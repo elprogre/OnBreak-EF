@@ -10,7 +10,7 @@ namespace Biblioteca.Negocio
 {
     public class Memento
     {
-        public void Salvar(ContratoSalvar cont)
+        public void SalvarContratoCache(ContratoSalvar cont)
         {
             BinaryFormatter formato = new BinaryFormatter();
             Stream stream = File.Create(@"Contrato.bin");
@@ -18,13 +18,30 @@ namespace Biblioteca.Negocio
             stream.Close();
         }
 
-        public ContratoSalvar Recuperar()
+        public void SalvarEventoCache(EventoSalvar eve)
+        {
+            BinaryFormatter formato = new BinaryFormatter();
+            Stream stream = File.Create(@"Evento.bin");
+            formato.Serialize(stream, eve);
+            stream.Close();
+        }
+
+        public ContratoSalvar RecuperarContratoCache()
         {
             BinaryFormatter formato = new BinaryFormatter();
             Stream stream = File.OpenRead(@"Contrato.bin");
             ContratoSalvar cont = (ContratoSalvar)formato.Deserialize(stream);
             stream.Close();
             return cont;
+        }
+
+        public EventoSalvar RecuperarEventoCache()
+        {
+            BinaryFormatter formato = new BinaryFormatter();
+            Stream stream = File.OpenRead(@"Evento.bin");
+            EventoSalvar eve = (EventoSalvar)formato.Deserialize(stream);
+            stream.Close();
+            return eve;
         }
     }
 }
