@@ -21,7 +21,7 @@ namespace Biblioteca.Negocio
         public ContratoSalvar Recuperar()
         {
             BinaryFormatter formato = new BinaryFormatter();
-            Stream stream = File.OpenRead("Contrato.bin");
+            Stream stream = File.OpenRead(@"C:\Copias\Contrato.bin");
             ContratoSalvar cont = (ContratoSalvar)formato.Deserialize(stream);
             stream.Close();
             return cont;

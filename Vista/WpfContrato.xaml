@@ -66,22 +66,22 @@
             </Grid>
         </GroupBox>
 
-        <Controls:Tile Title="Guardar" Margin="28,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="161" Click="btnCreate_Click">
+        <Controls:Tile Title="Guardar" Margin="28,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="180" Click="btnCreate_Click">
             <Image Source="img/Guardar Contrato.png"></Image>
         </Controls:Tile>
 
-        <Controls:Tile Title="Buscar" Margin="274,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="161" Click="btnRead_Click">
+        <Controls:Tile Title="Buscar" Margin="263,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="180" Click="btnRead_Click">
             <Image Source="img/Buscar Contrato.png"></Image>
         </Controls:Tile>
 
-        <Controls:Tile Title="Actualizar" Margin="520,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="161" Click="btnUpdate_Click">
+        <Controls:Tile Title="Actualizar" Margin="499,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="180" Click="btnUpdate_Click">
             <Image Source="img/Actualizar Contrato.png"></Image>
         </Controls:Tile>
 
-        <Controls:Tile Title="Terminar" Margin="758,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="161" Click="btnDelete_Click">
+        <Controls:Tile Title="Terminar" Margin="739,801,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="126" Width="180" Click="btnDelete_Click">
             <Image Source="img/Terminar Contrato.png"></Image>
         </Controls:Tile>
-        <Button x:Name="btnRespaldo" Content="Respaldo" HorizontalAlignment="Left" Height="38" Margin="766,22,0,0" VerticalAlignment="Top" Width="126" Click="button_Click"/>
+        <Button x:Name="btnRespaldo" Content="Respaldo" HorizontalAlignment="Left" Height="38" Margin="793,22,0,0" VerticalAlignment="Top" Width="126" Click="btnRespaldo_Click"/>
         <GroupBox x:Name="gpbCocktail" Header="Cocktail" HorizontalAlignment="Left" Height="138" Margin="27,333,0,0" VerticalAlignment="Top" Width="612" Visibility="Hidden">
             <Grid Margin="0,0,0,-3">
                 <Label x:Name="label3" Content="Tipo de ambientación:" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.375,0.692"/>
@@ -91,7 +91,7 @@
                 <CheckBox x:Name="chkCocktailAmbientacion" Content="Ambientacion" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" Checked="chkCocktailAmbientacion_Checked" Unchecked="chkCocktailAmbientacion_Unchecked"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="gpbFechas" Header="Horario" HorizontalAlignment="Left" Margin="28,476,0,0" VerticalAlignment="Top" Width="612" Height="320">
+        <GroupBox x:Name="gpbFechas" Header="Horario" HorizontalAlignment="Left" Margin="28,476,0,0" VerticalAlignment="Top" Width="612" Height="297">
             <Grid Margin="0,0,0,-5">
                 <Label Content="Fecha hora de inicio:" HorizontalAlignment="Left" Margin="5,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.164,-0.157"/>
                 <Label Content="Fecha hora de termino:" HorizontalAlignment="Left" Margin="3,73,0,0" VerticalAlignment="Top"/>
@@ -129,7 +129,7 @@
                 <Label x:Name="label8" Content="Seleccione un tipo de evento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="223,37,0,0"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="gpbPreciosCLP" Header="Precios de evento (CLP)" HorizontalAlignment="Left" Height="320" Margin="657,476,0,0" VerticalAlignment="Top" Width="262">
+        <GroupBox x:Name="gpbPreciosCLP" Header="Precios de evento (CLP)" HorizontalAlignment="Left" Height="297" Margin="657,476,0,0" VerticalAlignment="Top" Width="262">
             <Grid Margin="0,0,-2,-12">
                 <Label Content="Valor base evento:" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top"/>
                 <Label Content="Valor por asistente:" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top"/>

@@ -461,43 +461,6 @@ namespace Vista
             ventana.Show();
         }
 
-        private async void button_Click(object sender, RoutedEventArgs e)
-        {
-            Memento memento=new Memento();
-            ContratoSalvar cont = new ContratoSalvar();
-            cont.Numero = txtNumero.Text;
-            cont.RutCliente = txtRut.Text;
-            cont.Creacion = DateTime.Now;
-            cont.Termino = ctrFechaHoraFin.RecuperarFechaHora();
-            cont.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
-            cont.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
-
-            if (cboTipoEvento.SelectedIndex >= 0)
-            {
-                cont.IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
-            }
-            else
-            {
-                cont.IdTipoEvento = -1; //-1 quiere decir null al momento de recuperar
-            }
-            if (cboModalidadServicio.SelectedIndex >= 0)
-            {
-                cont.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
-            }
-            else
-            {
-                cont.IdModalidad = "-1"; //"-1" quiere decir null al momento de recuperar
-            }
-            cont.Asistentes = int.Parse(txtAsistentes.Text);
-            cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
-            cont.ValorTotalContrato = 0;
-            cont.Realizado = true;
-            cont.Observaciones = txtObservaciones.Text;
-
-            memento.Salvar(cont);
-            await this.ShowMessageAsync("Copia de seguridad:", "Guardado Exitosamente");
-
-        }
 
         private void chkCocktailAmbientacion_Checked(object sender, RoutedEventArgs e)
         {
@@ -768,6 +731,54 @@ namespace Vista
                 txtPersonalAdicional.Text = "0";
             }
         }
+
+        private async void btnRespaldo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Memento memento = new Memento();
+                ContratoSalvar cont = new ContratoSalvar();
+                cont.Numero = txtNumero.Text;
+                cont.RutCliente = txtRut.Text;
+                cont.Creacion = DateTime.Now;
+                cont.Termino = ctrFechaHoraFin.RecuperarFechaHora();
+                cont.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
+                cont.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
+
+                if (cboTipoEvento.SelectedIndex >= 0)
+                {
+                    cont.IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
+                }
+                else
+                {
+                    cont.IdTipoEvento = -1; //-1 quiere decir null al momento de recuperar
+                }
+                if (cboModalidadServicio.SelectedIndex >= 0)
+                {
+                    cont.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
+                }
+                else
+                {
+                    cont.IdModalidad = "-1"; //"-1" quiere decir null al momento de recuperar
+                }
+                cont.Asistentes = int.Parse(txtAsistentes.Text);
+                cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
+                Evento evento = crearObjetoEvento();
+                cont.ValorTotalContrato = evento.ValorBase() + evento.RecargoAsistentes() + evento.RecargoPersonalAdicional() + evento.RecargoExtras();
+                cont.Realizado = true;
+                cont.Observaciones = txtObservaciones.Text;
+
+                memento.Salvar(cont);
+                await this.ShowMessageAsync("Copia de seguridad:", "Guardado Exitosamente");
+            }
+            catch (Exception ex)
+            {
+                Logger.mensaje(ex.Message);
+                await this.ShowMessageAsync("Respaldo:", "Error al guardar la copia de seguridad");
+            }
+        }
+
+
 
     }
 }
