@@ -15,6 +15,8 @@ using Biblioteca.Negocio;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
+using System.Windows.Threading;
+using System.IO;
 
 namespace Vista
 {
@@ -23,12 +25,126 @@ namespace Vista
     /// </summary>
     public partial class WpfContrato : MetroWindow
     {
+        DispatcherTimer dt = new DispatcherTimer();
 
         public WpfContrato()
         {
             InitializeComponent();
             cboTipoEvento.ItemsSource = new TipoEvento().ReadAll();
             limpiar();
+            verificarArchivoBinario();
+            dt.Interval = TimeSpan.FromMinutes(5); //cada 5min
+            dt.Tick += dtTiempo;
+            dt.Start(); //inicia el timer
+        }
+
+        private async void verificarArchivoBinario()
+        {
+            string ruta = @"Contrato.bin";
+            if (File.Exists(ruta))
+            {
+                MessageDialogResult resul = await this.ShowMessageAsync("Informacion",
+                    "Hay una copia de datos en el cache ¿Desea Recuperarlos?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+                if (resul == MessageDialogResult.Affirmative)
+                {
+                    Memento memento = new Memento();
+                    ContratoSalvar cont = new ContratoSalvar();
+                    cont.Restaurar(memento);
+                    LlenarContratoCache(cont);
+                    File.Delete(ruta);
+
+                }
+                else
+                {
+                    File.Delete(ruta);
+                }
+            }
+
+        }
+
+        private void LlenarContratoCache(ContratoSalvar cont)
+        {
+            txtNumero.Text = cont.Numero;
+            txtRut.Text = cont.RutCliente;
+            if (cont.IdTipoEvento==-1)
+            {
+                cboTipoEvento.SelectedIndex = -1;
+                cboModalidadServicio.ItemsSource = null;
+            }
+            else
+            {
+                TipoEvento te = new TipoEvento() { IdTipoEvento = cont.IdTipoEvento };
+                te.Read();
+                cboTipoEvento.Text = te.Descripcion;
+                if (cont.IdModalidad.Equals("-1"))
+                {
+                    cboModalidadServicio.SelectedIndex = -1;
+                }
+                else
+                {
+                    ModalidadServicio mo = new ModalidadServicio() { IdModalidad = cont.IdModalidad };
+                    mo.Read();
+                    cboModalidadServicio.Text = mo.Nombre.Trim();
+                }
+            }
+            txtAsistentes.Text = cont.Asistentes.ToString();
+            txtPersonalAdicional.Text = cont.PersonalAdicional.ToString();
+            txtObservaciones.Text = cont.Observaciones.ToString();
+            ctrFechaHoraInicio.VerFechaYHora(cont.FechaHoraInicio);
+            ctrFechaHoraFin.VerFechaYHora(cont.FechaHoraTermino);
+            txtFechaCreacion.Text = cont.Creacion.ToString("dd/MM/yyyy HH:mm");
+            txtFechaTermino.Text = cont.Termino.ToString("dd/MM/yyyy HH:mm");
+
+        }
+
+        private void dtTiempo(object sender, EventArgs e)
+        {
+            grabarArchivoBin();
+        }
+
+        private void grabarArchivoBin()
+        {
+            Memento memento = new Memento();
+            ContratoSalvar cont = new ContratoSalvar();
+            cont.Numero = txtNumero.Text;
+            cont.RutCliente = txtRut.Text;
+            cont.Creacion = DateTime.ParseExact(txtFechaCreacion.Text, "dd-MM-yyyy HH:mm", null);
+            cont.Termino = DateTime.ParseExact(txtFechaTermino.Text, "dd-MM-yyyy HH:mm", null); ;
+            cont.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
+            cont.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
+
+            if (cboTipoEvento.SelectedIndex >= 0)
+            {
+                cont.IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
+            }
+            else
+            {
+                cont.IdTipoEvento = -1; //-1 quiere decir null al momento de recuperar
+            }
+            if (cboModalidadServicio.SelectedIndex >= 0)
+            {
+                cont.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
+            }
+            else
+            {
+                cont.IdModalidad = "-1"; //"-1" quiere decir null al momento de recuperar
+            }
+            cont.Asistentes = int.Parse(txtAsistentes.Text);
+            cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
+            cont.ValorTotalContrato = 0;
+            if (txtVigencia.Text=="Si")
+            {
+                cont.Realizado = true;
+            }
+            else if (txtVigencia.Text == "No")
+            {
+                cont.Realizado = false;
+            }
+
+            cont.Observaciones = txtObservaciones.Text;
+
+            memento.Salvar(cont);
         }
 
         public void limpiar()
@@ -42,7 +158,7 @@ namespace Vista
             ctrFechaHoraInicio.LimpiarControl();
             ctrFechaHoraFin.LimpiarControl();
             txtFechaCreacion.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-            txtFechaTermino.Text = "";
+            txtFechaTermino.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             txtVigencia.Text = "";
             txtRut.Text = "";
             txtRazonSocial.Text = "Razon Social";
@@ -593,88 +709,104 @@ namespace Vista
             Evento ev;
             Contrato cont = new Contrato();
             TipoEvento te = (TipoEvento)cboTipoEvento.SelectedItem;
-            ModalidadServicio mo = new ModalidadServicio();
-            if (cboModalidadServicio.SelectedIndex == -1) // En caso de modificar los datos del evento antes de escoger una modalidad
+            if (te!=null)
             {
-                mo.IdModalidad = "0";
+                ModalidadServicio mo = new ModalidadServicio();
+                if (cboModalidadServicio.SelectedIndex == -1) // En caso de modificar los datos del evento antes de escoger una modalidad
+                {
+                    mo.IdModalidad = "0";
+                }
+                else
+                {
+                    mo = (ModalidadServicio)cboModalidadServicio.SelectedItem;
+                }
+                cont.IdModalidad = mo.IdModalidad;
+                cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
+                cont.Asistentes = int.Parse(txtAsistentes.Text);
+                switch (te.Descripcion)
+                {
+                    case "Cocktail": //Se instancia un Cocktail con los datos disponibles
+                        TipoAmbientacion tipoa = new TipoAmbientacion();
+                        if (cboCocktailTipoAmbientacion.SelectedIndex == -1)
+                        {
+                            tipoa.idTipoAmbientacion = 30;
+                        }
+                        else
+                        {
+                            tipoa = (TipoAmbientacion)cboCocktailTipoAmbientacion.SelectedItem;
+                        }
+                        bool ambientacion = chkCocktailAmbientacion.IsChecked == true ? true : false;
+                        bool musica_ambiental_cocktail = chkCocktailMusicaAmbiental.IsChecked == true ? true : false;
+                        bool musica_cliente = chkCocktailMusicaCliente.IsChecked == true ? true : false;
+                        ev = new Cocktail()
+                        {
+                            Numero = txtNumero.Text,
+                            IdTipoAmbientacion = tipoa.idTipoAmbientacion,
+                            Ambientacion = ambientacion,
+                            MusicaAmbiental = musica_ambiental_cocktail,
+                            MusicaCliente = musica_cliente
+                        };
+                        ev.TipoContrato(cont);
+                        break;
+
+                    case "Coffee Break"://Se instancia un CoffeeBreak con los datos disponibles
+                        bool vegetariana = rbtVegetariana.IsChecked == true ? true : false;
+                        ev = new CoffeeBreak()
+                        {
+                            Numero = txtNumero.Text,
+                            Vegetariana = vegetariana
+                        };
+                        ev.TipoContrato(cont);
+                        break;
+
+                    case "Cenas"://Se instancia Cenas con los datos disponibles
+                        TipoAmbientacion tipoa2 = new TipoAmbientacion();
+                        if (cboCenasTipoAmbientacion.SelectedIndex == -1)
+                        {
+                            tipoa2.idTipoAmbientacion = 30;
+                        }
+                        else
+                        {
+                            tipoa2 = (TipoAmbientacion)cboCenasTipoAmbientacion.SelectedItem;
+                        }
+                        bool musica_ambiental_cenas = chkCenasMusicaAmbiental.IsChecked == true ? true : false;
+                        bool localOnbreak = rbtLocalOnBreak.IsChecked == true ? true : false;
+                        bool otroLocalOnbreak = rbtOtroOnbreak.IsChecked == true ? true : false;
+                        int valoraArriendo = int.Parse(txtValorArriendoLocal.Text);
+                        ev = new Cenas()
+                        {
+                            Numero = txtNumero.Text,
+                            IdTipoAmbientacion = tipoa2.idTipoAmbientacion,
+                            MusicaAmbiental = musica_ambiental_cenas,
+                            LocalOnBreak = localOnbreak,
+                            OtroLocalOnBreak = otroLocalOnbreak,
+                            ValorArriendo = valoraArriendo
+                        };
+                        ev.TipoContrato(cont);
+                        break;
+
+                    default:
+                        ev = null;
+                        break;
+                }
+
+                return ev;
             }
-            else
-            {
-                mo = (ModalidadServicio)cboModalidadServicio.SelectedItem;
-            }
-            cont.IdModalidad = mo.IdModalidad;
-            cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
-            cont.Asistentes = int.Parse(txtAsistentes.Text);
-            switch (te.Descripcion)
-            {
-                case "Cocktail": //Se instancia un Cocktail con los datos disponibles
-                    TipoAmbientacion tipoa = new TipoAmbientacion();
-                    if (cboCocktailTipoAmbientacion.SelectedIndex==-1)
-                    {
-                        tipoa.idTipoAmbientacion = 30;
-                    }
-                    else
-                    {
-                        tipoa = (TipoAmbientacion)cboCocktailTipoAmbientacion.SelectedItem;
-                    }
-                    bool ambientacion = chkCocktailAmbientacion.IsChecked == true ? true : false;
-                    bool musica_ambiental_cocktail = chkCocktailMusicaAmbiental.IsChecked == true ? true : false;
-                    bool musica_cliente = chkCocktailMusicaCliente.IsChecked == true ? true : false;
-                    ev = new Cocktail()
-                    {
-                         Numero=txtNumero.Text, IdTipoAmbientacion=tipoa.idTipoAmbientacion,Ambientacion=ambientacion,
-                         MusicaAmbiental=musica_ambiental_cocktail,MusicaCliente=musica_cliente
-                    };
-                    ev.TipoContrato(cont);
-                    break;
-
-                case "Coffee Break"://Se instancia un CoffeeBreak con los datos disponibles
-                    bool vegetariana = rbtVegetariana.IsChecked == true ? true : false;
-                    ev = new CoffeeBreak()
-                    {
-                        Numero=txtNumero.Text, Vegetariana=vegetariana
-                    };
-                    ev.TipoContrato(cont);
-                    break;
-
-                case "Cenas"://Se instancia Cenas con los datos disponibles
-                    TipoAmbientacion tipoa2 = new TipoAmbientacion();
-                    if (cboCenasTipoAmbientacion.SelectedIndex == -1)
-                    {
-                        tipoa2.idTipoAmbientacion = 30;
-                    }
-                    else
-                    {
-                        tipoa2 = (TipoAmbientacion)cboCenasTipoAmbientacion.SelectedItem;
-                    }
-                    bool musica_ambiental_cenas = chkCenasMusicaAmbiental.IsChecked == true ? true : false;
-                    bool localOnbreak = rbtLocalOnBreak.IsChecked == true ? true : false ;
-                    bool otroLocalOnbreak = rbtOtroOnbreak.IsChecked == true ? true : false;
-                    int valoraArriendo=int.Parse(txtValorArriendoLocal.Text);
-                    ev = new Cenas()
-                    {
-                        Numero=txtNumero.Text, IdTipoAmbientacion=tipoa2.idTipoAmbientacion, MusicaAmbiental=musica_ambiental_cenas, LocalOnBreak=localOnbreak,
-                        OtroLocalOnBreak=otroLocalOnbreak, ValorArriendo=valoraArriendo
-                    };
-                    ev.TipoContrato(cont);
-                    break;
-
-                default:
-                    ev = null;
-                    break;
-            }
-
-            return ev;
+            return null;
+            
         }
 
         public void mostrarCalculosPantalla()
         {
             Evento ev = crearObjetoEvento();
-            txtBaseEvento.Text = "" + ev.ValorBase();
-            txtValorAsistente.Text = "" + ev.RecargoAsistentes();
-            txtValorPersonalAdicional.Text = "" + ev.RecargoPersonalAdicional();
-            txtValorExtra.Text = "" + ev.RecargoExtras();
-            txtTotal.Text= (ev.ValorBase() + ev.RecargoAsistentes() + ev.RecargoPersonalAdicional() + ev.RecargoExtras()).ToString();
+            if (ev!=null)
+            {
+                txtBaseEvento.Text = "" + ev.ValorBase();
+                txtValorAsistente.Text = "" + ev.RecargoAsistentes();
+                txtValorPersonalAdicional.Text = "" + ev.RecargoPersonalAdicional();
+                txtValorExtra.Text = "" + ev.RecargoExtras();
+                txtTotal.Text = (ev.ValorBase() + ev.RecargoAsistentes() + ev.RecargoPersonalAdicional() + ev.RecargoExtras()).ToString();
+            }
         }
 
 
@@ -736,39 +868,7 @@ namespace Vista
         {
             try
             {
-                Memento memento = new Memento();
-                ContratoSalvar cont = new ContratoSalvar();
-                cont.Numero = txtNumero.Text;
-                cont.RutCliente = txtRut.Text;
-                cont.Creacion = DateTime.Now;
-                cont.Termino = ctrFechaHoraFin.RecuperarFechaHora();
-                cont.FechaHoraInicio = ctrFechaHoraInicio.RecuperarFechaHora();
-                cont.FechaHoraTermino = ctrFechaHoraFin.RecuperarFechaHora();
-
-                if (cboTipoEvento.SelectedIndex >= 0)
-                {
-                    cont.IdTipoEvento = ((TipoEvento)cboTipoEvento.SelectedItem).IdTipoEvento;
-                }
-                else
-                {
-                    cont.IdTipoEvento = -1; //-1 quiere decir null al momento de recuperar
-                }
-                if (cboModalidadServicio.SelectedIndex >= 0)
-                {
-                    cont.IdModalidad = ((ModalidadServicio)cboModalidadServicio.SelectedItem).IdModalidad;
-                }
-                else
-                {
-                    cont.IdModalidad = "-1"; //"-1" quiere decir null al momento de recuperar
-                }
-                cont.Asistentes = int.Parse(txtAsistentes.Text);
-                cont.PersonalAdicional = int.Parse(txtPersonalAdicional.Text);
-                Evento evento = crearObjetoEvento();
-                cont.ValorTotalContrato = evento.ValorBase() + evento.RecargoAsistentes() + evento.RecargoPersonalAdicional() + evento.RecargoExtras();
-                cont.Realizado = true;
-                cont.Observaciones = txtObservaciones.Text;
-
-                memento.Salvar(cont);
+                grabarArchivoBin();
                 await this.ShowMessageAsync("Copia de seguridad:", "Guardado Exitosamente");
             }
             catch (Exception ex)

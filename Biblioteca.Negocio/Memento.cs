@@ -13,7 +13,7 @@ namespace Biblioteca.Negocio
         public void Salvar(ContratoSalvar cont)
         {
             BinaryFormatter formato = new BinaryFormatter();
-            Stream stream = File.Create(@"C:\Copias\Contrato.bin");
+            Stream stream = File.Create(@"Contrato.bin");
             formato.Serialize(stream, cont);
             stream.Close();
         }
@@ -21,7 +21,7 @@ namespace Biblioteca.Negocio
         public ContratoSalvar Recuperar()
         {
             BinaryFormatter formato = new BinaryFormatter();
-            Stream stream = File.OpenRead(@"C:\Copias\Contrato.bin");
+            Stream stream = File.OpenRead(@"Contrato.bin");
             ContratoSalvar cont = (ContratoSalvar)formato.Deserialize(stream);
             stream.Close();
             return cont;
