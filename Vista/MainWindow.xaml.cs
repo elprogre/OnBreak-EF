@@ -26,6 +26,8 @@ namespace Vista
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private static sw sw=new sw();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -59,7 +61,17 @@ namespace Vista
 
         private void btnAltoContraste_Click(object sender, RoutedEventArgs e)
         {
-            ThemeManager.ChangeAppTheme(this, "BaseDark");
-        }
+            if (sw.contraste>0)
+            {
+                this.Background= Brushes.White;
+                sw.contraste = 0;
+            }
+            else
+            {
+                this.Background = Brushes.Black;
+                sw.contraste = 1;
+            }
+
+    }
     }
 }

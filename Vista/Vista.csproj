@@ -87,6 +87,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="sw.cs" />
     <Compile Include="WpfCliente.xaml.cs">
       <DependentUpon>WpfCliente.xaml</DependentUpon>
     </Compile>

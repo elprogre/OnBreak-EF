@@ -15,6 +15,7 @@ using Biblioteca.Negocio;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
+using MahApps.Metro;
 
 namespace Vista
 {
@@ -23,6 +24,7 @@ namespace Vista
     /// </summary>
     public partial class WpfListaContrato : MetroWindow
     {
+        private static sw sw = new sw();
         object objeto;
         public WpfListaContrato(object ventana_origen)
         {
@@ -34,6 +36,10 @@ namespace Vista
             if (objeto.GetType() == typeof(MainWindow))
             {
                 btnTraspasar.Visibility = Visibility.Hidden;
+            }
+            if (sw.contraste == 1)
+            {
+                ThemeManager.ChangeAppTheme(this, "BaseDark");
             }
         }
 

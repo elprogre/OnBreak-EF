@@ -16,6 +16,7 @@ using Biblioteca.Negocio;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
+using MahApps.Metro;
 
 //Cacheo simple
 using System.Runtime.Caching; //Libreria para el uso de Cache
@@ -30,11 +31,16 @@ namespace Vista
     /// </summary>
     public partial class WpfCliente : MetroWindow
     {
+        private static sw sw = new sw();
         public WpfCliente()
         {
             InitializeComponent();
             cboActividadEmpresa.ItemsSource = new ActividadEmpresa().ReadAll();
             cboTipoEmpresa.ItemsSource = new TipoEmpresa().ReadAll();
+            if (sw.contraste==1)
+            {
+                ThemeManager.ChangeAppTheme(this,"BaseDark");
+            }
 
         }
 

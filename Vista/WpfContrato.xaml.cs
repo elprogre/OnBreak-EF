@@ -15,6 +15,7 @@ using Biblioteca.Negocio;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
+using MahApps.Metro;
 using System.Windows.Threading;
 using System.IO;
 
@@ -27,6 +28,7 @@ namespace Vista
     public partial class WpfContrato : MetroWindow
     {
         DispatcherTimer dt = new DispatcherTimer();
+        private static sw sw = new sw();
 
         public WpfContrato()
         {
@@ -39,6 +41,10 @@ namespace Vista
             dt.Interval = TimeSpan.FromMinutes(5); //cada 5min
             dt.Tick += dtTiempo;
             dt.Start(); //inicia el timer
+            if (sw.contraste == 1)
+            {
+                ThemeManager.ChangeAppTheme(this, "BaseDark");
+            }
         }
 
         private async void verificarArchivoBinario()
