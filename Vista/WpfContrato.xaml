@@ -113,7 +113,7 @@
                 <TextBox x:Name="txtValorArriendoLocal" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="330,63,0,0" TextChanged="txtValorArriendoLocal_TextChanged" Visibility="Hidden"/>
                 <Label x:Name="label5" Content="Valor Arriendo:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="241,63,0,0" Visibility="Hidden"/>
                 <Label x:Name="label6" Content="Comision:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="430,63,0,0" Visibility="Hidden"/>
-                <TextBox x:Name="txtComision" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="492,63,0,0" Background="#FFFDFB90" IsEnabled="False" Visibility="Hidden"/>
+                <TextBox x:Name="txtComision" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="492,63,0,0" IsEnabled="False" Visibility="Hidden"/>
                 <RadioButton x:Name="rbtOtroOnbreak" Content="OnBreak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,67,0,0" GroupName="OtroLocal" Checked="rbtOtroOnbreak_Checked" Visibility="Hidden" Unchecked="rbtOtroOnbreak_Unchecked"/>
                 <RadioButton x:Name="rbtOtroCliente" Content="Cliente" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,67,0,0" GroupName="OtroLocal" Checked="rbtOtroCliente_Checked" Visibility="Hidden"/>
                 <Label x:Name="labelPequeño" Content="(en UF)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="262,84,0,-9" Width="45" Height="26" FontSize="9" Visibility="Hidden"/>
