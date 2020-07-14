@@ -47,6 +47,25 @@ namespace Biblioteca.Negocio
                 con.Read();
                 if (con.Realizado)
                 {
+                    if (c == null)
+                    {
+                        DALC.CoffeeBreak coff = bdd.CoffeeBreak.Find(this.Numero);
+                        if (coff == null)
+                        {
+                            DALC.Cenas cen = bdd.Cenas.Find(this.Numero);
+                            bdd.Cenas.Remove(cen);
+                            bdd.SaveChanges();
+                        }
+                        else
+                        {
+                            bdd.CoffeeBreak.Remove(coff);
+                            bdd.SaveChanges();
+                        }
+                        c = new DALC.Cocktail();
+                        CommonBC.Syncronize(this, c);
+                        bdd.Cocktail.Add(c);
+                        bdd.SaveChanges();
+                    }
                     CommonBC.Syncronize(this, c);
                     bdd.SaveChanges();
                     return true;

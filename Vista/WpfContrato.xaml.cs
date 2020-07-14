@@ -665,7 +665,7 @@ namespace Vista
                 Evento evento = crearObjetoEvento();
                 contrato.ValorTotalContrato = evento.ValorBase() + evento.RecargoAsistentes() + evento.RecargoPersonalAdicional() + evento.RecargoExtras();
 
-                bool resp = contrato.Update();
+                
                 if (contrato.IdTipoEvento==10)
                 {
                     CoffeeBreak coff = ((CoffeeBreak)evento);
@@ -679,8 +679,14 @@ namespace Vista
                 else if (contrato.IdTipoEvento == 30)
                 {
                     Cenas cena = ((Cenas)evento);
+                    if (((Cenas)evento).IdTipoAmbientacion == 30)
+                    {
+                        throw new Exception("El campo 'Tipo De Ambientacion' es obligatorio");
+                    }
                     cena.Update();
                 }
+
+                bool resp = contrato.Update();
 
                 await this.ShowMessageAsync("Actualizar:", resp ? "Contrato Actualizo" : "Contrato NO Actualizo");
                 if (txtVigencia.Text.Equals("No"))
@@ -769,6 +775,7 @@ namespace Vista
                 label5.Visibility = Visibility.Hidden;
                 label6.Visibility = Visibility.Hidden;
                 labelPequeño.Visibility = Visibility.Hidden;
+                labelPequeño2.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Visibility = Visibility.Hidden;
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";
@@ -787,6 +794,7 @@ namespace Vista
                 label5.Visibility = Visibility.Visible;
                 label6.Visibility = Visibility.Visible;
                 labelPequeño.Visibility = Visibility.Visible;
+                labelPequeño2.Visibility = Visibility.Visible;
                 txtValorArriendoLocal.Visibility = Visibility.Visible;
                 txtComision.Visibility = Visibility.Visible;
                 txtValorArriendoLocal.Text = "0";
@@ -805,6 +813,7 @@ namespace Vista
                 label5.Visibility = Visibility.Hidden;
                 label6.Visibility = Visibility.Hidden;
                 labelPequeño.Visibility = Visibility.Hidden;
+                labelPequeño2.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Visibility = Visibility.Hidden;
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";
@@ -824,6 +833,7 @@ namespace Vista
                 label5.Visibility = Visibility.Hidden;
                 label6.Visibility = Visibility.Hidden;
                 labelPequeño.Visibility = Visibility.Hidden;
+                labelPequeño2.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Visibility = Visibility.Hidden;
                 txtComision.Visibility = Visibility.Hidden;
                 txtValorArriendoLocal.Text = "0";

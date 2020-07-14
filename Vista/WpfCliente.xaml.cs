@@ -18,11 +18,6 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
 using MahApps.Metro;
 
-//Cacheo simple
-using System.Runtime.Caching; //Libreria para el uso de Cache
-using System.Windows.Threading; //libreria de uso de Hilos
-using System.Runtime.Serialization.Formatters.Binary; //Serializar en un formato binario el cliente y dejarlo en un archivo
-using System.IO;//Manejar Archivos
 
 namespace Vista
 {
